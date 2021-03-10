@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/jorisvanrheden.github.io/static/css/main.9d5b29c0.chunk.css",
+    "main.js": "/jorisvanrheden.github.io/static/js/main.2a364080.chunk.js",
+    "main.js.map": "/jorisvanrheden.github.io/static/js/main.2a364080.chunk.js.map",
+    "runtime-main.js": "/jorisvanrheden.github.io/static/js/runtime-main.d259caf4.js",
+    "runtime-main.js.map": "/jorisvanrheden.github.io/static/js/runtime-main.d259caf4.js.map",
+    "static/js/2.246f26fc.chunk.js": "/jorisvanrheden.github.io/static/js/2.246f26fc.chunk.js",
+    "static/js/2.246f26fc.chunk.js.map": "/jorisvanrheden.github.io/static/js/2.246f26fc.chunk.js.map",
+    "static/js/3.f223df6c.chunk.js": "/jorisvanrheden.github.io/static/js/3.f223df6c.chunk.js",
+    "static/js/3.f223df6c.chunk.js.map": "/jorisvanrheden.github.io/static/js/3.f223df6c.chunk.js.map",
+    "index.html": "/jorisvanrheden.github.io/index.html",
+    "static/css/main.9d5b29c0.chunk.css.map": "/jorisvanrheden.github.io/static/css/main.9d5b29c0.chunk.css.map",
+    "static/js/2.246f26fc.chunk.js.LICENSE.txt": "/jorisvanrheden.github.io/static/js/2.246f26fc.chunk.js.LICENSE.txt",
+    "static/media/logo.6ce24c58.svg": "/jorisvanrheden.github.io/static/media/logo.6ce24c58.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d259caf4.js",
+    "static/js/2.246f26fc.chunk.js",
+    "static/css/main.9d5b29c0.chunk.css",
+    "static/js/main.2a364080.chunk.js"
+  ]
+}
