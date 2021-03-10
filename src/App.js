@@ -1,23 +1,82 @@
-import logo from './logo.svg';
 import './App.css';
+import { Component } from 'react';
+import React, {useState} from 'react'
+
+import {Line} from 'react-chartjs-2';
+
+function getLabels(input)
+{
+  let arr = [];
+  for(let i=0;i<input.length;i++)
+  {
+    arr[i] = i;
+  }
+  return arr;
+}
+
+function getCumulative(input)
+{
+  let arr = [];
+  let cumulative = 0;
+  for(let i=0;i<input.length;i++)
+  {
+    cumulative += input[i];
+    arr[i] = cumulative;
+  }
+  return arr;
+}
+
+function getTotal(input)
+{
+  let cumulative = getCumulative(input);
+  return cumulative[cumulative.length-1];
+}
+
+function generateData(input)
+{
+  return { 
+    labels: getLabels(input),
+    datasets: [
+      {
+        label: "Total distance (km)",
+        data: getCumulative(input),
+        fill: true,
+        backgroundColor: "rgba(75,192,192,0.2)",
+        borderColor: "rgba(75,192,192,1)"
+      }
+    ]
+  }
+}
+
+class GoalRow extends Component
+{
+  render()
+  {
+    return(
+      <div>
+        <p>{this.props.value}/{this.props.max}</p>
+        <p>{Math.floor(this.props.value/this.props.max * 100)} %</p>
+      </div>
+    )
+  }
+}
 
 function App() {
+  const [input, setInput] = useState([0]);
+
+  function addPoint()
+  {
+    let addition = Math.floor(Math.random() * 30);
+    setInput(input.concat(addition));
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{width:'40%', height:'40%'}}>
+      <Line data={generateData(input)}/>
+      <button onClick={addPoint}>Add data point
+      </button>
+
+      <GoalRow value={getTotal(input)} max={1400}/>
     </div>
   );
 }
