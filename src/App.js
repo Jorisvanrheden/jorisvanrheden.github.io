@@ -76,6 +76,8 @@ function App() {
       <button onClick={addPoint}>Add data point
       </button>
 
+      <p>Testing adding some new text yeaa</p>
+
       <GoalRow value={getTotal(input)} max={1400}/>
     </div>
   );
