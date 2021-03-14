@@ -103,9 +103,8 @@ function WebsiteMain() {
   }
 
   return (
-    <div className="GraphContainer">
-      <LineGraphChart data={input}/>
-
+  <div>
+    <div className="UserContainer">
       <div className="PersonEntry">
         <RegisterPerson/>
       </div>
@@ -113,6 +112,12 @@ function WebsiteMain() {
       <Button variant="contained" color="regular" onClick={addPoint}>Add data point</Button>
       <AddEntry processItem={addNewItem}/>
     </div>
+
+    <div className="GraphContainer">
+      <LineGraphChart data={input}/>
+    </div>
+  </div>
+    
   );
 }
 

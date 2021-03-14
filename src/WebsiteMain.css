@@ -1,11 +1,19 @@
 body
 {
   background-color: rgb(255, 255, 255);
-  margin-left: 1%;
 }
-.GraphContainer {
-  width: 40%;
-  height: 40%;
+.GraphContainer
+{
+  width: 50%;
+  height: 95vh;
+  background-color: rgb(255, 255, 255);  
+  float: right;
+}
+.UserContainer {
+  width: 50%;
+  height: 100vh;
+  background-color: rgb(255, 255, 255);  
+  float: left;
 }
 .StandardDiv
 {
