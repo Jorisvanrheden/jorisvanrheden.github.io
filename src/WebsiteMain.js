@@ -102,22 +102,27 @@ function WebsiteMain() {
     }
   }
 
+  const arr = [1,2,4];
+  
+
   return (
   <div>
     <div className="UserContainer">
       <div className="PersonEntry">
         <RegisterPerson/>
       </div>
-
-      <Button variant="contained" color="regular" onClick={addPoint}>Add data point</Button>
       <AddEntry processItem={addNewItem}/>
+      {
+        arr.map((value, index) => 
+        (
+          <p>This is how we can display multiple items dynamically</p>
+        ))
+      }
     </div>
-
     <div className="GraphContainer">
       <LineGraphChart data={input}/>
-    </div>
+    </div>     
   </div>
-    
   );
 }
 

@@ -53,8 +53,7 @@ class LineGraphChart extends Component
         return(
             <Line 
               data={generateData(this.props.data)}
-              options =
-            
+              options =   
               {
                 {
                   maintainAspectRatio:false
