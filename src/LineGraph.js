@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import {Line} from 'react-chartjs-2';
 
+
 function getLabels(input)
 {
   let arr = [];
