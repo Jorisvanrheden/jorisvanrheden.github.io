@@ -1,0 +1,19 @@
+body
+{
+  background-color: rgb(255, 255, 255);
+  margin-left: 1%;
+}
+.GraphContainer {
+  width: 40%;
+  height: 40%;
+}
+.StandardDiv
+{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-bottom: 5px;
+}
+.PersonEntry
+{
+
+}
