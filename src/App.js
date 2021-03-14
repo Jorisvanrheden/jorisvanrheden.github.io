@@ -77,6 +77,8 @@ function App() {
       </button>
 
       <p>Testing adding some new text yeaa</p>
+      <p>Also new compilation on trhe desktop</p>
+
 
       <GoalRow value={getTotal(input)} max={1400}/>
     </div>
