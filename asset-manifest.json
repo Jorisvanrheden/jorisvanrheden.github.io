@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/jorisvanrheden.github.io/static/css/main.c16780fb.chunk.css",
-    "main.js": "/jorisvanrheden.github.io/static/js/main.7a595263.chunk.js",
-    "main.js.map": "/jorisvanrheden.github.io/static/js/main.7a595263.chunk.js.map",
+    "main.css": "/jorisvanrheden.github.io/static/css/main.c442d121.chunk.css",
+    "main.js": "/jorisvanrheden.github.io/static/js/main.0b43ad65.chunk.js",
+    "main.js.map": "/jorisvanrheden.github.io/static/js/main.0b43ad65.chunk.js.map",
     "runtime-main.js": "/jorisvanrheden.github.io/static/js/runtime-main.3390a970.js",
     "runtime-main.js.map": "/jorisvanrheden.github.io/static/js/runtime-main.3390a970.js.map",
-    "static/js/2.5506247a.chunk.js": "/jorisvanrheden.github.io/static/js/2.5506247a.chunk.js",
-    "static/js/2.5506247a.chunk.js.map": "/jorisvanrheden.github.io/static/js/2.5506247a.chunk.js.map",
+    "static/js/2.50dcc9ff.chunk.js": "/jorisvanrheden.github.io/static/js/2.50dcc9ff.chunk.js",
+    "static/js/2.50dcc9ff.chunk.js.map": "/jorisvanrheden.github.io/static/js/2.50dcc9ff.chunk.js.map",
     "index.html": "/jorisvanrheden.github.io/index.html",
-    "static/css/main.c16780fb.chunk.css.map": "/jorisvanrheden.github.io/static/css/main.c16780fb.chunk.css.map",
-    "static/js/2.5506247a.chunk.js.LICENSE.txt": "/jorisvanrheden.github.io/static/js/2.5506247a.chunk.js.LICENSE.txt"
+    "static/css/main.c442d121.chunk.css.map": "/jorisvanrheden.github.io/static/css/main.c442d121.chunk.css.map",
+    "static/js/2.50dcc9ff.chunk.js.LICENSE.txt": "/jorisvanrheden.github.io/static/js/2.50dcc9ff.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.3390a970.js",
-    "static/js/2.5506247a.chunk.js",
-    "static/css/main.c16780fb.chunk.css",
-    "static/js/main.7a595263.chunk.js"
+    "static/js/2.50dcc9ff.chunk.js",
+    "static/css/main.c442d121.chunk.css",
+    "static/js/main.0b43ad65.chunk.js"
   ]
 }
