@@ -7,7 +7,8 @@ export default class UserCollection
         this.users = 
         [
             new UserData("Joris"),
-            new UserData("Minyu")
+            new UserData("Minyu"),
+            new UserData("New User")
         ];
     }
 
