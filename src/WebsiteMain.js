@@ -5,6 +5,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 import LineGraphChart from './LineGraph'
+import InputDataProcessor from './InputDataProcessor.js';
+
 
 class AddEntry extends Component
 {
@@ -16,15 +18,14 @@ class AddEntry extends Component
 
     this.state =
     {
-      textFieldValue: ""
+      textFieldValue: "",
+      textFieldDate: new Date().toISOString().substring(0, 10)
     };
   }
 
   addValue()
   {
-    console.log("Button pressed");
-
-    this.props.processItem(this.state.textFieldValue);
+    this.props.processItem(this.state.textFieldValue, this.state.textFieldDate);   
   }
 
   render()
@@ -45,10 +46,14 @@ class AddEntry extends Component
         id="date"
         label="Date"
         type="date"
-        defaultValue={new Date().toISOString().substring(0, 10)}
+        defaultValue={this.state.textFieldDate}
         InputLabelProps={{
           shrink: true,
         }}
+        onChange={event => 
+          {
+            this.setState({textFieldDate: event.target.value});
+          }}
       />
       </div>
       <div className="StandardDiv">
@@ -82,24 +87,40 @@ class RegisterPerson extends Component
   }
 }
 
+//We need an object that handles all input + date combinations
+//These combinations then need to be transformed into a set of labels and inputs for the graph
+let processor = new InputDataProcessor();
+
 function WebsiteMain() {
   const [input, setInput] = useState([0]);
+  const [dates, setDates] = useState([""]);
 
-  function addPoint()
-  {
-    let addition = Math.floor(Math.random() * 30);
-    setInput(input.concat(addition));
-  }
-
-  function addNewItem(value)
+  function processInput(value, date)
   {
     let number = parseFloat(value);
-    console.log(number);
+    if(isNaN(number)) return;
 
-    if(!isNaN(number))
+    //add entry
+    processor.addDataEntry(number, date);
+
+    //create input list for graph
+    let processorDates = processor.getDates();
+    let processorInput = [];
+
+    for(let i=0;i<processorDates.length;i++)
     {
-      setInput(input.concat(number));
+      processorInput[i] = processor.getAdditionOnDate(processorDates[i]);
     }
+
+    for(let i=0;i<processorDates.length;i++)
+    {
+      processorDates[i] = processor.getDateLabel(processorDates[i]);
+    }
+
+    console.log(processorDates);
+
+    setInput(processorInput);
+    setDates(processorDates);
   }
 
   const arr = [1,2,4];
@@ -111,7 +132,7 @@ function WebsiteMain() {
       <div className="PersonEntry">
         <RegisterPerson/>
       </div>
-      <AddEntry processItem={addNewItem}/>
+      <AddEntry processItem={processInput}/>
       {
         arr.map((value, index) => 
         (
@@ -120,7 +141,7 @@ function WebsiteMain() {
       }
     </div>
     <div className="GraphContainer">
-      <LineGraphChart data={input}/>
+      <LineGraphChart data={input} dates={dates}/>
     </div>     
   </div>
   );

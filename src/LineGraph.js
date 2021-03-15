@@ -1,17 +1,6 @@
 import { Component } from 'react';
 import {Line} from 'react-chartjs-2';
 
-
-function getLabels(input)
-{
-  let arr = [];
-  for(let i=0;i<input.length;i++)
-  {
-    arr[i] = i;
-  }
-  return arr;
-}
-
 function getCumulative(input)
 {
   let arr = [];
@@ -24,21 +13,16 @@ function getCumulative(input)
   return arr;
 }
 
-function getTotal(input)
-{
-  let cumulative = getCumulative(input);
-  return cumulative[cumulative.length-1];
-}
-
-function generateData(input)
+function generateData(input, dates)
 {
   return { 
-    labels: getLabels(input),
+    labels: dates,
     datasets: [
       {
         label: "Total distance (km)",
         data: getCumulative(input),
         fill: true,
+        lineTension: 0,
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(75,192,192,1)"
       }
@@ -52,7 +36,7 @@ class LineGraphChart extends Component
     {
         return(
             <Line 
-              data={generateData(this.props.data)}
+              data={generateData(this.props.data, this.props.dates)}
               options =   
               {
                 {
