@@ -83,12 +83,8 @@ export default class InputDataProcessor
     getDateLabel(date)
     {       
         return date; 
-        // for(let i=0;i<this.entries.length;i++)
-        // {       
-        //     if(this.entries[i].date === date) return date;
-        // }
 
-        return "";
+        //this can be used to customize labels based on the input
     }
 
     getDaysUntil(date1, date2)
