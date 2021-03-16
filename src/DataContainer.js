@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-
 //material-ui imports
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
+
+import './WebsiteMain.css'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -15,6 +15,13 @@ const useStyles = makeStyles((theme) => ({
     },
     default: {
       margin: theme.spacing(3, 0, 1, 0),
+      backgroundColor: theme.palette.common.white,
+    },
+    sectionColumnRight: {
+      width: '50%',
+      float: 'right',
+      margin: theme.spacing(3, 2),
+      backgroundColor: 'lightGray',
     },
     section1: {
       margin: theme.spacing(3, 2),
@@ -27,65 +34,111 @@ const useStyles = makeStyles((theme) => ({
 export default function DataContainer(props) {
   const classes = useStyles();
 
-  const [entries, setEntries] = useState([]);
-
   function addEntry()
   {
-    props.userCollection.addDataEntry(props.user, new Date(), 0, "");
+    props.user.addEntry(props.activeDate);
 
-    //setEntries(entries.concat(1));
+    //update the state variable
+    props.setUserEntries(props.user.getDistancesOnDate(props.activeDate));
+  }
+
+  function confirmInput(index, value)
+  {
+    props.user.setDistance(props.activeDate, index, value)
+
+    //props.updateData();
+    props.setUserEntries(props.user.getDistancesOnDate(props.activeDate));
+  }
+
+  function processDateChange(date)
+  {
+    props.setActiveDate(date);
+
+    //update the state variable
+    props.setUserEntries(props.user.getDistancesOnDate(date));
   }
 
   return (
     <div className={classes.root}>
       <div className={classes.section1}>
         <Typography color="textSecondary" variant="body2">
-          Entry overview for {props.user}
+          Entry overview for {props.user.name}
         </Typography>
       </div>
+      <div className="ColumnLeft">
       {
-        props.userCollection.getDataEntry(props.user).map((value, index) => 
+        props.userEntries.length === 0 &&
+
+        <div className="DataEntryStyle">
+          <Typography color='primary' variant="body2">
+            No entries yet for {props.user.name}
+          </Typography>
+        </div>
+      }
+      </div>
+
+      <div className="ColumnLeft">
+      {
+        props.userEntries.map((value, index) => 
         (
-          <DataRow/>
+          <DataRow name={props.user.name} confirmInput={confirmInput} distance={value} index={index}/>
         ))
       }
-      <div className={classes.section3}>
-        <Button color="primary" onClick={addEntry}>Add new entry </Button>
+      </div>
+      
+      <div className="ColumnRight">
+        <DataInput addEntry={addEntry} activeDate={props.activeDate} processDateChange={processDateChange}/>
       </div>
     </div>
   );
 }
 
+function DataInput(props)
+{
+  return(
+    <div className="DataAddStyle">
+      <Typography color="textSecondary" variant="body2">
+        Select a date and press the button to insert a new entry
+      </Typography>
+
+      <TextField
+        type="date"
+        defaultValue={props.activeDate}
+        onChange={event => 
+        {
+          props.processDateChange(event.target.value);
+        }}
+      />
+      <Button color="primary" onClick={props.addEntry}>Add new entry </Button>
+    </div>
+  )
+}
+
 function DataRow(props)
 {
-  const classes = useStyles();
-
-  let textFieldValue = "";
-  let textFieldDate = new Date().toISOString().substring(0, 10);
+  let textFieldValue = props.distance;
 
   return(
-    <div className={classes.root}>
-      <div className={classes.section1}>
+    <div className="DataEntryStyle">
+      <p>{props.name}</p>
         <TextField label="Distance" 
           InputProps={{
             endAdornment: <InputAdornment position="start">km</InputAdornment>,
           }}
-          style={{ width: 140 }}
+          defaultValue={props.distance}
           onChange={event => 
           {
             textFieldValue = event.target.value;
           }}
-        />
-        <TextField
-          type="date"
-          defaultValue={textFieldDate}
-          style={{ width: 140 }}
-          onChange={event => 
+          onKeyPress={event => 
           {
-            textFieldDate = event.target.value;
+            if (event.key === 'Enter') {
+              console.log('Enter key pressed');
+              // write your functionality here
+              props.confirmInput(props.index, textFieldValue)
+            }
           }}
-        />
-      </div>    
+        /> 
     </div>     
   )
 }

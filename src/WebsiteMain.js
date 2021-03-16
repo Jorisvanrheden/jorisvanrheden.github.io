@@ -41,7 +41,9 @@ class AddEntry extends Component
 function WebsiteMain() {
   const [input, setInput] = useState([0]);
   const [dates, setDates] = useState([""]);
-  const [user, setUser] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userEntries, setUserEntries] = useState([]);
+  const [activeDate, setActiveDate] = useState(new Date().toISOString().substring(0, 10));
 
   function processInput(value, date)
   {
@@ -71,7 +73,15 @@ function WebsiteMain() {
 
   function processUserSelection(userName)
   {
-    setUser(userName);
+    //Update the user name
+    setUserName(userName);
+
+    //Update the entries associated with that user name
+    let activeUser = userCollection.getUser(userName);
+    if(activeUser!==null)
+    {
+      setUserEntries(activeUser.getDistancesOnDate(activeDate));
+    }
   }
 
   return (
@@ -81,9 +91,15 @@ function WebsiteMain() {
         <SelectionContainer items={userCollection.getUserNames()} processUserSelect={processUserSelection}/>
       </div>
       {
-        user.length > 0 &&
+        userName.length > 0 &&
         <div>
-          <DataContainer processItem={processInput} userCollection={userCollection} user={user}/>
+          <DataContainer 
+            user={userCollection.getUser(userName)}
+            userEntries={userEntries}
+            setUserEntries={setUserEntries}
+            activeDate={activeDate}
+            setActiveDate={setActiveDate}
+          />
         </div>      
       }
     </div>

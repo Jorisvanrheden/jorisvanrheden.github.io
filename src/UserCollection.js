@@ -1,3 +1,4 @@
+import { useScrollTrigger } from '@material-ui/core';
 import UserData from './UserData.js'
 
 export default class UserCollection
@@ -12,29 +13,25 @@ export default class UserCollection
         ];
     }
 
-    addDataEntry(userName, date, distance, photo)
+    getUser(name)
     {
         for(let i=0;i<this.users.length;i++)
         {
-            if(this.users[i].name === userName)
+            if(this.users[i].name === name)
             {
-                this.users[i].setData(date, distance, photo);
-                return;
+                return this.users[i];
             }
         }
+
+        return null;
     }
 
     getDataEntry(userName)
     {
-        for(let i=0;i<this.users.length;i++)
-        {
-            if(this.users[i].name === userName)
-            {
-                return this.users[i].data;
-            }
-        }
+        let user = this.getUser(userName);
+        if(user === null) return [];
 
-        return [];
+        return user.data;
     }
 
     getUserNames()
