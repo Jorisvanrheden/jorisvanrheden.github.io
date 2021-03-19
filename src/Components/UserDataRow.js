@@ -17,14 +17,9 @@ function UserDataRow(props)
           value={distance}
           onChange={event => 
           {
-            console.log("Setting the value to " + event.target.value);
             setDistance(event.target.value);
-          }}
-          onKeyPress={event => 
-          {
-            if (event.key === 'Enter') {
-              props.confirmInput(props.index, distance)
-            }
+
+            props.confirmInput(props.index, event.target.value)
           }}
         /> 
 

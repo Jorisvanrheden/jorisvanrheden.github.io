@@ -32,17 +32,6 @@ const useStyles = makeStyles((theme) => ({
     return (
       <div className={classes.root}>
         <div className={classes.section1}>
-          <Grid container alignItems="center">
-            <Grid item xs>
-              <Typography gutterBottom variant="h4">
-                Logging Tool 
-              </Typography>
-            </Grid>
-          </Grid>
-          <Typography color="textSecondary" variant="body2">
-            Select the active user
-          </Typography>
-
           <div className={classes.default}>
           <InputLabel>Select the active user</InputLabel>
           </div>
