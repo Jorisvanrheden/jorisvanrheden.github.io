@@ -1,0 +1,38 @@
+body {
+  background-color: rgb(231, 224, 224);
+  margin: 10px;
+}
+.GraphContainer {
+  width: 70%;
+  height: calc(100vh - 20px);
+  background-color: rgb(255, 255, 255);
+  float: right;
+}
+.UserContainer {
+  width: 30%;
+  height: calc(100vh - 20px);
+  background-color: rgb(255, 255, 255);
+  float: left;
+}
+.UserEntriesContainer {
+  background-color: rgb(231, 216, 216);
+  padding: 3px;
+}
+.DataEntryStyle {
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 4%;
+  padding: 10px;
+  margin: 5px;
+}
+.DataInputStyle {
+  background-color: rgb(226, 193, 230);
+  padding: 10px;
+}
+.AreaInputOverview {
+  width: 100%;
+}
+.AreaInputNew {
+  width: 100%;
+  background-color: rgb(238, 229, 229);
+}

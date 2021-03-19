@@ -1,4 +1,4 @@
-import './WebsiteMain.css';
+import './Styling/WebsiteMain.css'
 
 //react imports
 import { Component } from 'react';
@@ -6,12 +6,12 @@ import React, {useState} from 'react'
 
 //external imports
 import LineGraphChart from './LineGraph'
-import InputDataProcessor from './InputDataProcessor.js';
-import UserCollection from './UserCollection.js'
+import InputDataProcessor from './Logic/InputDataProcessor.js';
+import UserCollection from './Logic/UserCollection.js'
 
 //test imports
 import SelectionContainer from './SelectionContainer.js'
-import DataContainer from './DataContainer.js'
+import DataContainer from './Components/DataContainer.js'
 
 //We need an object that handles all input + date combinations
 //These combinations then need to be transformed into a set of labels and inputs for the graph
