@@ -26,14 +26,6 @@ export default class UserCollection
         return null;
     }
 
-    getDataEntry(userName)
-    {
-        let user = this.getUser(userName);
-        if(user === null) return [];
-
-        return user.data;
-    }
-
     getUserNames()
     {
         const userNames = [];

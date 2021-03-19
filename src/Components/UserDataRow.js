@@ -23,8 +23,6 @@ function UserDataRow(props)
           onKeyPress={event => 
           {
             if (event.key === 'Enter') {
-              console.log('Enter key pressed');
-              // write your functionality here
               props.confirmInput(props.index, distance)
             }
           }}

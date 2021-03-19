@@ -42,10 +42,12 @@ export default function DataContainer(props) {
 
   function confirmInput(index, value)
   {
-    props.user.setDistance(props.activeDate, index, value)
+    let input = Number(value);
+    if(isNaN(input)) return;
 
-    //props.updateData();
-    props.setUserEntries(props.user.getDistancesOnDate(props.activeDate));
+    props.user.setDistance(props.activeDate, index, input)
+
+    props.updateData();
   }
 
   function removeEntry(index)
@@ -53,6 +55,8 @@ export default function DataContainer(props) {
     props.user.removeEntry(props.activeDate, index);
 
     props.setUserEntries(props.user.getDistancesOnDate(props.activeDate));
+
+    props.updateData();
   }
 
   function processDateChange(date)
