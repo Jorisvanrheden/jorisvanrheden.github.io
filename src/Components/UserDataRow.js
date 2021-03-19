@@ -3,6 +3,8 @@ import React, {useState} from 'react'
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Input from '@material-ui/core/Input';
+import Grid from '@material-ui/core/Grid';
 
 function UserDataRow(props)
 {
@@ -10,7 +12,10 @@ function UserDataRow(props)
 
   return(
     <div className="DataEntryStyle">
-        <TextField label="Distance" 
+
+        <Grid container alignItems="center">
+          <Grid item xs>
+          <TextField label="Distance" 
           InputProps={{
             endAdornment: <InputAdornment position="start">km</InputAdornment>,
           }}
@@ -22,8 +27,9 @@ function UserDataRow(props)
             props.confirmInput(props.index, event.target.value)
           }}
         /> 
-
-        <Button 
+          </Grid>
+          <Grid item>
+          <Button 
           style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}          
           color="secondary" 
           variant="contained" 
@@ -34,6 +40,8 @@ function UserDataRow(props)
         >
           X
         </Button>
+          </Grid>
+        </Grid>
     </div>     
   )
 }
