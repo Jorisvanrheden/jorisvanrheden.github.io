@@ -28,6 +28,14 @@ class DateEntry
         }
     }
 
+    removeEntry(index)
+    {
+        if(index < this.exerciseEntries.length)
+        {
+            this.exerciseEntries.splice(index, 1);         
+        }
+    }
+
     getDistances()
     {
         let arr = [];
@@ -72,6 +80,17 @@ export default class UserData
         }
 
         dateEntry.addExerciseEntry(0, "");
+    }
+
+    removeEntry(date, index)
+    {
+        let dateEntry = this.getDateEntry(date);
+
+        //Create a new unique date entry if it doesnt exist yet
+        if(dateEntry !== null)
+        {
+            dateEntry.removeEntry(index);
+        }
     }
 
     setDistance(date, index, distance)

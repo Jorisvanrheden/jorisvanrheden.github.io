@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
             </Grid>
           </Grid>
           <Typography color="textSecondary" variant="body2">
-            Select the active user, as only the selected user is able to change their data in the bottom overview
+            Select the active user
           </Typography>
 
           <div className={classes.default}>

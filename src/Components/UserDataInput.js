@@ -7,7 +7,7 @@ function UserDataInput(props)
   return(
     <div className="DataInputStyle">
       <Typography color="textSecondary" variant="body2">
-        Select a date and press the button to insert a new entry
+        Add entries for the selected date
       </Typography>
 
       <TextField
@@ -18,7 +18,13 @@ function UserDataInput(props)
           props.processDateChange(event.target.value);
         }}
       />
-      <Button color="primary" onClick={props.addEntry}>Add new entry </Button>
+      <Button 
+        color="primary" 
+        style={{maxWidth: '100px', maxHeight: '30px', minWidth: '100px', minHeight: '30px'}}          
+        variant="contained" 
+        onClick={props.addEntry}>
+            Add
+        </Button>
     </div>
   )
 }

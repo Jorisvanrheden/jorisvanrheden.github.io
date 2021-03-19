@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: 'lightGray',
     },
     section1: {
-      margin: theme.spacing(3, 2),
+      margin: theme.spacing(2, 2),
     },
     section3: {
       margin: theme.spacing(3, 1, 1),
@@ -48,6 +48,13 @@ export default function DataContainer(props) {
     props.setUserEntries(props.user.getDistancesOnDate(props.activeDate));
   }
 
+  function removeEntry(index)
+  {
+    props.user.removeEntry(props.activeDate, index);
+
+    props.setUserEntries(props.user.getDistancesOnDate(props.activeDate));
+  }
+
   function processDateChange(date)
   {
     props.setActiveDate(date);
@@ -60,7 +67,7 @@ export default function DataContainer(props) {
     <div className={classes.root}>
       <div className={classes.section1}>
         <Typography color="textSecondary" variant="body2">
-          Entry overview for {props.user.name}
+          Entry overview for {props.user.name}:
         </Typography>
       </div>
 
@@ -73,7 +80,7 @@ export default function DataContainer(props) {
 
           <div className="DataEntryStyle">
             <Typography color='primary' variant="body2">
-              No entries yet for {props.user.name}
+              No entries yet for {props.user.name} on {props.activeDate}
             </Typography>
           </div>
         }
@@ -81,7 +88,13 @@ export default function DataContainer(props) {
           {
             props.userEntries.map((value, index) => 
             (
-              <UserDataRow name={props.user.name} confirmInput={confirmInput} distance={value} index={index}/>
+              <UserDataRow 
+                name={props.user.name} 
+                confirmInput={confirmInput} 
+                removeEntry={removeEntry}
+                distance={value} 
+                index={index}
+              />
             ))
           }  
         </div>

@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 function UserDataRow(props)
 {
@@ -28,6 +29,18 @@ function UserDataRow(props)
             }
           }}
         /> 
+
+        <Button 
+          style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}          
+          color="secondary" 
+          variant="contained" 
+          onClick={event => 
+          {
+              props.removeEntry(props.index);
+          }}
+        >
+          X
+        </Button>
     </div>     
   )
 }
