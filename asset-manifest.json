@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/jorisvanrheden.github.io/static/css/main.7b6097ea.chunk.css",
-    "main.js": "/jorisvanrheden.github.io/static/js/main.3ab03862.chunk.js",
-    "main.js.map": "/jorisvanrheden.github.io/static/js/main.3ab03862.chunk.js.map",
-    "runtime-main.js": "/jorisvanrheden.github.io/static/js/runtime-main.3390a970.js",
-    "runtime-main.js.map": "/jorisvanrheden.github.io/static/js/runtime-main.3390a970.js.map",
-    "static/js/2.b5704930.chunk.js": "/jorisvanrheden.github.io/static/js/2.b5704930.chunk.js",
-    "static/js/2.b5704930.chunk.js.map": "/jorisvanrheden.github.io/static/js/2.b5704930.chunk.js.map",
-    "index.html": "/jorisvanrheden.github.io/index.html",
-    "static/css/main.7b6097ea.chunk.css.map": "/jorisvanrheden.github.io/static/css/main.7b6097ea.chunk.css.map",
-    "static/js/2.b5704930.chunk.js.LICENSE.txt": "/jorisvanrheden.github.io/static/js/2.b5704930.chunk.js.LICENSE.txt"
+    "main.css": "./static/css/main.7b6097ea.chunk.css",
+    "main.js": "./static/js/main.3ab03862.chunk.js",
+    "main.js.map": "./static/js/main.3ab03862.chunk.js.map",
+    "runtime-main.js": "./static/js/runtime-main.6d8cb995.js",
+    "runtime-main.js.map": "./static/js/runtime-main.6d8cb995.js.map",
+    "static/js/2.78ea5db6.chunk.js": "./static/js/2.78ea5db6.chunk.js",
+    "static/js/2.78ea5db6.chunk.js.map": "./static/js/2.78ea5db6.chunk.js.map",
+    "index.html": "./index.html",
+    "static/css/main.7b6097ea.chunk.css.map": "./static/css/main.7b6097ea.chunk.css.map",
+    "static/js/2.78ea5db6.chunk.js.LICENSE.txt": "./static/js/2.78ea5db6.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.3390a970.js",
-    "static/js/2.b5704930.chunk.js",
+    "static/js/runtime-main.6d8cb995.js",
+    "static/js/2.78ea5db6.chunk.js",
     "static/css/main.7b6097ea.chunk.css",
     "static/js/main.3ab03862.chunk.js"
   ]
