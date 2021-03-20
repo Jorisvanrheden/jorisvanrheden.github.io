@@ -1,57 +1,9 @@
-class ExerciseEntry
-{
-    constructor(distance, photo)
-    {
-        this.distance = distance;
-        this.photo = photo;
-    }
-}
-
-class DateEntry
-{
-    constructor(date)
-    {
-        this.date = date;
-        this.exerciseEntries = [];
-    }
-
-    addExerciseEntry(distance, photo)
-    {
-        this.exerciseEntries.push(new ExerciseEntry(distance, photo));
-    }
-
-    setDistance(index, distance)
-    {
-        if(index < this.exerciseEntries.length)
-        {
-            this.exerciseEntries[index].distance = distance;
-        }
-    }
-
-    removeEntry(index)
-    {
-        if(index < this.exerciseEntries.length)
-        {
-            this.exerciseEntries.splice(index, 1);         
-        }
-    }
-
-    getDistances()
-    {
-        let arr = [];
-        for(let i=0;i<this.exerciseEntries.length;i++)
-        {
-            arr.push(this.exerciseEntries[i].distance);
-        }
-        return arr;
-    }
-}
-
 export default class UserData
 {
-    constructor(name)
+    constructor(name, storage)
     {
         this.name = name;
+        this.storage = storage;
 
         //initialize new array of ExerciseEntry structs
         this.dateEntries = [];
@@ -74,8 +26,8 @@ export default class UserData
 
         //Create a new unique date entry if it doesnt exist yet
         if(dateEntry === null)
-        {
-            dateEntry = new DateEntry(date);
+        {     
+            dateEntry = this.storage.create(date, this.name);
             this.dateEntries.push(dateEntry);
         }
 

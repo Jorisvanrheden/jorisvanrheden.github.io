@@ -15,25 +15,6 @@ import DataContainer from './Components/DataContainer.js'
 
 let userCollection = new UserCollection();
 
-class AddEntry extends Component
-{
-  constructor(props)
-  {
-    super(props);
-
-    this.state =
-    {
-      textFieldValue: "",
-      textFieldDate: new Date().toISOString().substring(0, 10)
-    };
-  }
-
-  addValue()
-  {
-    this.props.processItem(this.state.textFieldValue, this.state.textFieldDate);   
-  }
-}
-
 function WebsiteMain() {
   const [input, setInput] = useState([0]);
   const [dates, setDates] = useState([""]);
