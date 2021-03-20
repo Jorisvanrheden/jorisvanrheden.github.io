@@ -1,7 +1,6 @@
 import './Styling/WebsiteMain.css'
 
 //react imports
-import { Component } from 'react';
 import React, {useState} from 'react'
 
 //external imports
@@ -22,6 +21,8 @@ function WebsiteMain() {
   const [userEntries, setUserEntries] = useState([]);
   const [activeDate, setActiveDate] = useState(new Date().toISOString().substring(0, 10));
 
+  userCollection.init(updateData);
+
   function processUserSelection(userName)
   {
     //Update the user name
@@ -31,12 +32,21 @@ function WebsiteMain() {
     let activeUser = userCollection.getUser(userName);
     if(activeUser!==null)
     {
-      setUserEntries(activeUser.getDistancesOnDate(activeDate));
+      activeUser.update(activeDate);
     }
   }
 
   function updateData()
   {
+    console.log("Updating the data");
+
+    //TODO: refactor into maybe a different callback
+    let activeUser = userCollection.getUser(userName);
+    if(activeUser!==null)
+    {
+      setUserEntries(activeUser.getDistancesOnDate(activeDate));
+    }
+
     //Go through all users in the user collection
 
     //For each user, create a combination package consisting of:
@@ -53,12 +63,12 @@ function WebsiteMain() {
         for(let d=0;d<user.dateEntries.length;d++)
         {
           let dateEntry = user.dateEntries[d];
-
           let date = dateEntry.date;
+          let distances = dateEntry.getDistances();
 
-          for(let j=0;j<dateEntry.exerciseEntries.length;j++)
+          for(let j=0;j<distances.length;j++)
           {
-              processor.addDataEntry(dateEntry.exerciseEntries[j].distance, date);
+              processor.addDataEntry(distances[j], date);
           }
         }
     }
@@ -81,6 +91,28 @@ function WebsiteMain() {
     setDates(processorDates);
   }
 
+  function addEntry(user)
+  {
+    user.addEntry(activeDate);
+  }
+
+  function removeEntry(user, index)
+  {
+    user.removeEntry(activeDate, index);
+  }
+
+  function modifyEntry(user, index, value)
+  {
+    user.setDistance(activeDate, index, value)
+  }
+
+  function modifyDate(user, date)
+  {
+    setActiveDate(date);
+
+    user.update(date);
+  }
+
   return (
   <div>
     <div className="UserContainer">
@@ -93,10 +125,11 @@ function WebsiteMain() {
           <DataContainer 
             user={userCollection.getUser(userName)}
             userEntries={userEntries}
-            setUserEntries={setUserEntries}
             activeDate={activeDate}
-            setActiveDate={setActiveDate}
-            updateData={updateData}
+            removeEntry={removeEntry}
+            addEntry={addEntry}
+            modifyEntry={modifyEntry}
+            modifyDate={modifyDate}
           />
         </div>      
       }

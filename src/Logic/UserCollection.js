@@ -3,22 +3,31 @@ import UserData from './UserData.js'
 
 //linking data storage
 //local
-//import LocalStorage from './LocalStorage.js'
+import LocalStorage from './LocalStorage.js'
 //database
 import DBStorage from './DBStorage.js'
 
 export default class UserCollection
 {
-    constructor()
+    constructor(callback)
     {
-        const storage = new DBStorage();
-
         this.users = 
         [
-            new UserData("Joris", storage),
-            new UserData("Minyu", storage),
-            new UserData("New User", storage)
-        ];
+            new UserData("Joris"),
+            new UserData("Minyu"),
+            new UserData("New User")
+        ]; 
+    }
+
+    init(callback)
+    {
+        const storage = new DBStorage(callback);
+        //const storage = new LocalStorage(callback);
+
+        for(let i=0;i<this.users.length;i++)
+        {
+            this.users[i].initStorage(storage);
+        }
     }
 
     getUser(name)

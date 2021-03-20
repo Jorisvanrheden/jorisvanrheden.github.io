@@ -2,29 +2,36 @@
 import {firebase} from '../Database/FireBaseSetup.js'
 let database = firebase.database();
 
-//- Get the users entry
-        //- Find if the current user already has an entry
-        // let user = database.ref("users/" + name);
-        // user.update({
-        //     data: [1,2,3]
-        //   });
-
 export default class UserEntryDB
 {
-    constructor(date, name)
+    constructor(date, name, callback)
     {
         this.date = date;
         this.name = name;
         this.dataCache = [];
+        this.callback = callback;
 
         let userDateInput = database.ref("users/" + this.name + "/" + this.date);
         userDateInput.on('value', (snapshot) => {
-            const data = snapshot.val();
-            this.dataCache = data;
-
-            console.log("Data is updated");
-            console.log(data);
+            this.triggerValueUpdate(snapshot);
         });
+    }
+
+    triggerValueUpdate(snapshot)
+    {
+        let fetchedData = snapshot.val();
+        console.log("Getting data: " + fetchedData);
+
+        if(snapshot.exists())
+        {
+            this.dataCache = fetchedData;
+        }
+        else
+        {
+            this.dataCache = [];
+        }
+
+        this.callback();
     }
 
     addExerciseEntry(distance, photo)
@@ -74,6 +81,7 @@ export default class UserEntryDB
 
     removeEntry(index)
     {
+        console.log("Removing...");
         let userDateInput = database.ref("users/" + this.name + "/" + this.date);
 
         userDateInput.get().then(function(snapshot) {
@@ -86,6 +94,24 @@ export default class UserEntryDB
                   data.splice(index, 1);
               }
 
+              userDateInput.set(data);
+            }
+          }).catch(function(error) {
+            console.error(error);
+          });
+    }
+
+    update()
+    {
+      console.log("updating");
+        let userDateInput = database.ref("users/" + this.name + "/" + this.date);
+        
+        userDateInput.get().then(function(snapshot) {
+            if (snapshot.exists()) {
+              //Store cache with new data
+              let data = snapshot.val();
+
+              //Trigger event by manually setting the same data one more time
               userDateInput.set(data);
             }
           }).catch(function(error) {

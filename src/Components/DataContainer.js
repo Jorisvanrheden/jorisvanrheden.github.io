@@ -34,10 +34,12 @@ export default function DataContainer(props) {
 
   function addEntry()
   {
-    props.user.addEntry(props.activeDate);
+    props.addEntry(props.user);
+  }
 
-    //update the state variable
-    props.setUserEntries(props.user.getDistancesOnDate(props.activeDate));
+  function removeEntry(index)
+  {
+    props.removeEntry(props.user, index);  
   }
 
   function confirmInput(index, value)
@@ -45,26 +47,12 @@ export default function DataContainer(props) {
     let input = Number(value);
     if(isNaN(input)) return;
 
-    props.user.setDistance(props.activeDate, index, input)
-
-    props.updateData();
-  }
-
-  function removeEntry(index)
-  {
-    props.user.removeEntry(props.activeDate, index);
-
-    props.setUserEntries(props.user.getDistancesOnDate(props.activeDate));
-
-    props.updateData();
+    props.modifyEntry(props.user, index, input);
   }
 
   function processDateChange(date)
   {
-    props.setActiveDate(date);
-
-    //update the state variable
-    props.setUserEntries(props.user.getDistancesOnDate(date));
+    props.modifyDate(props.user, date);
   }
 
   return (

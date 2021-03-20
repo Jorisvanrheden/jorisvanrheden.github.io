@@ -10,15 +10,19 @@ class ExerciseEntry
 
 export default class UserEntryLocal
 {
-    constructor(date)
+    constructor(date, name, callback)
     {
         this.date = date;
+        this.name = name;
+        this.callback = callback;
         this.exerciseEntries = [];
     }
 
     addExerciseEntry(distance, photo)
     {
         this.exerciseEntries.push(new ExerciseEntry(distance, photo));
+
+        this.callback();
     }
 
     setDistance(index, distance)
@@ -27,6 +31,8 @@ export default class UserEntryLocal
         {
             this.exerciseEntries[index].distance = distance;
         }
+
+        this.callback();
     }
 
     removeEntry(index)
@@ -35,6 +41,13 @@ export default class UserEntryLocal
         {
             this.exerciseEntries.splice(index, 1);         
         }
+
+        this.callback();
+    }
+
+    update()
+    {
+        this.callback();
     }
 
     getDistances()

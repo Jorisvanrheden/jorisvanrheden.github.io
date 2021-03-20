@@ -1,12 +1,16 @@
 export default class UserData
 {
-    constructor(name, storage)
+    constructor(name)
     {
         this.name = name;
-        this.storage = storage;
 
         //initialize new array of ExerciseEntry structs
         this.dateEntries = [];
+    }
+
+    initStorage(storage)
+    {
+        this.storage = storage;
     }
 
     getDistancesOnDate(date)
@@ -54,12 +58,26 @@ export default class UserData
         }
     }
 
+    update(date)
+    {
+        let dateEntry = this.getDateEntry(date);
+
+        if(dateEntry!==null)
+        {
+            dateEntry.update();
+        }
+    }
+
     getDateEntry(date)
     {
         for(let i=0;i<this.dateEntries.length;i++)
         {
-            if(this.dateEntries[i].date === date) return this.dateEntries[i];
+            if(this.dateEntries[i].date === date)
+            {
+                return this.dateEntries[i];
+            } 
         }
+
         return null;
     }
 }
