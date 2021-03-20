@@ -1,5 +1,5 @@
 {
-  "homepage": "jorisvanrheden.github.io",
+  "homepage": ".",
   "name": "website-project",
   "version": "0.1.0",
   "private": true,
@@ -10,6 +10,7 @@
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.3",
     "chart.js": "^2.9.4",
+    "firebase": "^8.3.1",
     "react": "^17.0.1",
     "react-chartjs-2": "^2.11.1",
     "react-dom": "^17.0.1",
