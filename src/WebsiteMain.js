@@ -6,13 +6,13 @@ import React, {useState} from 'react'
 //external imports
 import LineGraphChart from './LineGraph'
 import InputDataProcessor from './Logic/InputDataProcessor.js';
-import UserCollection from './Logic/UserCollection.js'
+import UserDataBase from './Logic/UserDataBase.js'
 
 //test imports
 import SelectionContainer from './SelectionContainer.js'
 import DataContainer from './Components/DataContainer.js'
 
-let userCollection = new UserCollection();
+let userDataBase = new UserDataBase();
 
 function WebsiteMain() {
   const [input, setInput] = useState([0]);
@@ -20,8 +20,25 @@ function WebsiteMain() {
   const [userName, setUserName] = useState("");
   const [userEntries, setUserEntries] = useState([]);
   const [activeDate, setActiveDate] = useState(new Date().toISOString().substring(0, 10));
+  const [dataLoaded, setDataLoaded] = useState(false);
 
-  userCollection.init(updateData);
+  //TODO: use the dataLoaded flag to determine whether anything can be drawn to the screen
+  if(!dataLoaded)
+  {
+    //Initialization flag
+
+    //What to initialize:
+    //- UserDataBase (maybe even return an entire UserDataBase)
+    //- Return an EMTPY database, and then let the callback populate the object
+    //- use a useState to redraw the page
+
+    userDataBase.init(updateData);
+
+    //TODO: only execute this in the initalization callback
+    setDataLoaded(true);
+  }
+  //userDataBase.init(updateData);
+
 
   function processUserSelection(userName)
   {
@@ -29,7 +46,7 @@ function WebsiteMain() {
     setUserName(userName);
 
     //Update the entries associated with that user name
-    let activeUser = userCollection.getUser(userName);
+    let activeUser = userDataBase.getUser(userName);
     if(activeUser!==null)
     {
       activeUser.update(activeDate);
@@ -38,10 +55,8 @@ function WebsiteMain() {
 
   function updateData()
   {
-    console.log("Updating the data");
-
     //TODO: refactor into maybe a different callback
-    let activeUser = userCollection.getUser(userName);
+    let activeUser = userDataBase.getUser(userName);
     if(activeUser!==null)
     {
       setUserEntries(activeUser.getDistancesOnDate(activeDate));
@@ -57,9 +72,9 @@ function WebsiteMain() {
     //These combinations then need to be transformed into a set of labels and inputs for the graph
     let processor = new InputDataProcessor();
 
-    for(let i=0;i<userCollection.users.length;i++)
+    for(let i=0;i<userDataBase.users.length;i++)
     {
-        let user = userCollection.users[i];
+        let user = userDataBase.users[i];
         for(let d=0;d<user.dateEntries.length;d++)
         {
           let dateEntry = user.dateEntries[d];
@@ -117,13 +132,13 @@ function WebsiteMain() {
   <div>
     <div className="UserContainer">
       <div className="PersonEntry">
-        <SelectionContainer items={userCollection.getUserNames()} processUserSelect={processUserSelection}/>
+        <SelectionContainer items={userDataBase.getUserNames()} processUserSelect={processUserSelection}/>
       </div>
       {
         userName.length > 0 &&
         <div>
           <DataContainer 
-            user={userCollection.getUser(userName)}
+            user={userDataBase.getUser(userName)}
             userEntries={userEntries}
             activeDate={activeDate}
             removeEntry={removeEntry}

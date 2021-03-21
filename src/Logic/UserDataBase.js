@@ -1,4 +1,3 @@
-import { useScrollTrigger } from '@material-ui/core';
 import UserData from './UserData.js'
 
 //linking data storage
@@ -7,9 +6,9 @@ import LocalStorage from './LocalStorage.js'
 //database
 import DBStorage from './DBStorage.js'
 
-export default class UserCollection
+export default class UserDataBase
 {
-    constructor(callback)
+    constructor()
     {
         this.users = 
         [

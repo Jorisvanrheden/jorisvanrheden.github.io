@@ -11,8 +11,4 @@ export default class LocalStorage
     {
         return new UserEntryLocal(date, name, this.callback);
     }
-
-    loadEntries()
-    {
-    }
 }
