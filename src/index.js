@@ -5,7 +5,7 @@ import WebsiteMain from './WebsiteMain';
 
 ReactDOM.render(
   <React.StrictMode>
-    <WebsiteMain />
+    <WebsiteMain/>
   </React.StrictMode>,
   document.getElementById('root')
 );

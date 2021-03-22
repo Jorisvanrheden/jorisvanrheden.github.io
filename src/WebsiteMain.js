@@ -6,13 +6,16 @@ import React, {useState} from 'react'
 //external imports
 import LineGraphChart from './LineGraph'
 import InputDataProcessor from './Logic/InputDataProcessor.js';
-import UserDataBase from './Logic/UserDataBase.js'
+import DataBaseOnline from './Logic/DB/DataBaseOnline.js'
 
 //test imports
 import SelectionContainer from './SelectionContainer.js'
 import DataContainer from './Components/DataContainer.js'
 
-let userDataBase = new UserDataBase();
+let userDataBase = new DataBaseOnline();
+
+let REMOVE_CACHED_USER = "";
+let REMOVE_CACHED_DATE = new Date().toISOString().substring(0, 10);
 
 function WebsiteMain() {
   const [input, setInput] = useState([0]);
@@ -34,32 +37,35 @@ function WebsiteMain() {
 
     userDataBase.init(updateData);
 
-    //TODO: only execute this in the initalization callback
     setDataLoaded(true);
   }
-  //userDataBase.init(updateData);
-
 
   function processUserSelection(userName)
   {
+    REMOVE_CACHED_USER = userName;
+
     //Update the user name
     setUserName(userName);
 
     //Update the entries associated with that user name
-    let activeUser = userDataBase.getUser(userName);
+    let activeUser = userDataBase.databaseCache.getUser(REMOVE_CACHED_USER);
+    // if(activeUser!==null)
+    // {
+    //   activeUser.update(activeDate);
+    // }
     if(activeUser!==null)
     {
-      activeUser.update(activeDate);
+      setUserEntries(activeUser.getDistancesOnDate(REMOVE_CACHED_DATE));
     }
   }
 
   function updateData()
   {
     //TODO: refactor into maybe a different callback
-    let activeUser = userDataBase.getUser(userName);
+    let activeUser = userDataBase.databaseCache.getUser(REMOVE_CACHED_USER);
     if(activeUser!==null)
     {
-      setUserEntries(activeUser.getDistancesOnDate(activeDate));
+      setUserEntries(activeUser.getDistancesOnDate(REMOVE_CACHED_DATE));
     }
 
     //Go through all users in the user collection
@@ -72,14 +78,14 @@ function WebsiteMain() {
     //These combinations then need to be transformed into a set of labels and inputs for the graph
     let processor = new InputDataProcessor();
 
-    for(let i=0;i<userDataBase.users.length;i++)
+    for(let i=0;i<userDataBase.databaseCache.users.length;i++)
     {
-        let user = userDataBase.users[i];
-        for(let d=0;d<user.dateEntries.length;d++)
+        let user = userDataBase.databaseCache.users[i];
+        for(let d=0;d<user.userDates.length;d++)
         {
-          let dateEntry = user.dateEntries[d];
+          let dateEntry = user.userDates[d];
           let date = dateEntry.date;
-          let distances = dateEntry.getDistances();
+          let distances = dateEntry.values;
 
           for(let j=0;j<distances.length;j++)
           {
@@ -108,37 +114,42 @@ function WebsiteMain() {
 
   function addEntry(user)
   {
-    user.addEntry(activeDate);
+    userDataBase.add(user.name, REMOVE_CACHED_DATE, 0);
   }
 
   function removeEntry(user, index)
   {
-    user.removeEntry(activeDate, index);
+    userDataBase.remove(user.name, REMOVE_CACHED_DATE, index);
   }
 
   function modifyEntry(user, index, value)
   {
-    user.setDistance(activeDate, index, value)
+    userDataBase.edit(user.name, REMOVE_CACHED_DATE, index, value);
   }
 
   function modifyDate(user, date)
   {
+    REMOVE_CACHED_DATE = date;
+
     setActiveDate(date);
 
-    user.update(date);
+    userDataBase.update();
   }
 
   return (
   <div>
     <div className="UserContainer">
       <div className="PersonEntry">
-        <SelectionContainer items={userDataBase.getUserNames()} processUserSelect={processUserSelection}/>
+        {
+          dataLoaded &&
+          <SelectionContainer items={userDataBase.databaseCache.getUserNames()} processUserSelect={processUserSelection}/>
+        }
       </div>
       {
         userName.length > 0 &&
         <div>
           <DataContainer 
-            user={userDataBase.getUser(userName)}
+            user={userDataBase.databaseCache.getUser(userName)}
             userEntries={userEntries}
             activeDate={activeDate}
             removeEntry={removeEntry}

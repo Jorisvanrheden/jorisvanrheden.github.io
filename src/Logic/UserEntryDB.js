@@ -9,18 +9,18 @@ export default class UserEntryDB
         this.date = date;
         this.name = name;
         this.dataCache = [];
-        this.callback = callback;
 
         let userDateInput = database.ref("users/" + this.name + "/" + this.date);
         userDateInput.on('value', (snapshot) => {
-            this.triggerValueUpdate(snapshot);
+            this.triggerValueUpdate(snapshot, callback);
         });
     }
 
-    triggerValueUpdate(snapshot)
+    triggerValueUpdate(snapshot, callback)
     {
         let fetchedData = snapshot.val();
-        console.log("Getting data: " + fetchedData);
+
+        console.log("Data trigger");
 
         if(snapshot.exists())
         {
@@ -30,93 +30,14 @@ export default class UserEntryDB
         {
             this.dataCache = [];
         }
-
-        this.callback();
-    }
-
-    addExerciseEntry(distance, photo)
-    {
-        let userDateInput = database.ref("users/" + this.name + "/" + this.date);
         
-        userDateInput.get().then(function(snapshot) {
-
-            //Emtpy array in case no entry exists yet
-            let data = [];
-
-            if (snapshot.exists()) {
-              //Store cache with new data
-              data = snapshot.val();
-            }
-
-            //Add the item to the collection
-            data.push(distance);
-            
-            //Update the database value
-            userDateInput.set(data);
-          }).catch(function(error) {
-            console.error(error);
-          });
+        callback();
     }
+
 
     setDistance(index, distance)
     {        
-        let userDateInput = database.ref("users/" + this.name + "/" + this.date);
-
-        userDateInput.get().then(function(snapshot) {
-            if (snapshot.exists()) {
-              //Store cache with new data
-              let data = snapshot.val();
-
-              if(index < data.length)
-              {
-                  data[index] = distance;
-              }
-
-              userDateInput.set(data);
-            }
-          }).catch(function(error) {
-            console.error(error);
-          });
-    }
-
-    removeEntry(index)
-    {
-        console.log("Removing...");
-        let userDateInput = database.ref("users/" + this.name + "/" + this.date);
-
-        userDateInput.get().then(function(snapshot) {
-            if (snapshot.exists()) {
-              //Store cache with new data
-              let data = snapshot.val();
-
-              if(index < data.length)
-              {
-                  data.splice(index, 1);
-              }
-
-              userDateInput.set(data);
-            }
-          }).catch(function(error) {
-            console.error(error);
-          });
-    }
-
-    update()
-    {
-      console.log("updating");
-        let userDateInput = database.ref("users/" + this.name + "/" + this.date);
-        
-        userDateInput.get().then(function(snapshot) {
-            if (snapshot.exists()) {
-              //Store cache with new data
-              let data = snapshot.val();
-
-              //Trigger event by manually setting the same data one more time
-              userDateInput.set(data);
-            }
-          }).catch(function(error) {
-            console.error(error);
-          });
+       
     }
 
     getDistances()
