@@ -5,12 +5,12 @@ import React, {useState} from 'react'
 
 //external imports
 import LineGraphChart from './LineGraph'
-import InputDataProcessor from './Logic/InputDataProcessor.js';
-import DataBaseOnline from './Logic/DB/DataBaseOnline.js'
+import InputDataProcessor from './Logic/InputDataProcessor';
+import DataBaseOnline from './Logic/DB/DataBaseOnline'
 
 //test imports
-import SelectionContainer from './SelectionContainer.js'
-import DataContainer from './Components/DataContainer.js'
+import SelectionContainer from './SelectionContainer'
+import DataContainer from './Components/DataContainer'
 
 let userDataBase = new DataBaseOnline();
 

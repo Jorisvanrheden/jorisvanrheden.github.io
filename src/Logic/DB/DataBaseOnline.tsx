@@ -6,28 +6,36 @@ let database = firebase.database();
 
 export default class DataBaseOnline
 {
+    databaseCache:DataBaseCache = new DataBaseCache();
+    callback:any = null;
+
     constructor()
     {
-        //Store a local cached version of the database, since there is no way to directly access data
-        //The only way is to asynchronously call the database, where callbacks trigger the update
 
-        this.databaseCache = new DataBaseCache(); 
     }
 
-    triggerValueUpdate(snapshot, callback)
+    init(callback:any)
+    {
+        this.callback = callback;
+
+        let userDateInput = database.ref("users");
+        userDateInput.on('value', (snapshot) => {
+            this.triggerValueUpdate(snapshot, callback);
+        });
+    }
+
+    triggerValueUpdate(snapshot:any, callback:()=>void)
     {
         let database = new DataBaseCache();
 
-        console.log("updating dataa....");
-
         if(snapshot.exists())
         {
-            snapshot.forEach(function(child) {
+            snapshot.forEach(function(child:any) {
                 //names
                 let name = child.key;
 
                 //dates
-                child.forEach(function(sub)
+                child.forEach(function(sub:any)
                 {
                     let date = sub.key;
                     
@@ -48,21 +56,8 @@ export default class DataBaseOnline
         callback();
     }
 
-    init(callback)
+    add(name:string, date:string, value:number)
     {
-        this.callback = callback;
-
-        let userDateInput = database.ref("users");
-        userDateInput.on('value', (snapshot) => {
-            this.triggerValueUpdate(snapshot, callback);
-        });
-    }
-
-    add(name, date, value)
-    {
-        console.log("ONLINE- > add");
-        console.log(name + " " + date + " " + value);
-
         let userDateInput = database.ref("users/" + name + "/" + date);
         
         userDateInput.get().then(function(snapshot) {
@@ -77,7 +72,7 @@ export default class DataBaseOnline
 
             //Add the item to the collection
             data.push(value);
-            
+
             //Update the database value
             userDateInput.set(data);
           }).catch(function(error) {
@@ -85,10 +80,8 @@ export default class DataBaseOnline
           });
     }
 
-    remove(name, date, index)
+    remove(name:string, date:string, index:number)
     {
-        console.log("ONLINE- > remove");
-
         let userDateInput = database.ref("users/" + name + "/" + date);
 
         userDateInput.get().then(function(snapshot) {
@@ -108,7 +101,7 @@ export default class DataBaseOnline
           });
     }
 
-    edit(name, date, index, value)
+    edit(name:string, date:string, index:number, value:number)
     {
         let userDateInput = database.ref("users/" + name + "/" + date);
 
