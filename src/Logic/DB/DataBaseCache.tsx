@@ -1,13 +1,14 @@
 class UserDate
 {
-    constructor(date)
+    values:Array<number> = [];
+    date:string;
+
+    constructor(date:string)
     {
         this.date = date;
-
-        this.values = [];
     }
 
-    add(value)
+    add(value:number)
     {
         this.values.push(value);
     }
@@ -15,14 +16,14 @@ class UserDate
 
 class User
 {
-    constructor(name)
+    name:string;
+    userDates:Array<UserDate> = [];
+    constructor(name:string)
     {
         this.name = name;
-
-        this.userDates = [];
     }
 
-    add(date, value)
+    add(date:string, value:number)
     {
         let dateEntry = this.getDate(date);
         if(dateEntry === null)
@@ -33,7 +34,7 @@ class User
         dateEntry.add(value);
     }
 
-    getDistancesOnDate(date)
+    getDistancesOnDate(date:string)
     {
         let dateEntry = this.getDate(date);
         if(dateEntry !== null)
@@ -43,7 +44,7 @@ class User
         return [];
     }
 
-    getDate(date)
+    getDate(date:string)
     {
         for(let i=0;i<this.userDates.length;i++)
         {
@@ -55,12 +56,14 @@ class User
 
 export default class DataBaseCache
 {
+    users:Array<User> = [];
+
     constructor()
     {
-        this.users = [];
+
     }
 
-    add(name, date, value)
+    add(name:string, date:string, value:number)
     {
         let user = this.getUser(name);
         if(user === null)
@@ -72,7 +75,7 @@ export default class DataBaseCache
         user.add(date, value);
     }
 
-    getUser(name)
+    getUser(name:string)
     {
         for(let i=0;i<this.users.length;i++)
         {
