@@ -5,7 +5,16 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
-function UserDataRow(props)
+interface Props
+{
+  distance:number;
+  index:number;
+
+  remove:(index:number)=>void;
+  confirm:(index:number, value:number)=>void;
+}
+
+function UserDataRow(props:Props)
 {
   const [distance, setDistance] = useState(props.distance);
 
@@ -21,9 +30,11 @@ function UserDataRow(props)
           value={distance}
           onChange={event => 
           {
-            setDistance(event.target.value);
+            let changedValue:number = Number(event.target.value);
 
-            props.confirmInput(props.index, event.target.value)
+            setDistance(changedValue);
+
+            props.confirm(props.index, changedValue)
           }}
         /> 
           </Grid>
@@ -34,7 +45,7 @@ function UserDataRow(props)
           variant="contained" 
           onClick={event => 
           {
-              props.removeEntry(props.index);
+              props.remove(props.index);
           }}
         >
           X

@@ -1,20 +1,27 @@
+interface DataEntry
+{
+    value:number;
+    date:string;
+}
+
 export default class InputDataProcessor
 {
+    entries:Array<DataEntry> = [];
+
     constructor()
     {
-        this.entries = [];
-        this.it = 0;
+
     }
 
-    addDataEntry(value, date)
+    addDataEntry(value:number, date:string)
     {
-        this.entries.push(new DataEntry(value,date));
+        this.entries.push({value: value, date:date });
     }
 
     getEarliestDate()
     {
-        let earliest = new Date();
-        let earliest_int = Number(earliest);
+        let earliest:string = "";
+        let earliest_int = Number(new Date());
 
         for(let i=0;i<this.entries.length;i++)
         {
@@ -31,8 +38,8 @@ export default class InputDataProcessor
 
     getLatestDate()
     {
-        let earliest = new Date();
-        let earliest_int = Number(earliest);
+        let earliest:string = "";
+        let earliest_int = Number(new Date());
 
         for(let i=0;i<this.entries.length;i++)
         {
@@ -69,7 +76,7 @@ export default class InputDataProcessor
         return arr;
     }
 
-    getAdditionOnDate(date)
+    getAdditionOnDate(date:string)
     {
         let total = 0;
 
@@ -80,14 +87,14 @@ export default class InputDataProcessor
         return total;
     }
 
-    getDateLabel(date)
+    getDateLabel(date:string)
     {       
         return date; 
 
         //this can be used to customize labels based on the input
     }
 
-    getDaysUntil(date1, date2)
+    getDaysUntil(date1:Date, date2:Date)
     {
         let diff = date2.getTime() - date1.getTime();
         let days = Math.ceil(diff/(1000*3600*24));
@@ -95,12 +102,5 @@ export default class InputDataProcessor
     }
 }
 
-class DataEntry
-{
-    constructor(value, date)
-    {
-        this.value = value;
-        this.date = date;
-    }
-}
+
 

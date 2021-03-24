@@ -149,9 +149,9 @@ function WebsiteMain() {
         userName.length > 0 &&
         <div>
           <DataContainer 
-            user={userDataBase.databaseCache.getUser(userName)}
-            userEntries={userEntries}
-            activeDate={activeDate}
+            user={userName}
+            entries={userEntries}
+            date={activeDate}
             removeEntry={removeEntry}
             addEntry={addEntry}
             modifyEntry={modifyEntry}

@@ -3,7 +3,15 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
-function UserDataInput(props)
+interface Props
+{
+  date:string;
+
+  processDateChange:(date:string)=>void;
+  addEntry:()=>void;
+}
+
+function UserDataInput(props:Props)
 {
   return(
     <div className="DataInputStyle">
@@ -15,7 +23,7 @@ function UserDataInput(props)
           <Grid item xs>
           <TextField
         type="date"
-        defaultValue={props.activeDate}
+        defaultValue={props.date}
         onChange={event => 
         {
           props.processDateChange(event.target.value);

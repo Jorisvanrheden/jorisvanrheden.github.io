@@ -29,7 +29,19 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-export default function DataContainer(props) {
+interface Props
+{
+  user:string;
+  date:string;
+  entries:Array<number>;
+
+  addEntry:(user:string)=>void;
+  removeEntry:(user:string, index:number)=>void;
+  modifyEntry:(user:string, index:number, input:number)=>void;
+  modifyDate:(user:string, date:string)=>void;
+}
+
+export default function DataContainer(props:Props) {
   const classes = useStyles();
 
   function addEntry()
@@ -37,12 +49,12 @@ export default function DataContainer(props) {
     props.addEntry(props.user);
   }
 
-  function removeEntry(index)
+  function removeEntry(index:number)
   {
     props.removeEntry(props.user, index);  
   }
 
-  function confirmInput(index, value)
+  function confirmInput(index:number, value:number)
   {
     let input = Number(value);
     if(isNaN(input)) return;
@@ -50,7 +62,7 @@ export default function DataContainer(props) {
     props.modifyEntry(props.user, index, input);
   }
 
-  function processDateChange(date)
+  function processDateChange(date:string)
   {
     props.modifyDate(props.user, date);
   }
@@ -59,36 +71,34 @@ export default function DataContainer(props) {
     <div className={classes.root}>
       <div className={classes.section1}>
         <Typography color="textSecondary" variant="body2">
-          Entry overview for {props.user.name}:
+          Entry overview for {props.user}:
         </Typography>
       </div>
 
       <div className="AreaInputNew">
         <div className="UserEntriesContainer">
-          <UserDataInput addEntry={addEntry} activeDate={props.activeDate} processDateChange={processDateChange}/> 
+          <UserDataInput addEntry={addEntry} date={props.date} processDateChange={processDateChange}/> 
           
           {
-          props.userEntries.length === 0 &&
+          props.entries.length === 0 &&
 
           <div className="DataEntryStyle">
             <Typography color='primary' variant="body2">
-              No entries yet for {props.user.name} on {props.activeDate}
+              No entries yet for {props.user} on {props.date}
             </Typography>
           </div>
-        }
-          
-          {
-            props.userEntries.map((value, index) => 
-            (
-              <UserDataRow 
-                name={props.user.name} 
-                confirmInput={confirmInput} 
-                removeEntry={removeEntry}
-                distance={value} 
-                index={index}
-              />
-            ))
-          }  
+        }       
+        {
+          props.entries.map((value:number, index:number) => 
+          (
+            <UserDataRow 
+              confirm={confirmInput} 
+              remove={removeEntry}
+              distance={value} 
+              index={index}
+            />
+          ))
+        }  
         </div>
       </div>
     </div>
