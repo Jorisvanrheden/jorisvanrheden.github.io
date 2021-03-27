@@ -33,11 +33,11 @@ interface Props
 {
   user:string;
   date:string;
-  entries:Array<number>;
+  entries:Array<any>;
 
   addEntry:(user:string)=>void;
   removeEntry:(user:string)=>void;
-  modifyEntry:(user:string, index:number, input:number)=>void;
+  modifyEntry:(user:string, type:string, input:number)=>void;
   modifyDate:(user:string, date:string)=>void;
 }
 
@@ -54,12 +54,12 @@ export default function DataContainer(props:Props) {
     props.removeEntry(props.user);  
   }
 
-  function confirmInput(index:number, value:number)
+  function confirmInput(type:string, value:number)
   {
     let input = Number(value);
     if(isNaN(input)) return;
 
-    props.modifyEntry(props.user, index, input);
+    props.modifyEntry(props.user, type, input);
   }
 
   function processDateChange(date:string)
@@ -89,12 +89,12 @@ export default function DataContainer(props:Props) {
           </div>
         }       
         {
-          props.entries.map((value:number, index:number) => 
+          props.entries.map((value:any, index:number) => 
           (
             <UserDataRow 
               confirm={confirmInput} 
               remove={removeEntry}
-              distance={value} 
+              data={value} 
               index={index}
             />
           ))

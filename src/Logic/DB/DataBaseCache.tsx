@@ -31,32 +31,80 @@ export default class DataBaseCache
 
     getEntries(name:string, date:string)
     {
-        //let entries = [];
+        let entries = [];
 
-        console.log("Getting entires");
-        if(this.database)
+        if(this.isValidEntry(name, date))
         {
-            let typeCount = Object.keys(this.database[this.DB_USERS][name][this.DB_DATES][date]).length;
-            console.log(typeCount);
+            let localContext = this.database[this.DB_USERS][name][this.DB_DATES][date];
+            let localObject = Object.keys(localContext);
 
-            console.log(this.database);
-            for(let i=0;i<typeCount;i++)
+            for(let i=0;i<localObject.length;i++)
             {
-                let test = Object.keys(this.database[this.DB_USERS][name][this.DB_DATES][date]);
-                console.log(test);
+                let property = localObject[i];
+                let value = localContext[property];
 
-                let property = Object.keys(this.database[this.DB_USERS][name][this.DB_DATES][date])[i];
-
-                let value = Object.keys(this.database[this.DB_USERS][name][this.DB_DATES][date][property]);
-                console.log(property + " - " + value);
+                entries.push({p: property, v:value});
             }
         }       
-        return [];
-        //return entries;
+        
+        return entries;
     }
 
-    processValueQuery(name:string, date:string, type:string)
+    getAllValues()
     {
-        return this.database[this.DB_USERS][name][this.DB_DATES][date][type];
+        let values = [];
+
+        let usersObject = Object.keys(this.database[this.DB_USERS]);
+        let userCount = usersObject.length;
+
+        console.log("Users: ", userCount);
+
+        for(let i=0;i<userCount;i++)
+        {
+            let name = usersObject[i];
+
+            console.log("Name: ", name);
+
+            if(!this.database[this.DB_USERS][name]) continue;
+
+            console.log("Name OK");
+
+            if(!this.database[this.DB_USERS][name][this.DB_DATES]) continue;
+
+            let datesObject = Object.keys(this.database[this.DB_USERS][name][this.DB_DATES]);
+            let dateCount = datesObject.length;
+
+            for(let j=0;j<dateCount;j++)
+            {
+                let date = datesObject[j];
+
+                if(!this.database[this.DB_USERS][name][this.DB_DATES][date]) continue;
+
+                let typeObject = Object.keys(this.database[this.DB_USERS][name][this.DB_DATES][date]);
+                let typeCount = typeObject.length;
+
+                for(let k=0;k<typeCount;k++)
+                {
+                    let type = typeObject[k];
+
+                    console.log(type);
+
+                }
+            }
+        }
+
+        values.push({k:0, v:0});
+
+        return values;
+    }
+
+    isValidEntry(name:string, date:string)
+    {
+        if(!this.database) return false;
+        if(!this.database[this.DB_USERS][name]) return false;
+        if(!this.database[this.DB_USERS][name][this.DB_DATES]) return false;
+        if(!this.database[this.DB_USERS][name][this.DB_DATES][date]) return false;
+
+        return true;
     }
 }

@@ -51,15 +51,14 @@ export default class DataBaseOnline
               //Only add an entry if it doesn't exist yet
               let data =     
                 {
-                  "walking": 0,
-                  "biking": 0,
-                  "other": 0
+                  "Walking": 0,
+                  "Biking": 0,
+                  "Other": 0
                 }            
 
               //Update the database value
               userDateInput.set(data);
-            }
-            
+            }         
             
           }).catch(function(error) {
             console.error(error);
@@ -68,34 +67,26 @@ export default class DataBaseOnline
 
     remove(name:string, date:string)
     {
-        let userDateInput = database.ref("users/" + name + "/" + date);
+        let userDateInput = database.ref();
 
         userDateInput.get().then(function(snapshot) {
             if (snapshot.exists()) {
-              //Only remove the entry if it exists
-              let data = snapshot.val();
-              userDateInput.remove(data);
+              userDateInput.child("users/" + name + "/dates/" + date).remove();
             }
           }).catch(function(error) {
             console.error(error);
           });
     }
 
-    edit(name:string, date:string, index:number, value:number)
+    edit(name:string, date:string, type:string, value:number)
     {
-        let userDateInput = database.ref("users/" + name + "/" + date);
+        let userDateInput = database.ref("users/" + name + "/dates/" + date + "/" + type);
 
         userDateInput.get().then(function(snapshot) {
             if (snapshot.exists()) {
-              //Store cache with new data
-              let data = snapshot.val();
-
-              if(index < data.length)
-              {
-                  data[index] = value;
-              }
-
-              userDateInput.set(data);
+              
+              //Set the value
+              userDateInput.set(value);
             }
           }).catch(function(error) {
             console.error(error);

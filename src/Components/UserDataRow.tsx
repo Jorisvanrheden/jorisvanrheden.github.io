@@ -7,23 +7,25 @@ import Grid from '@material-ui/core/Grid';
 
 interface Props
 {
-  distance:number;
+  data:any;
   index:number;
 
   remove:()=>void;
-  confirm:(index:number, value:number)=>void;
+  confirm:(type:string, value:number)=>void;
 }
 
 function UserDataRow(props:Props)
 {
-  const [distance, setDistance] = useState(props.distance);
+  const [distance, setDistance] = useState(props.data.v);
+
+  const description = "Distance" + " [" + props.data.p + "]";
 
   return(
     <div className="DataEntryStyle">
 
         <Grid container alignItems="center">
           <Grid item xs>
-          <TextField label="Distance" 
+          <TextField label={description}
           InputProps={{
             endAdornment: <InputAdornment position="start">km</InputAdornment>,
           }}
@@ -34,7 +36,7 @@ function UserDataRow(props:Props)
 
             setDistance(changedValue);
 
-            props.confirm(props.index, changedValue)
+            props.confirm(props.data.p, changedValue)
           }}
         /> 
           </Grid>

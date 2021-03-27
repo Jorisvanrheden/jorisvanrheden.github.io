@@ -51,8 +51,8 @@ function WebsiteMain() {
     setUserName(name);
     
     //Only read out data from the cache, as user selection does not change the database
-    let values = userDataBase.databaseCache.getEntries(name, activeDate);
-    // setUserEntries(activeUser.getDistancesOnDate(activeDate));
+    let keyValuePairs = userDataBase.databaseCache.getEntries(name, DATE_CACHE);
+    setUserEntries(keyValuePairs);
   }
 
   function updateData()
@@ -60,10 +60,9 @@ function WebsiteMain() {
     let names = userDataBase.databaseCache.getUserNames();
     setUserNames(names);
 
-    return;
     //Updating the GUI
-    // let userEntries = userDataBase.databaseCache.processValueQuery
-    // setUserEntries(activeUser.getDistancesOnDate(DATE_CACHE));
+    let keyValuePairs = userDataBase.databaseCache.getEntries(USER_CACHE, DATE_CACHE);
+    setUserEntries(keyValuePairs);
 
     //Go through all users in the user collection
 
@@ -74,6 +73,10 @@ function WebsiteMain() {
     //We need an object that handles all input + date combinations
     //These combinations then need to be transformed into a set of labels and inputs for the graph
     let processor = new InputDataProcessor();
+
+    let vals = userDataBase.databaseCache.getAllValues();
+
+    return;
 
     for(let i=0;i<userDataBase.databaseCache.users.length;i++)
     {
@@ -119,9 +122,9 @@ function WebsiteMain() {
     userDataBase.remove(user, activeDate);
   }
 
-  function modifyEntry(user, index, value)
+  function modifyEntry(user, type, value)
   {
-    userDataBase.edit(user, activeDate, index, value);
+    userDataBase.edit(user, activeDate, type, value);
   }
 
   function modifyDate(user, date)

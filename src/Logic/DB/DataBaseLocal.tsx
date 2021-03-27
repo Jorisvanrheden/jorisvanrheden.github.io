@@ -25,7 +25,7 @@ export default class DataBaseLocal
 
     }
 
-    edit(name:string, date:string, index:number, value:number)
+    edit(name:string, date:string, type:string, value:number)
     {
 
     }
