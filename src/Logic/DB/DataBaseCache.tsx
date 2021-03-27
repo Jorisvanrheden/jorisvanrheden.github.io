@@ -1,91 +1,62 @@
-class UserDate
-{
-    values:Array<number> = [];
-    date:string;
-
-    constructor(date:string)
-    {
-        this.date = date;
-    }
-
-    add(value:number)
-    {
-        this.values.push(value);
-    }
-}
-
-class User
-{
-    name:string;
-    userDates:Array<UserDate> = [];
-    constructor(name:string)
-    {
-        this.name = name;
-    }
-
-    add(date:string, value:number)
-    {
-        let dateEntry = this.getDate(date);
-        if(dateEntry === null)
-        {
-            dateEntry = new UserDate(date);
-            this.userDates.push(dateEntry);
-        }
-        dateEntry.add(value);
-    }
-
-    getDistancesOnDate(date:string)
-    {
-        let dateEntry = this.getDate(date);
-        if(dateEntry !== null)
-        {
-            return dateEntry.values;
-        }
-        return [];
-    }
-
-    getDate(date:string)
-    {
-        for(let i=0;i<this.userDates.length;i++)
-        {
-            if(this.userDates[i].date === date) return this.userDates[i];
-        }
-        return null;
-    }
-}
-
 export default class DataBaseCache
 {
-    users:Array<User> = [];
+    database:any;
 
-    add(name:string, date:string, value:number)
-    {
-        let user = this.getUser(name);
-        if(user === null)
-        {
-            user = new User(name);
-            this.users.push(user);
-        }
-        
-        user.add(date, value);
-    }
+    readonly DB_USERS:string = "users";
+    readonly DB_DATES:string = "dates";
 
-    getUser(name:string)
+    constructor(database:any)
     {
-        for(let i=0;i<this.users.length;i++)
-        {
-            if(this.users[i].name === name) return this.users[i];
-        }
-        return null;
+        this.database = database;
     }
 
     getUserNames()
     {
         let names = [];
-        for(let i=0;i<this.users.length;i++)
+
+        if(this.database)
         {
-            names.push(this.users[i].name);
-        }
+            let userCount = Object.keys(this.database[this.DB_USERS]).length;
+
+            for(let i=0;i<userCount;i++)
+            {
+                let userName = Object.keys(this.database[this.DB_USERS])[i];
+                names.push(userName);
+            }
+        }   
+        
+
         return names;
+    }
+
+    getEntries(name:string, date:string)
+    {
+        //let entries = [];
+
+        console.log("Getting entires");
+        if(this.database)
+        {
+            let typeCount = Object.keys(this.database[this.DB_USERS][name][this.DB_DATES][date]).length;
+            console.log(typeCount);
+
+            console.log(this.database);
+            for(let i=0;i<typeCount;i++)
+            {
+                let test = Object.keys(this.database[this.DB_USERS][name][this.DB_DATES][date]);
+                console.log(test);
+
+                let property = Object.keys(this.database[this.DB_USERS][name][this.DB_DATES][date])[i];
+
+                let value = Object.keys(this.database[this.DB_USERS][name][this.DB_DATES][date][property]);
+                console.log(property + " - " + value);
+            }
+        }       
+        return [];
+        //return entries;
+    }
+
+    processValueQuery(name:string, date:string, type:string)
+    {
+        return this.database[this.DB_USERS][name][this.DB_DATES][date][type];
     }
 }

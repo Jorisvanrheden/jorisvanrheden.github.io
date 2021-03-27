@@ -21,6 +21,7 @@ function WebsiteMain() {
   const [input, setInput] = useState([0]);
   const [dates, setDates] = useState([""]);
   const [userName, setUserName] = useState("");
+  const [userNames, setUserNames] = useState([]);
   const [userEntries, setUserEntries] = useState([]);
   const [activeDate, setActiveDate] = useState(new Date().toISOString().substring(0, 10));
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -50,22 +51,19 @@ function WebsiteMain() {
     setUserName(name);
     
     //Only read out data from the cache, as user selection does not change the database
-    let activeUser = userDataBase.databaseCache.getUser(name);
-    if(activeUser!==null)
-    {
-      setUserEntries(activeUser.getDistancesOnDate(activeDate));
-    }
+    let values = userDataBase.databaseCache.getEntries(name, activeDate);
+    // setUserEntries(activeUser.getDistancesOnDate(activeDate));
   }
 
   function updateData()
   {
-    console.log(USER_CACHE, DATE_CACHE);
+    let names = userDataBase.databaseCache.getUserNames();
+    setUserNames(names);
+
+    return;
     //Updating the GUI
-    let activeUser = userDataBase.databaseCache.getUser(USER_CACHE);
-    if(activeUser!==null)
-    {
-      setUserEntries(activeUser.getDistancesOnDate(DATE_CACHE));
-    }
+    // let userEntries = userDataBase.databaseCache.processValueQuery
+    // setUserEntries(activeUser.getDistancesOnDate(DATE_CACHE));
 
     //Go through all users in the user collection
 
@@ -113,12 +111,12 @@ function WebsiteMain() {
 
   function addEntry(user)
   {
-    userDataBase.add(user, activeDate, 0);
+    userDataBase.add(user, activeDate);
   }
 
-  function removeEntry(user, index)
+  function removeEntry(user)
   {
-    userDataBase.remove(user, activeDate, index);
+    userDataBase.remove(user, activeDate);
   }
 
   function modifyEntry(user, index, value)
@@ -141,7 +139,7 @@ function WebsiteMain() {
       <div className="PersonEntry">
         {
           dataLoaded &&
-          <SelectionContainer items={userDataBase.databaseCache.getUserNames()} processUserSelect={processUserSelection}/>
+          <SelectionContainer items={userNames} processUserSelect={processUserSelection}/>
         }
       </div>
       {

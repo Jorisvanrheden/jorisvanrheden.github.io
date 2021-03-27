@@ -36,7 +36,7 @@ interface Props
   entries:Array<number>;
 
   addEntry:(user:string)=>void;
-  removeEntry:(user:string, index:number)=>void;
+  removeEntry:(user:string)=>void;
   modifyEntry:(user:string, index:number, input:number)=>void;
   modifyDate:(user:string, date:string)=>void;
 }
@@ -49,9 +49,9 @@ export default function DataContainer(props:Props) {
     props.addEntry(props.user);
   }
 
-  function removeEntry(index:number)
+  function removeEntry()
   {
-    props.removeEntry(props.user, index);  
+    props.removeEntry(props.user);  
   }
 
   function confirmInput(index:number, value:number)

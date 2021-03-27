@@ -6,7 +6,7 @@ let database = firebase.database();
 
 export default class DataBaseOnline
 {
-    databaseCache:DataBaseCache = new DataBaseCache();
+    databaseCache:DataBaseCache = new DataBaseCache("");
     callback:any = null;
 
     lastUser:string = "";
@@ -16,7 +16,7 @@ export default class DataBaseOnline
     {
         this.callback = callback;
 
-        let userDateInput = database.ref("users");
+        let userDateInput = database.ref();
         userDateInput.on('value', (snapshot) => {
             this.triggerValueUpdate(snapshot, callback);
         });
@@ -24,75 +24,57 @@ export default class DataBaseOnline
 
     triggerValueUpdate(snapshot:any, callback:()=>void)
     {
-        let database = new DataBaseCache();
-
+        let jsonString = "";
         if(snapshot.exists())
         {
-            snapshot.forEach(function(child:any) {
-                //names
-                let name = child.key;
-
-                //dates
-                child.forEach(function(sub:any)
-                {
-                    let date = sub.key;
-                    
-                    let items = sub.val();
-                    for(let i=0;i<items.length;i++)
-                    {
-                        let value = items[i];
-                        
-                        //Insert value
-                        database.add(name, date, value);
-                    }
-                });
-            });
+            jsonString = JSON.stringify(snapshot.val());            
         }
 
-        this.databaseCache = database;
+        let database = JSON.parse(jsonString);
+        console.log(database);
+
+        this.databaseCache = new DataBaseCache(database);
                 
         callback();
     }
 
-    add(name:string, date:string, value:number)
+    add(name:string, date:string)
     {
-        let userDateInput = database.ref("users/" + name + "/" + date);
+        //Adding an item to the database should add 3 entries:
+        //- Walking
+        //- Biking
+        //- Other
+        let userDateInput = database.ref("users/" + name + "/" + "dates/" + date);
  
         userDateInput.get().then(function(snapshot) {
+            if (!snapshot.exists()) {
+              //Only add an entry if it doesn't exist yet
+              let data =     
+                {
+                  "walking": 0,
+                  "biking": 0,
+                  "other": 0
+                }            
 
-            //Emtpy array in case no entry exists yet
-            let data = [];
-
-            if (snapshot.exists()) {
-              //Store cache with new data
-              data = snapshot.val();
+              //Update the database value
+              userDateInput.set(data);
             }
-
-            //Add the item to the collection
-            data.push(value);
-
-            //Update the database value
-            userDateInput.set(data);
+            
+            
           }).catch(function(error) {
             console.error(error);
           });
     }
 
-    remove(name:string, date:string, index:number)
+    remove(name:string, date:string)
     {
         let userDateInput = database.ref("users/" + name + "/" + date);
 
         userDateInput.get().then(function(snapshot) {
             if (snapshot.exists()) {
-              //Store cache with new data
+              //Only remove the entry if it exists
               let data = snapshot.val();
-
-              if(index < data.length)
-              {
-                  data.splice(index, 1);
-              }
-
-              userDateInput.set(data);
+              userDateInput.remove(data);
             }
           }).catch(function(error) {
             console.error(error);

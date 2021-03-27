@@ -10,7 +10,7 @@ interface Props
   distance:number;
   index:number;
 
-  remove:(index:number)=>void;
+  remove:()=>void;
   confirm:(index:number, value:number)=>void;
 }
 
@@ -45,7 +45,7 @@ function UserDataRow(props:Props)
           variant="contained" 
           onClick={event => 
           {
-              props.remove(props.index);
+              props.remove();
           }}
         >
           X

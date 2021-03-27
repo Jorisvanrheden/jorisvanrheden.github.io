@@ -2,7 +2,7 @@ import DataBaseCache from "./DataBaseCache";
 
 export default class DataBaseLocal
 {
-    databaseCache:DataBaseCache = new DataBaseCache();
+    databaseCache:DataBaseCache = new DataBaseCache("");
     callback:any = null;
 
     constructor()
