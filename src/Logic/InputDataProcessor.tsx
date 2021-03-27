@@ -8,11 +8,6 @@ export default class InputDataProcessor
 {
     entries:Array<DataEntry> = [];
 
-    constructor()
-    {
-
-    }
-
     addDataEntry(value:number, date:string)
     {
         this.entries.push({value: value, date:date });

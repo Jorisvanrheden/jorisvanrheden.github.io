@@ -14,8 +14,8 @@ import DataContainer from './Components/DataContainer'
 
 let userDataBase = new DataBaseOnline();
 
-let REMOVE_CACHED_USER = "";
-let REMOVE_CACHED_DATE = new Date().toISOString().substring(0, 10);
+let USER_CACHE = "";
+let DATE_CACHE = "";
 
 function WebsiteMain() {
   const [input, setInput] = useState([0]);
@@ -25,10 +25,12 @@ function WebsiteMain() {
   const [activeDate, setActiveDate] = useState(new Date().toISOString().substring(0, 10));
   const [dataLoaded, setDataLoaded] = useState(false);
 
-  //TODO: use the dataLoaded flag to determine whether anything can be drawn to the screen
   if(!dataLoaded)
   {
     //Initialization flag
+
+    USER_CACHE = userName;
+    DATE_CACHE = activeDate;
 
     //What to initialize:
     //- UserDataBase (maybe even return an entire UserDataBase)
@@ -40,32 +42,29 @@ function WebsiteMain() {
     setDataLoaded(true);
   }
 
-  function processUserSelection(userName)
+  function processUserSelection(name)
   {
-    REMOVE_CACHED_USER = userName;
+    USER_CACHE = name;
 
     //Update the user name
-    setUserName(userName);
-
-    //Update the entries associated with that user name
-    let activeUser = userDataBase.databaseCache.getUser(REMOVE_CACHED_USER);
-    // if(activeUser!==null)
-    // {
-    //   activeUser.update(activeDate);
-    // }
+    setUserName(name);
+    
+    //Only read out data from the cache, as user selection does not change the database
+    let activeUser = userDataBase.databaseCache.getUser(name);
     if(activeUser!==null)
     {
-      setUserEntries(activeUser.getDistancesOnDate(REMOVE_CACHED_DATE));
+      setUserEntries(activeUser.getDistancesOnDate(activeDate));
     }
   }
 
   function updateData()
   {
-    //TODO: refactor into maybe a different callback
-    let activeUser = userDataBase.databaseCache.getUser(REMOVE_CACHED_USER);
+    console.log(USER_CACHE, DATE_CACHE);
+    //Updating the GUI
+    let activeUser = userDataBase.databaseCache.getUser(USER_CACHE);
     if(activeUser!==null)
     {
-      setUserEntries(activeUser.getDistancesOnDate(REMOVE_CACHED_DATE));
+      setUserEntries(activeUser.getDistancesOnDate(DATE_CACHE));
     }
 
     //Go through all users in the user collection
@@ -114,22 +113,22 @@ function WebsiteMain() {
 
   function addEntry(user)
   {
-    userDataBase.add(user.name, REMOVE_CACHED_DATE, 0);
+    userDataBase.add(user, activeDate, 0);
   }
 
   function removeEntry(user, index)
   {
-    userDataBase.remove(user.name, REMOVE_CACHED_DATE, index);
+    userDataBase.remove(user, activeDate, index);
   }
 
   function modifyEntry(user, index, value)
   {
-    userDataBase.edit(user.name, REMOVE_CACHED_DATE, index, value);
+    userDataBase.edit(user, activeDate, index, value);
   }
 
   function modifyDate(user, date)
   {
-    REMOVE_CACHED_DATE = date;
+    DATE_CACHE = date;
 
     setActiveDate(date);
 

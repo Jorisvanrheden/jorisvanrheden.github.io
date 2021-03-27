@@ -9,10 +9,8 @@ export default class DataBaseOnline
     databaseCache:DataBaseCache = new DataBaseCache();
     callback:any = null;
 
-    constructor()
-    {
-
-    }
+    lastUser:string = "";
+    lastDate:string = "";
 
     init(callback:any)
     {
@@ -59,7 +57,7 @@ export default class DataBaseOnline
     add(name:string, date:string, value:number)
     {
         let userDateInput = database.ref("users/" + name + "/" + date);
-        
+ 
         userDateInput.get().then(function(snapshot) {
 
             //Emtpy array in case no entry exists yet

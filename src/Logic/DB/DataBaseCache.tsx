@@ -58,11 +58,6 @@ export default class DataBaseCache
 {
     users:Array<User> = [];
 
-    constructor()
-    {
-
-    }
-
     add(name:string, date:string, value:number)
     {
         let user = this.getUser(name);
