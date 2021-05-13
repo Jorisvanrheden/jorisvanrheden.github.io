@@ -1,0 +1,39 @@
+.showcase-body
+{
+    background-color: rgb(243, 243, 243);
+    width: 20vw;
+    height: 20vw;
+    border-radius: 4px;
+    cursor: pointer;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(56, 56, 56);
+
+    /* Hide the overlapping children elements for active border radius */
+    overflow: hidden;
+
+    margin: 10px;
+}
+
+.showcase-content
+{
+    background-color: rgb(243, 243, 243);
+    height: 80%;
+    transition: all 0.3s ease;
+}
+.showcase-content:hover
+{
+    background-color: rgb(185, 228, 224);
+}
+
+.showcase-info
+{
+    background-color: rgb(182, 182, 182);
+    padding:8px;
+}
+
+.showcase-description
+{
+    height: 20%;
+    text-align: left;
+}

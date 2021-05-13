@@ -1,0 +1,41 @@
+.Navbar
+{
+    background: linear-gradient(90deg, rgb(59, 59, 59), rgb(100, 100, 100));
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+.NavbarMenu
+{
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    grid-gap: 10px;
+    list-style: none;
+    /* this one doesnt seem to do anything, is not necessary here */
+    text-align: center;
+    width: 90vh;
+    justify-content: end; 
+    margin-right: 2rem;
+}
+
+.nav-item
+{
+    color: white;
+    text-decoration:none;
+    padding: 0.5rem 1rem;
+}
+.nav-item:hover
+{
+    background-color: #797979;
+    border-radius: 4px;
+    transition: all 0.3s ease-out;
+}
+
+.nav-icon
+{
+    color: white;
+    cursor: pointer;
+}
