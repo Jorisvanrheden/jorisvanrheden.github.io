@@ -7,8 +7,7 @@ export default function ShowcaseElement()
             <img className="showcase-content" src="bloem.jpg" alt="ss"></img>
             <div className="showcase-info">
                 <div className="showcase-description">
-                    This is a super awesome project where i did this and that.
-                    Checking hwo new lines work;
+                    Placeholder description
                 </div>
             </div>        
         </div>
