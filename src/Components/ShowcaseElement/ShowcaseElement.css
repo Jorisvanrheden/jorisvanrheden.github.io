@@ -9,7 +9,7 @@
     border-width: 1px;
     border-color: rgb(56, 56, 56);
 
-    /* Hide the overlapping children elements for active border radius */
+    /* hide the overlapping children elements for active border radius */
     overflow: hidden;
 
     margin: 10px;
@@ -20,20 +20,38 @@
     background-color: rgb(243, 243, 243);
     height: 80%;
     transition: all 0.3s ease;
+
+    overflow: hidden;
 }
 .showcase-content:hover
 {
     background-color: rgb(185, 228, 224);
 }
 
+.showcase-image
+{
+    display: block;
+    margin: auto;
+    height: 100%;
+
+    transform:scale(1);
+    transition: all 0.3s ease;
+}
+.showcase-image:hover
+{
+    transform:scale(1.1);
+}
+
 .showcase-info
 {
-    background-color: rgb(182, 182, 182);
-    padding:8px;
+    background-color: rgb(194, 186, 186);
+    height: 20%;
+
+    /* define the padding for the text in this control */
+    padding: 3px;
 }
 
 .showcase-description
 {
-    height: 20%;
     text-align: left;
 }

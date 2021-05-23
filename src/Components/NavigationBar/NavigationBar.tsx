@@ -23,16 +23,11 @@ export default function Navigationbar()
     }
 
     return(
-        <div className="Navbar">
-            <div className="nav-icon">
-                <i className={getActiveIcon(opened)}
-                   onClick={event =>
-                    {
-                        setOpened(!opened);
-                    }}
-                />
+        <div className="nav">
+            <div className="nav-title">
+                Joris van Rheden
             </div>
-            <ul className="NavbarMenu">
+            <ul className="nav-menu">
                 {/* using curly braces for scripting in a div element */}
                 {
                     menuItems.map((item:NavigationMenuItem, index) => 
