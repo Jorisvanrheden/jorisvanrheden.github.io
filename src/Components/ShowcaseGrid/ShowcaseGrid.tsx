@@ -17,13 +17,6 @@ let menuItems: Array<ShowcaseItem> =
     {title: "Test", description: "Pathfinding", image: "TestURL"},
     {title: "Test", description: "test description", image: "TestURL"},
     {title: "Test", description: "test description", image: "TestURL"},
-    {title: "Test", description: "test description", image: "TestURL"},
-    {title: "Test", description: "test description", image: "TestURL"},
-    {title: "Test", description: "test description", image: "TestURL"},
-    {title: "Test", description: "test description", image: "TestURL"},
-    {title: "Test", description: "test description", image: "TestURL"},
-    {title: "Test", description: "test description", image: "TestURL"},
-    {title: "Test", description: "test description", image: "TestURL"},
     {title: "Test", description: "test description", image: "TestURL"}
 ]
 

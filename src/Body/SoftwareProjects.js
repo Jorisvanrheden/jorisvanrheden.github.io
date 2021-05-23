@@ -1,14 +1,12 @@
-import "./WebsiteMainContainer.css"
+import "./Home.css"
 
 //component imports
 import NavigationBar from '../Components/NavigationBar/NavigationBar'
-import ShowcaseGrid from '../Components/ShowcaseGrid/ShowcaseGrid'
 
-export default function WebsiteMainContainer() {
+export default function SoftwareProjects() {
   return (
   <div className="WebsiteMainContainer">
     <NavigationBar/>
-    <ShowcaseGrid/>
   </div>
   );
 }

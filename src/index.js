@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import WebsiteMainContainer from './Body/WebsiteMainContainer';
+
+import Master from './Pages/Main'
 
 ReactDOM.render(
   <React.StrictMode>
-    <WebsiteMainContainer/>
+    <Master/>
   </React.StrictMode>,
   document.getElementById('root')
 );

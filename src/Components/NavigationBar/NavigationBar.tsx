@@ -1,16 +1,20 @@
-import NavigationMenuItem from "./NavigationMenuItems"
-
 //styling imports
 import "./NavigationBar.css"
 import { useState } from "react";
 
+interface NavigationMenuItem
+{
+    title:string;
+    class:string,
+    url:string;
+}
+
 let menuItems: Array<NavigationMenuItem> =
 [
-    {title: "Home", class: "nav-item", url: "TestURL"},
-    {title: "About", class: "nav-item", url: "TestURL"},
-    {title: "Software Projects", class: "nav-item", url: "TestURL"},
-    {title: "Development", class: "nav-item", url: "TestURL"},
-    {title: "Piano/Music", class: "nav-item", url: "TestURL"}
+    {title: "Home", class: "nav-item", url: "/"},
+    {title: "About", class: "nav-item", url: "/about"},
+    {title: "Software Projects", class: "nav-item", url: "/software"},
+    {title: "Youtube", class: "nav-item", url: "/youtube"},
 ]
 
 export default function Navigationbar()
