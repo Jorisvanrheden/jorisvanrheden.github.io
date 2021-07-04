@@ -27,7 +27,7 @@ export default function NavigationGrid() {
     return grid;
   }
 
-  function handleMouseDown(x:number, y:number)
+  function toggleNodeGridStatus(x:number, y:number)
   {
     const gridCopy = tiles.slice();
 
@@ -35,13 +35,38 @@ export default function NavigationGrid() {
     const updatedNode = {...node, walkable:!node.walkable};
 
     gridCopy[x][y] = updatedNode;
-
+    
     setTiles(gridCopy);
+  }
+
+  function animateAllTest()
+  {
+    const gridCopy = tiles.slice();
+
+    let index = 0;
+
+    for(let i=0;i<gridCopy.length;i++)
+    {
+      const row = gridCopy[i];
+      for(let j=0;j<row.length;j++)
+      {
+        setTimeout(() => {
+          toggleNodeGridStatus(i,j);
+        }, 50 * (index));
+
+        index++;
+      }
+    }
+  }
+
+  function handleMouseDown(x:number, y:number)
+  {
+    toggleNodeGridStatus(x,y);
   }
 
   return (
     <div>
-      <button>
+      <button onClick={()=>animateAllTest()}>
           Testing how this works
       </button>
 
