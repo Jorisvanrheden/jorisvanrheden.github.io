@@ -8,6 +8,7 @@ interface Props
     walkable:boolean;
 
     processMouseClick:(x:number, y:number) => void;
+    processMouseEnter:(x:number, y:number) => void;
 }
 
 export default function GridNode(props:Props)
@@ -25,8 +26,8 @@ export default function GridNode(props:Props)
             className={getCellStyle()}
 
             onMouseDown={()=>props.processMouseClick(props.x, props.y)}
+            onMouseEnter={()=>props.processMouseEnter(props.x, props.y)}
         >
-
         </div>
     )
 }

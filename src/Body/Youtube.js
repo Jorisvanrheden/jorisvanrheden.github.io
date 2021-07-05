@@ -9,10 +9,10 @@ export default function Youtube() {
   <div className="WebsiteMainContainer">
     <NavigationBar/>
     <YoutubeEmbed 
-      description="Hello Minyu. Joris loves you"
+      description="Testing first link"
       url="https://www.youtube.com/embed/rbQ-Hn2hN8o"/>
     <YoutubeEmbed 
-      description="This is the song"
+      description="And second one"
       url="https://www.youtube.com/embed/SvuitFzDxDg"/>      
     <a href="https://www.youtube.com/user/joris1992">Youtube Channel</a>
   </div>

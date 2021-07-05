@@ -1,29 +1,35 @@
-export class Tile
+export abstract class IPathfindable
 {
-    walkable:boolean = false;
+    abstract getName():string;
+    abstract calculatePath():void;
 }
 
-export default class Grid
+export class AStar extends IPathfindable
 {
-    values:Tile[][] = [];
+    getName(): string {
+        return "AStar"
+    }
+    calculatePath(): void {
+        console.log("Astar algo");
+    }    
+}
 
-    constructor(xSize:number, ySize:number)
+export class Dijkstra extends IPathfindable
+{
+    getName(): string {
+        return "Dijkstra"
+    }
+    calculatePath(): void {
+        console.log("Dijkstra algo");
+    }    
+}
+
+export default class Pathfinder
+{
+    getName(){};
+    
+    calculatePath(pathfinder:IPathfindable)
     {
-        for(let i=0;i<xSize;i++)
-        {
-            this.values[i] = [];
-
-            for(let j=0;j<ySize;j++)
-            {
-                let tile:Tile = new Tile();
-
-                if(Math.random() > 0.5)
-                {
-                    tile.walkable = true;
-                }
-
-                this.values[i][j] = tile;
-            }
-        }
+        pathfinder.calculatePath();
     }
 }
