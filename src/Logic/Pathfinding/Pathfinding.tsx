@@ -1,3 +1,5 @@
+import Grid from "../Pathfinding/Grid"
+
 export abstract class IPathfindable
 {
     abstract getName():string;
@@ -28,7 +30,7 @@ export default class Pathfinder
 {
     getName(){};
     
-    calculatePath(pathfinder:IPathfindable)
+    calculatePath(grid:Grid, pathfinder:IPathfindable)
     {
         pathfinder.calculatePath();
     }

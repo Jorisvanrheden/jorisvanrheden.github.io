@@ -5,13 +5,22 @@ import { useState } from "react";
 
 //Logic imports
 import {IPathfindable} from "../../Logic/Pathfinding/Pathfinding";
+import Grid from "../../Logic/Pathfinding/Grid";
+import {IAction, DefaultAction, ToggleAction, StartAction} from "../../Logic/Pathfinding/Action";
 
 interface Props
 {
+  grid:Grid;
+
   pathTypes:IPathfindable[];
 
   setType:(index:number) => void;
 }
+
+
+
+let activeAction:IAction = new DefaultAction();
+
 
 let isMouseDown = false;
 
@@ -23,55 +32,33 @@ document.body.onmouseup = function() {
 }
 
 export default function NavigationGrid(props:Props) {
-  const [tiles, setTiles] = useState(initializeGrid());
+  const [tiles, setTiles] = useState(props.grid.getTiles());
 
-  function initializeGrid() 
+  function callback(grid:any)
   {
-    const grid:any = [];
-
-    for(let i=0;i<10;i++)
-    {
-        const row:any = [];
-        for(let j=0;j<20;j++)
-        {
-            const gridNode:any = {x:i, y:j, walkable:true};
-            row.push(gridNode);
-        }
-
-        grid.push(row);
-    }
-
-    return grid;
+    setTiles(grid);
   }
 
-  function toggleNodeGridStatus(x:number, y:number)
+  function clearGrid()
   {
-    const gridCopy = tiles.slice();
-
-    const node = gridCopy[x][y];
-    const updatedNode = {...node, walkable:!node.walkable};
-
-    gridCopy[x][y] = updatedNode;
-    
-    setTiles(gridCopy);
+    props.grid.clear();
+    setTiles(props.grid.getTiles());
   }
 
   function handleMouseDown(x:number, y:number)
   {
-    toggleNodeGridStatus(x,y);
+    activeAction.process(x, y);
   }
 
   function handleMouseEnter(x:number, y:number)
   {
     if(!isMouseDown) return;
 
-    toggleNodeGridStatus(x,y);
+    // toggleNodeGridStatus(x,y);
   }
 
   return (
     <div>
-     
-
       <h1>Choose from the wonderful selection of pathfinding goodies</h1>
       <h3>Features:</h3>
       <ul>
@@ -81,8 +68,7 @@ export default function NavigationGrid(props:Props) {
         <li>animation speed regulations</li>
         <li>direct path calculation</li>
         <li>map editor</li>
-      </ul>
-      
+      </ul> 
       {
         props.pathTypes.map((value:IPathfindable, index:number) => 
         (
@@ -92,13 +78,19 @@ export default function NavigationGrid(props:Props) {
         ))
       }
 
-      {/* <button onClick={()=>pathfinder.calculatePath(activeMethod)}>
-          Calculate?!
-      </button> */}
+      <button onClick={()=>clearGrid()}>
+          Clear grid
+      </button>
 
-      <table className="table"
-      >
-      
+      <button onClick={()=>activeAction = new ToggleAction(props.grid, callback)}>
+          Toggle
+      </button>
+
+      <button onClick={()=>activeAction = new StartAction(props.grid, callback)}>
+          Set Start
+      </button>
+
+      <table className="table">      
         {tiles.map((row: any[], xIndex: number) => (
           <tr>
             {row.map((item: any, yIndex: number) => (
@@ -108,6 +100,7 @@ export default function NavigationGrid(props:Props) {
                     y={yIndex}
 
                     walkable={item.walkable}
+                    status={item.status}
 
                     processMouseClick={handleMouseDown}
                     processMouseEnter={handleMouseEnter}

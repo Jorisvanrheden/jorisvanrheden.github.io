@@ -9,7 +9,7 @@ interface NavigationMenuItem
     url:string;
 }
 
-let menuItems: Array<NavigationMenuItem> =
+const menuItems: Array<NavigationMenuItem> =
 [
     {title: "Home", class: "nav-item", url: "/"},
     {title: "About", class: "nav-item", url: "/about"},

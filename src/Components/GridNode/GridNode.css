@@ -35,3 +35,12 @@
 .light:hover {
   background-color: rgb(173, 204, 255);
 }
+
+.start
+{
+  background-color: rgb(79, 182, 101);
+}
+.target
+{
+  background-color: rgb(214, 231, 56);
+}

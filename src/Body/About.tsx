@@ -7,6 +7,7 @@ import NavigationGrid from "../Components/NavigationGrid/NavigationGrid"
 
 //Logic imports
 import {AStar, Dijkstra, IPathfindable} from "../Logic/Pathfinding/Pathfinding";
+import Grid from "../Logic/Pathfinding/Grid";
 
 export default function About()
 {
@@ -21,7 +22,7 @@ export default function About()
     <div className="WebsiteMainContainer"   
     >
       <NavigationBar/>
-      <NavigationGrid pathTypes={pathTypes} setType={setType}/>
+      <NavigationGrid grid={new Grid(10,10)} pathTypes={pathTypes} setType={setType}/>
     </div>
   )  
 }
