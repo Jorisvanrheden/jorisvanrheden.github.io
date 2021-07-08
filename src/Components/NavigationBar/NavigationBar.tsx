@@ -1,6 +1,5 @@
 //styling imports
 import "./NavigationBar.css"
-import { useState } from "react";
 
 interface NavigationMenuItem
 {
@@ -19,13 +18,6 @@ const menuItems: Array<NavigationMenuItem> =
 
 export default function Navigationbar()
 {
-    const [opened, setOpened] = useState(false);
-
-    function getActiveIcon(status:boolean)
-    {
-        return status ? "fas fa-times" : "fas fa-bars";
-    }
-
     return(
         <div className="nav">
             <div className="nav-title">

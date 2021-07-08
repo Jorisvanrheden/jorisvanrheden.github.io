@@ -6,7 +6,7 @@ import { useState } from "react";
 //Logic imports
 import {IPathfindable} from "../../Logic/Pathfinding/Pathfinding";
 import Grid from "../../Logic/Pathfinding/Grid";
-import {IAction, DefaultAction, ToggleAction, StartAction} from "../../Logic/Pathfinding/Action";
+import {IAction, DefaultAction, ToggleAction, StartAction, TargetAction, CalculateAction} from "../../Logic/Pathfinding/Action";
 
 interface Props
 {
@@ -15,6 +15,7 @@ interface Props
   pathTypes:IPathfindable[];
 
   setType:(index:number) => void;
+  calculate:(grid:Grid, start:any, target:any) => void;
 }
 
 
@@ -33,6 +34,8 @@ document.body.onmouseup = function() {
 
 export default function NavigationGrid(props:Props) {
   const [tiles, setTiles] = useState(props.grid.getTiles());
+  const [start, setStart] = useState({x: -1, y: -1});
+  const [target, setTarget] = useState({x: -1, y: -1});
 
   function callback(grid:any)
   {
@@ -43,6 +46,20 @@ export default function NavigationGrid(props:Props) {
   {
     props.grid.clear();
     setTiles(props.grid.getTiles());
+  }
+
+  function drawTest()
+  {
+    props.calculate(props.grid, start, target);
+
+    for(let i=0;i<props.grid.latestVisitedNodes.length;i++)
+    {
+      setTimeout(() => {
+        props.grid.setVisited(props.grid.latestVisitedNodes[i].x,
+                              props.grid.latestVisitedNodes[i].y);
+        setTiles(props.grid.getTiles());                    
+      }, i*100);
+    }
   }
 
   function handleMouseDown(x:number, y:number)
@@ -69,27 +86,39 @@ export default function NavigationGrid(props:Props) {
         <li>direct path calculation</li>
         <li>map editor</li>
       </ul> 
+
+      <div>
       {
         props.pathTypes.map((value:IPathfindable, index:number) => 
         (
           <button onClick={()=>props.setType(index)}>
-            {value.getName()}
-          </button>
+              {value.getName()}
+          </button>          
         ))
       }
+      </div>
+      
+      <div>
+        <button onClick={()=>clearGrid()}>
+            Clear grid
+        </button>
 
-      <button onClick={()=>clearGrid()}>
-          Clear grid
-      </button>
+        <button onClick={()=>activeAction = new ToggleAction(props.grid, callback)}>
+            Toggle
+        </button>
 
-      <button onClick={()=>activeAction = new ToggleAction(props.grid, callback)}>
-          Toggle
-      </button>
+        <button onClick={()=>activeAction = new StartAction(props.grid, callback, setStart)}>
+            Set Start
+        </button>
 
-      <button onClick={()=>activeAction = new StartAction(props.grid, callback)}>
-          Set Start
-      </button>
+        <button onClick={()=>activeAction = new TargetAction(props.grid, callback, setTarget)}>
+            Set Target
+        </button>
 
+        <button onClick={()=>drawTest()}>
+            Calculate!
+        </button>
+      </div>
       <table className="table">      
         {tiles.map((row: any[], xIndex: number) => (
           <tr>

@@ -44,3 +44,10 @@
 {
   background-color: rgb(214, 231, 56);
 }
+.visited
+{
+  background-color: rgb(229, 65, 235);
+
+  animation-name: pop-in;
+  animation-duration: 0.3s;
+}

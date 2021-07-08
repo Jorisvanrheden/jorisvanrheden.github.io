@@ -5,6 +5,8 @@ export default class Grid
 
   private tiles:any = [];
 
+  latestVisitedNodes:any = [];
+
   constructor(xSize:number, ySize:number)
   {
     this.xSize = xSize;
@@ -35,6 +37,8 @@ export default class Grid
   clear()
   {
     this.tiles = this.initializeTiles();
+
+    this.latestVisitedNodes = [];
   }
 
   toggleWalkable(x:number, y:number)
@@ -42,6 +46,7 @@ export default class Grid
     this.tiles[x][y].walkable = !this.tiles[x][y].walkable;
   }
 
+  /***Status setters***/
   setStart(x:number, y:number)
   {
     //Unset any other start values
@@ -49,7 +54,10 @@ export default class Grid
     {     
       for(let j=0;j<this.ySize;j++)
       {
-        this.tiles[i][j].status = 0;
+        if(this.tiles[i][j].status === 1)
+        {
+          this.tiles[i][j].status = 0;
+        }
       }
     }
 
@@ -62,15 +70,68 @@ export default class Grid
     {     
       for(let j=0;j<this.ySize;j++)
       {
-        this.tiles[i][j].status = 0;
+        if(this.tiles[i][j].status === 2)
+        {
+          this.tiles[i][j].status = 0;
+        }
       }
     }
 
     this.tiles[x][y].status = 2;
+  }
+  setVisited(x:number, y:number)
+  {
+    this.tiles[x][y].status = 3;
+  }
+  /***Status setters***/
+
+
+  addVisitedNode(coordinate:any)
+  {
+    if(this.visitedCollectionContainsNode(coordinate)) return;
+
+    //only add default tiles
+    if(this.tiles[coordinate.x][coordinate.y].status !== 0) return;
+
+    this.latestVisitedNodes.push(coordinate);
+  }
+
+  getNeighboringTiles(coordinate:any)
+  {
+    let neighbors:any = [];
+
+    if(this.isValidTileCoordinate(coordinate.x-1, coordinate.y)) neighbors.push({x: coordinate.x-1, y:coordinate.y});
+    if(this.isValidTileCoordinate(coordinate.x+1, coordinate.y)) neighbors.push({x: coordinate.x+1, y:coordinate.y});
+    if(this.isValidTileCoordinate(coordinate.x, coordinate.y-1)) neighbors.push({x: coordinate.x, y:coordinate.y-1});
+    if(this.isValidTileCoordinate(coordinate.x, coordinate.y+1)) neighbors.push({x:coordinate. x, y:coordinate.y+1});
+
+    return neighbors;
   }
 
   getTiles()
   {
     return this.tiles.slice();
   }
+
+  /***Helper functions***/
+  isValidTileCoordinate(x:number, y:number)
+  {
+    if(x < 0 || x >= this.tiles.length) return false;
+    if(y < 0 || y >= this.tiles[0].length) return false;
+
+    return this.tiles[x][y].walkable;
+  }
+
+  visitedCollectionContainsNode(coordinate:any)
+  {
+    for(let i=0;i<this.latestVisitedNodes.length;i++)
+    {
+      if(this.latestVisitedNodes[i].x === coordinate.x &&
+         this.latestVisitedNodes[i].y === coordinate.y) return true;
+    }
+
+    return false;
+  }
+  /***Helper functions***/
+  
 }
