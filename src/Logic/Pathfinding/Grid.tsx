@@ -5,8 +5,6 @@ export default class Grid
 
   private tiles:any = [];
 
-  latestVisitedNodes:any = [];
-
   constructor(xSize:number, ySize:number)
   {
     this.xSize = xSize;
@@ -37,8 +35,6 @@ export default class Grid
   clear()
   {
     this.tiles = this.initializeTiles();
-
-    this.latestVisitedNodes = [];
   }
 
   toggleWalkable(x:number, y:number)
@@ -85,17 +81,6 @@ export default class Grid
   }
   /***Status setters***/
 
-
-  addVisitedNode(coordinate:any)
-  {
-    if(this.visitedCollectionContainsNode(coordinate)) return;
-
-    //only add default tiles
-    if(this.tiles[coordinate.x][coordinate.y].status !== 0) return;
-
-    this.latestVisitedNodes.push(coordinate);
-  }
-
   getNeighboringTiles(coordinate:any)
   {
     let neighbors:any = [];
@@ -122,15 +107,9 @@ export default class Grid
     return this.tiles[x][y].walkable;
   }
 
-  visitedCollectionContainsNode(coordinate:any)
+  getStatus(x:number, y:number)
   {
-    for(let i=0;i<this.latestVisitedNodes.length;i++)
-    {
-      if(this.latestVisitedNodes[i].x === coordinate.x &&
-         this.latestVisitedNodes[i].y === coordinate.y) return true;
-    }
-
-    return false;
+    return this.tiles[x][y].status;
   }
   /***Helper functions***/
   

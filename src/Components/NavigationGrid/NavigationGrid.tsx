@@ -15,10 +15,8 @@ interface Props
   pathTypes:IPathfindable[];
 
   setType:(index:number) => void;
-  calculate:(grid:Grid, start:any, target:any) => void;
+  calculate:(grid:Grid, start:any, target:any) => any;
 }
-
-
 
 let activeAction:IAction = new DefaultAction();
 
@@ -50,15 +48,16 @@ export default function NavigationGrid(props:Props) {
 
   function drawTest()
   {
-    props.calculate(props.grid, start, target);
+    const data = props.calculate(props.grid, start, target);
 
-    for(let i=0;i<props.grid.latestVisitedNodes.length;i++)
+    console.log(data);
+
+    for(let i=0;i<data.visitedNodes.length;i++)
     {
       setTimeout(() => {
-        props.grid.setVisited(props.grid.latestVisitedNodes[i].x,
-                              props.grid.latestVisitedNodes[i].y);
+        props.grid.setVisited(data.visitedNodes[i].x, data.visitedNodes[i].y);
         setTiles(props.grid.getTiles());                    
-      }, i*100);
+      }, i*50);
     }
   }
 
@@ -71,7 +70,8 @@ export default function NavigationGrid(props:Props) {
   {
     if(!isMouseDown) return;
 
-    // toggleNodeGridStatus(x,y);
+    activeAction = new ToggleAction(props.grid, callback)
+    activeAction.process(x, y);
   }
 
   return (

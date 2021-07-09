@@ -8,12 +8,12 @@ import NavigationBar from '../Components/NavigationBar/NavigationBar'
 import NavigationGrid from "../Components/NavigationGrid/NavigationGrid"
 
 //Logic imports
-import {AStar, Dijkstra, IPathfindable} from "../Logic/Pathfinding/Pathfinding";
+import {DFS, BFS, AStar, Dijkstra, IPathfindable} from "../Logic/Pathfinding/Pathfinding";
 import Grid from "../Logic/Pathfinding/Grid";
 
 export default function About()
 {
-  const pathTypes:IPathfindable[] = [new AStar(), new Dijkstra()];
+  const pathTypes:IPathfindable[] = [new BFS(), new DFS(), new AStar(), new Dijkstra()];
   
   const [index, setIndex] = useState(0);
 
@@ -24,7 +24,7 @@ export default function About()
 
   function calculate(grid:Grid, start:any, target:any)
   {
-    pathTypes[index].calculatePath(grid, start, target);
+    return pathTypes[index].calculatePath(grid, start, target);
   }
 
   return(
@@ -32,7 +32,7 @@ export default function About()
     >
       <NavigationBar/>
       <NavigationGrid 
-      grid={new Grid(10,10)} 
+      grid={new Grid(20, 20)} 
       pathTypes={pathTypes} 
       setType={setType}
       calculate={calculate}/>
