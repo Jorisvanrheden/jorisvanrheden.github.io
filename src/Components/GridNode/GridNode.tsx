@@ -37,6 +37,9 @@ export default function GridNode(props:Props)
                 case 3:
                     style+="visited ";
                     break;
+                case 4:
+                    style+="path ";
+                    break;
                 default:
                     style+="light ";
                     break;

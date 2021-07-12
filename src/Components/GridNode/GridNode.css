@@ -51,7 +51,7 @@
 }
 .target
 {
-  background-color: rgb(214, 231, 56);
+  background-color: rgb(235, 65, 108);
 }
 .visited
 {
@@ -59,4 +59,13 @@
 
   animation-name: pop-out;
   animation-duration: 0.3s;
+}
+.path
+{
+  background-color: rgb(62, 75, 255);
+
+  animation-name: pop-out;
+  animation-duration: 0.3s;
+
+  border-radius: 2px;
 }

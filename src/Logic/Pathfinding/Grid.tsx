@@ -5,6 +5,12 @@ export default class Grid
 
   private tiles:any = [];
 
+  private DEFAULT:number = 0;
+  private START:number = 1;
+  private TARGET:number = 2;
+  private VISITED:number = 3;
+  private PATH:number = 4;
+
   constructor(xSize:number, ySize:number)
   {
     this.xSize = xSize;
@@ -37,6 +43,25 @@ export default class Grid
     this.tiles = this.initializeTiles();
   }
 
+  resetStatuses()
+  {
+    //Unset any other start values
+    for(let i=0;i<this.xSize;i++)
+    {     
+      for(let j=0;j<this.ySize;j++)
+      {
+        //skip non-walkable tiles
+        if(!this.tiles[i][j].walkable) continue;
+
+        //skip start/target tiles
+        if(this.tiles[i][j].status === this.START) continue;
+        if(this.tiles[i][j].status === this.TARGET) continue;
+
+        this.tiles[i][j].status = this.DEFAULT;
+      }
+    }
+  }
+
   toggleWalkable(x:number, y:number)
   {
     this.tiles[x][y].walkable = !this.tiles[x][y].walkable;
@@ -50,14 +75,14 @@ export default class Grid
     {     
       for(let j=0;j<this.ySize;j++)
       {
-        if(this.tiles[i][j].status === 1)
+        if(this.tiles[i][j].status === this.START)
         {
-          this.tiles[i][j].status = 0;
+          this.tiles[i][j].status = this.DEFAULT;
         }
       }
     }
 
-    this.tiles[x][y].status = 1;
+    this.tiles[x][y].status = this.START;
   }
   setTarget(x:number, y:number)
   {
@@ -66,28 +91,52 @@ export default class Grid
     {     
       for(let j=0;j<this.ySize;j++)
       {
-        if(this.tiles[i][j].status === 2)
+        if(this.tiles[i][j].status === this.TARGET)
         {
-          this.tiles[i][j].status = 0;
+          this.tiles[i][j].status = this.DEFAULT;
         }
       }
     }
 
-    this.tiles[x][y].status = 2;
+    this.tiles[x][y].status = this.TARGET;
   }
   setVisited(x:number, y:number)
   {
-    this.tiles[x][y].status = 3;
+    this.tiles[x][y].status = this.VISITED;
+  }
+  setPath(x:number, y:number)
+  {
+    this.tiles[x][y].status = this.PATH;
   }
   /***Status setters***/
+
+  randomize()
+  {
+    for(let i=0;i<this.xSize;i++)
+    {     
+      for(let j=0;j<this.ySize;j++)
+      {
+        //start and target tiles should not be set to non-walkable
+        if(this.tiles[i][j].status === this.START ||
+           this.tiles[i][j].status === this.TARGET)
+        {
+           this.tiles[i][j].walkable = true;    
+        }
+        else
+        {
+          this.tiles[i][j].walkable = Math.random() > 0.3;
+        }
+      }
+    }
+  }
 
   getNeighboringTiles(coordinate:any)
   {
     let neighbors:any = [];
 
     if(this.isValidTileCoordinate(coordinate.x-1, coordinate.y)) neighbors.push({x: coordinate.x-1, y:coordinate.y});
-    if(this.isValidTileCoordinate(coordinate.x+1, coordinate.y)) neighbors.push({x: coordinate.x+1, y:coordinate.y});
     if(this.isValidTileCoordinate(coordinate.x, coordinate.y-1)) neighbors.push({x: coordinate.x, y:coordinate.y-1});
+    if(this.isValidTileCoordinate(coordinate.x+1, coordinate.y)) neighbors.push({x: coordinate.x+1, y:coordinate.y});
     if(this.isValidTileCoordinate(coordinate.x, coordinate.y+1)) neighbors.push({x:coordinate. x, y:coordinate.y+1});
 
     return neighbors;

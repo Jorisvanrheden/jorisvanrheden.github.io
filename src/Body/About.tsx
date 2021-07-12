@@ -11,6 +11,8 @@ import NavigationGrid from "../Components/NavigationGrid/NavigationGrid"
 import {DFS, BFS, AStar, Dijkstra, IPathfindable} from "../Logic/Pathfinding/Pathfinding";
 import Grid from "../Logic/Pathfinding/Grid";
 
+const grid:Grid = new Grid(30,30);
+
 export default function About()
 {
   const pathTypes:IPathfindable[] = [new BFS(), new DFS(), new AStar(), new Dijkstra()];
@@ -32,8 +34,9 @@ export default function About()
     >
       <NavigationBar/>
       <NavigationGrid 
-      grid={new Grid(20, 20)} 
+      grid={grid} 
       pathTypes={pathTypes} 
+      activeType={index}
       setType={setType}
       calculate={calculate}/>
     </div>

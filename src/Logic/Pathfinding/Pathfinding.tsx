@@ -14,6 +14,25 @@ export abstract class IPathfindable
         }
         return false;
     }
+
+    constructPath(target:any)
+    {
+        let path:any[] = [];
+        
+        let activeNode = target;
+
+        while(activeNode.link != null)
+        {
+            path.push(activeNode);
+
+            activeNode = activeNode.link;
+        }
+
+        //remove target from list
+        if(path.length>0)path.splice(0,1);
+
+        return path.reverse();
+    }
 }
 
 export class AStar extends IPathfindable
@@ -40,13 +59,13 @@ export class AStar extends IPathfindable
             //add neighbors to queue, but only if not processed before
             for(let i=0;i<neighbors.length;i++)
             {
-                if(neighbors[i].x === target.x &&
-                   neighbors[i].y === target.y) return visitedNodes;
-
                 if(grid.getStatus(neighbors[i].x, neighbors[i].y) !== 0) continue;                
                 
                 if(!this.collectionContains(visitedNodes, neighbors[i]))
                 {
+                    if(neighbors[i].x === target.x &&
+                       neighbors[i].y === target.y) return visitedNodes;
+
                     visitedNodes.push(neighbors[i]);
 
                     //add to queue
@@ -79,31 +98,55 @@ export class DFS extends IPathfindable
         return "DFS"
     }
 
+    recurse(visitedNodes:any[], grid:Grid, activeNode:any, target:any):Boolean
+    {
+        //find neighbors of active node
+        const neighbors:any[] = grid.getNeighboringTiles(activeNode);
+        for(let i=0;i<neighbors.length;i++)
+        {
+            //if the target is found, return
+            if(neighbors[i].x === target.x &&
+               neighbors[i].y === target.y)
+            {
+                target.link = activeNode;
+                return true;
+            } 
+
+            if(grid.getStatus(neighbors[i].x, neighbors[i].y) !== 0) continue;   
+            
+            //store the connected node
+            neighbors[i].link = activeNode;
+            
+            if(!this.collectionContains(visitedNodes, neighbors[i]))
+            {
+                //add the active node to the visited nodes list
+                visitedNodes.push(neighbors[i]);
+
+                const foundTarget = this.recurse(visitedNodes, grid, neighbors[i], target);
+
+                //stop searching only if the target has been found
+                if(foundTarget) return foundTarget;
+            }        
+        }
+
+        return false;
+    }
+
     process(grid:Grid, start:any, target:any)
     {
-        // const neighbors:any[] = grid.getNeighboringTiles(start);
+        let visitedNodes:any[] = [];
+        
+        let foundTarget:Boolean = this.recurse(visitedNodes, grid, start, target);
 
-        // for(let i=0;i<neighbors.length;i++)
-        // {
-        //     //Check if default tile
-        //     if(grid.getStatus(neighbors[i].x, neighbors[i].y) === 0)
-        //     {
-        //         //Only add to visited if not already included
-        //         if(!this.collectionContains(visitedNodes, neighbors[i]))
-        //         {
-        //             visitedNodes.push(neighbors[i]);
-        //         }
-        //     }
-        // }
-
-        return [];
+        return visitedNodes;
     }
 
     calculatePath(grid:Grid, start:any, target:any): any {
         //Depth first search
         const visitedNodes:any[] = this.process(grid, start, target);
+        const path = this.constructPath(target);
 
-        const output = {visitedNodes: visitedNodes};
+        const output = {visitedNodes: visitedNodes, path: path};
         return output;
     }    
 }
@@ -133,10 +176,18 @@ export class BFS extends IPathfindable
             for(let i=0;i<neighbors.length;i++)
             {
                 if(neighbors[i].x === target.x &&
-                   neighbors[i].y === target.y) return visitedNodes;
+                   neighbors[i].y === target.y) 
+                {
+                    target.link = activeNode;
+                    return visitedNodes;
+                }
 
+                //check if neighbor should be
                 if(grid.getStatus(neighbors[i].x, neighbors[i].y) !== 0) continue;                
-                
+
+                //store the connected node
+                neighbors[i].link = activeNode;
+
                 if(!this.collectionContains(visitedNodes, neighbors[i]))
                 {
                     visitedNodes.push(neighbors[i]);
@@ -152,8 +203,9 @@ export class BFS extends IPathfindable
 
     calculatePath(grid:Grid, start:any, target:any): any {
         const visitedNodes:any[] = this.process(grid, start, target);
+        const path = this.constructPath(target);
 
-        const output = {visitedNodes: visitedNodes};
+        const output = {visitedNodes: visitedNodes, path: path};
         return output;
     }    
 }
@@ -167,3 +219,4 @@ export class Dijkstra extends IPathfindable
         console.log("Dijkstra algo");
     }    
 }
+

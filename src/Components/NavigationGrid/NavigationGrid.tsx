@@ -13,6 +13,7 @@ interface Props
   grid:Grid;
 
   pathTypes:IPathfindable[];
+  activeType:number;
 
   setType:(index:number) => void;
   calculate:(grid:Grid, start:any, target:any) => any;
@@ -46,19 +47,39 @@ export default function NavigationGrid(props:Props) {
     setTiles(props.grid.getTiles());
   }
 
-  function drawTest()
+  function calculate()
   {
+    //Clean the animation statuses in the current grid
+    props.grid.resetStatuses();
+    setTiles(props.grid.getTiles());                    
+
+    //Retrieve new data
     const data = props.calculate(props.grid, start, target);
 
-    console.log(data);
+    //Draw searched paths
+    // for(let i=0;i<data.visitedNodes.length;i++)
+    // {
+    //   setTimeout(() => {
+    //     props.grid.setVisited(data.visitedNodes[i].x, data.visitedNodes[i].y);
+    //     setTiles(props.grid.getTiles());                    
+    //   }, i*50);
+    // }
 
-    for(let i=0;i<data.visitedNodes.length;i++)
+    //Draw determined paths
+    for(let i=0;i<data.path.length;i++)
     {
       setTimeout(() => {
-        props.grid.setVisited(data.visitedNodes[i].x, data.visitedNodes[i].y);
+        props.grid.setPath(data.path[i].x, data.path[i].y);
         setTiles(props.grid.getTiles());                    
       }, i*50);
     }
+  }
+
+  function randomize()
+  {
+    props.grid.resetStatuses();
+    props.grid.randomize();
+    setTiles(props.grid.getTiles());
   }
 
   function handleMouseDown(x:number, y:number)
@@ -93,9 +114,10 @@ export default function NavigationGrid(props:Props) {
         (
           <button onClick={()=>props.setType(index)}>
               {value.getName()}
-          </button>          
+          </button>         
         ))
       }
+        <h4>Selected type: {props.pathTypes[props.activeType].getName()}</h4>
       </div>
       
       <div>
@@ -115,8 +137,12 @@ export default function NavigationGrid(props:Props) {
             Set Target
         </button>
 
-        <button onClick={()=>drawTest()}>
+        <button onClick={()=>calculate()}>
             Calculate!
+        </button>
+
+        <button onClick={()=>randomize()}>
+            Randomize
         </button>
       </div>
       <table className="table">      
