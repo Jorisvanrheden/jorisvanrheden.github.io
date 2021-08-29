@@ -11,7 +11,7 @@ import NavigationGrid from "../Components/NavigationGrid/NavigationGrid"
 import {DFS, BFS, AStar, Dijkstra, IPathfindable} from "../Logic/Pathfinding/Pathfinding";
 import Grid from "../Logic/Pathfinding/Grid";
 
-const grid:Grid = new Grid(30,30);
+const grid:Grid = new Grid(15, 15);
 
 export default function About()
 {

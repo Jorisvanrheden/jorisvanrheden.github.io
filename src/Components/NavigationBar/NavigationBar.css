@@ -1,11 +1,15 @@
 .nav
 {
-    background: linear-gradient(90deg, rgb(59, 59, 59), rgb(100, 100, 100));
-    height: 80px;
+    background: white;
+    height: 60px;
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
     font-size: 1.2rem;
+
+    border-color: rgb(175, 175, 175);
+    border-style:solid;
+    border-width: 0px 0px 1px 0px;   
 }
 
 /* Divide the navigation bar up into multiple styles:
@@ -15,20 +19,20 @@
 
 .nav-title
 {
-    color: white;
-    font-size: 1.6rem;
+    color: rgb(66, 66, 66);
+    font-size: 1.4rem;
     font-weight: bold;
 
-    text-align: center;
+    width: 20%;
 
-    margin-left: 1.2rem;
+    text-align: center;
 }
 
 .nav-menu
 {
     display: grid;
     grid-template-columns: repeat(5, auto);
-    grid-gap: 10px;
+    grid-gap: 1px;
     list-style: none;
     /* this one doesnt seem to do anything, is not necessary here */
     width: 50vw;
@@ -38,13 +42,24 @@
 
 .nav-item
 {
-    color: white;
+    color: rgb(66, 66, 66);
     text-decoration:none;
     padding: 0.5rem 1rem;
 }
 .nav-item:hover
 {
-    background-color: #797979;
-    border-radius: 4px;
-    transition: all 0.3s ease-out;
+    background-color: #f1fbff;
+    
+    border-color: rgb(110, 176, 230);
+    border-style:solid;
+    border-width: 0px 0px 3px 0px;   
+
+    /* border-radius: 4px; */
+    /* transition: all 0.3s ease-out; */
+}
+
+.nav-dropdown
+{
+    width:20%;
+    background-color: #67818a;
 }

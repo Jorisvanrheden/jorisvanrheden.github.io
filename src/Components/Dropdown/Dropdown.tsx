@@ -1,6 +1,6 @@
-import "./ShowcaseGrid.css"
-
-import ShowcaseElement from "../ShowcaseElement/ShowcaseElement"
+import "./Dropdown.css"
+import DropdownItem from "./DropdownItem/DropdownItem"
+import DropdownHeader from "./DropdownHeader/DropdownHeader"
 
 interface ShowcaseItem
 {
@@ -20,23 +20,19 @@ let menuItems: Array<ShowcaseItem> =
     {title: "Test", description: "test description", image: "TestURL"}
 ]
 
-export default function ShowcaseGrid()
+export default function Dropdown()
 {
     return(
         <div>
-            <ul className="grid-body">   
+            <div className="dropdown-body">
+                <DropdownHeader/>
                 {
                     menuItems.map((item:ShowcaseItem, index) => 
                     (
-                        <li><ShowcaseElement 
-                            title={item.title}
-                            description={item.description}
-                            image={item.image}
-                        /></li>                   
+                        <DropdownItem title={index+1 + " - " + item.description}/>            
                     ))
-                }  
-            </ul>
-        </div>
-        
+                } 
+            </div>
+        </div>     
     )
 }
