@@ -1,0 +1,42 @@
+.projectpage-body
+{
+    /* display: flex;
+    justify-content: center; */
+
+    background-color: rgb(205, 225, 226);
+
+    height:100%;
+}
+
+.projectpage-title
+{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+
+    width:100%;
+    height:50px;
+}
+
+.projectpage-center
+{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+
+    background-color: rgb(100, 100, 100);
+
+    width:100%;
+}
+
+.projectpage-sheet
+{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+
+    background-color: rgb(100, 100, 100);
+
+    width:100%;
+    height:200px;
+}

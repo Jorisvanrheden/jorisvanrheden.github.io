@@ -1,26 +1,12 @@
 .embed-body 
 {
     display: flex;
-    height: 200px;
+    justify-content: center;
+    height: 300px;
+    width:100%;
     background-color: rgb(255, 255, 255);
 
     transition: all 0.3s ease;
-}
-.embed-body:hover
-{
-    transform:scale(0.95);
-}
-
-.embed-description 
-{
-   width:30vw;
-
-   margin: 5px;
-}
-
-.embed-video 
-{
-
 }
   
 .embed-body iframe {

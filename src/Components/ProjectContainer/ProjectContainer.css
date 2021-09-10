@@ -1,0 +1,21 @@
+.projectcontainer-body
+{
+    background-color: rgb(201, 175, 175);
+    
+    width:100%;
+    height:calc(100vh - 60px - 1px);
+
+    display: flex;
+}
+
+.projectcontainer-left
+{
+    height:100%;
+    width:25%
+}
+
+.projectcontainer-right
+{
+    height:100%;
+    width:75%
+}

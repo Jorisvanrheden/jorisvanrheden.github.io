@@ -2,32 +2,21 @@ import "./Dropdown.css"
 import DropdownItem from "./DropdownItem/DropdownItem"
 import DropdownHeader from "./DropdownHeader/DropdownHeader"
 
-interface ShowcaseItem
+import YoutubeProjectData from "./../../Logic/ProjectInformation/YoutubeProjects"
+
+interface Props
 {
-    title:string;
-    description:string,
-    image:string;
+  entries:Array<YoutubeProjectData>
 }
 
-let menuItems: Array<ShowcaseItem> =
-[
-    {title: "Test", description: "Game Engine (C#/C++)", image: "Scarbo"},
-    {title: "Test", description: "Chess game", image: "chess.png"},
-    {title: "Test", description: "Mandelbrot", image: "mandelbrot.png"},
-    {title: "Test", description: "Pathfinding", image: "TestURL"},
-    {title: "Test", description: "test description", image: "TestURL"},
-    {title: "Test", description: "test description", image: "TestURL"},
-    {title: "Test", description: "test description", image: "TestURL"}
-]
-
-export default function Dropdown()
+export default function Dropdown(props:Props)
 {
     return(
         <div>
             <div className="dropdown-body">
                 <DropdownHeader/>
                 {
-                    menuItems.map((item:ShowcaseItem, index) => 
+                    props.entries.map((item:YoutubeProjectData, index) => 
                     (
                         <DropdownItem title={index+1 + " - " + item.description}/>            
                     ))
