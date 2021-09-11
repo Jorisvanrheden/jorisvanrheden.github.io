@@ -6,11 +6,19 @@ import YoutubeProjectData from "./../../Logic/ProjectInformation/YoutubeProjects
 
 interface Props
 {
-  entries:Array<YoutubeProjectData>
+  entries:Array<YoutubeProjectData>;
+  activeIndex:number;
+
+  setIndex:(index:number) => void;
 }
 
 export default function Dropdown(props:Props)
 {
+    function getSelectedStatus(index:number)
+    {
+        return index === props.activeIndex;
+    }
+
     return(
         <div>
             <div className="dropdown-body">
@@ -18,7 +26,11 @@ export default function Dropdown(props:Props)
                 {
                     props.entries.map((item:YoutubeProjectData, index) => 
                     (
-                        <DropdownItem title={index+1 + " - " + item.description}/>            
+                        <DropdownItem title={index+1 + " - " + item.description}
+                                      selected={getSelectedStatus(index)}
+                                      index={index}
+                                      setIndex={props.setIndex}
+                        />            
                     ))
                 } 
             </div>

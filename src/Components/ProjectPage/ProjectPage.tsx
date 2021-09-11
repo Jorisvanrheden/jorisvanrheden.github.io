@@ -24,11 +24,9 @@ export default function ProjectPage(props:Props)
                 <YoutubeEmbed 
                 description={props.entry.description}
                 url={props.entry.url}/>
-
-                <SheetDisplayer/>
             </div>
             <div className="projectpage-sheet">
-                And here we want to have all the pages in miniature form
+                <SheetDisplayer image={props.entry.image}/>
             </div>
         </div>
     )
