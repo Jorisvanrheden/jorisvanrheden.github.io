@@ -20,22 +20,26 @@ export default function Navigationbar()
 {
     return(
         <div className="nav">
-            <div className="nav-title">
-                Joris van Rheden
+            <div className="nav-left">
+                <div className="nav-title">
+                    Joris van Rheden
+                </div>
             </div>
-            <ul className="nav-menu">
-                {/* using curly braces for scripting in a div element */}
-                {
-                    menuItems.map((item:NavigationMenuItem, index) => 
-                    (
-                        <li key={index}>
-                            <a className={item.class} href={item.url}>
-                                {item.title}
-                            </a>
-                        </li>                  
-                    ))
-                }
-            </ul>
+            <div className="nav-right">
+                <ul className="nav-menu">
+                    {/* using curly braces for scripting in a div element */}
+                    {
+                        menuItems.map((item:NavigationMenuItem, index) => 
+                        (
+                            <li key={index}>
+                                <a className={item.class} href={item.url}>
+                                    {item.title}
+                                </a>
+                            </li>                  
+                        ))
+                    }
+                </ul>
+            </div>       
         </div>    
     )
 }
