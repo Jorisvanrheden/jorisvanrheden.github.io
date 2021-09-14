@@ -14,19 +14,16 @@ export default function ProjectPage(props:Props)
     return(
         <div className="projectpage-body">
             {/* We need:
-            - Title
             - Video + Sheet row
             - Pages previews + download */}
-            <div className="projectpage-title">
-                {props.entry.title}
-            </div>
             <div className="projectpage-center">
                 <YoutubeEmbed 
                 description={props.entry.description}
                 url={props.entry.url}/>
             </div>
             <div className="projectpage-sheet">
-                <SheetDisplayer image={props.entry.image}/>
+                <SheetDisplayer image={props.entry.image}
+                                location={props.entry.location}/>
             </div>
         </div>
     )

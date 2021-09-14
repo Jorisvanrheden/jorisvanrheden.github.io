@@ -6,16 +6,6 @@
     height:100%;
 }
 
-.projectpage-title
-{
-    display: flex;
-    justify-content: center;
-    align-items:center;
-
-    width:100%;
-    height:50px;
-}
-
 .projectpage-center
 {
     display: flex;
@@ -23,7 +13,7 @@
     align-items:center;
 
     width:100%;
-    height:500px;
+    height:600px;
 }
 
 .projectpage-sheet
@@ -35,5 +25,5 @@
     background-color: rgb(100, 100, 100);
 
     width:100%;
-    height:540px;
+    height:calc(100vh - 600px - 61px);
 }

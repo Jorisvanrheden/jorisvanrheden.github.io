@@ -3,7 +3,23 @@ import "./SheetDisplayer.css"
 interface Props
 {
     image:string;
+    location:string;
 }
+
+interface test
+{
+    title:string;
+    class:string,
+    url:string;
+}
+
+const menuItems: Array<test> =
+[
+    {title: "Home", class: "nav-item", url: "/"},
+    {title: "About", class: "nav-item", url: "/about"},
+    {title: "Software Projects", class: "nav-item", url: "/software"},
+    {title: "Youtube", class: "nav-item", url: "/youtube"},
+]
 
 export default function SheetDisplayer(props:Props)
 {
@@ -12,23 +28,18 @@ export default function SheetDisplayer(props:Props)
             <ul className="sheet-grid">
                 {/* using curly braces for scripting in a div element */}
                 {
-                    <li>
-                        <img className="sheet-item" src={props.image} alt="ss"></img>
-                    </li> 
+                    menuItems.map((item:test, index) => 
+                    (
+                        <li>
+                            <img className="sheet-item" src={props.image} alt="ss"></img>
+                        </li>                  
+                    ))                                     
                 }
-            </ul>
+            </ul>        
+            <a href={props.location} download>
+                <button>Download</button>
+            </a>
         </div>    
-        
-        // <div className="showcase-body">
-        //     <div className="showcase-content">
-        //         <img className="showcase-image" src={props.image} alt="ss"></img>
-        //     </div>
-        //     <div className="showcase-info">
-        //         <div className="showcase-description">
-        //             {props.description}
-        //         </div>
-        //     </div>        
-        // </div>
     )
 }
 

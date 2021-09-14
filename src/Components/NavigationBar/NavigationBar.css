@@ -9,11 +9,13 @@
     border-color: rgb(175, 175, 175);
     border-style:solid;
     border-width: 0px 0px 1px 0px;   
+
+    position: relative;
 }
 .nav-left
 {
     height: 100%;
-    width: 340px;
+    width: 360px;
 
     display: flex;
     align-items: center;
@@ -22,11 +24,11 @@
 .nav-right
 {
     height: 100%;
-    width: calc(100vw - 340px);
+    width: calc(100vw - 360px);
 
     display: flex;
     align-items: center;
-    justify-content: center;   
+    justify-content: left;   
 }
 
 /* Divide the navigation bar up into multiple styles:
@@ -40,12 +42,85 @@
     font-size: 1.5rem;
     font-weight: bold;   
 }
+
 .nav-menu
 {
     display: grid;
     grid-template-columns: repeat(5, auto);
     grid-gap: 1px;
     list-style: none;
+}
+
+.nav-dropdown
+{
+    display: none;
+}
+
+@media screen and (max-width: 932px) {
+    .nav-menu
+    {
+        display:none;
+    }
+
+    .line
+    {
+        width: 30px;
+        height: 3px;
+        background-color:rgb(66, 66, 66);
+        margin:5px;
+    }
+    .hamburger
+    {
+        cursor:pointer;
+        position:absolute;
+        right:5%;
+        top:50%;
+        transform: translate(-5%, -50%);
+    }
+
+    .nav-dropdown
+    {
+        display:flex;
+        flex-direction: column;
+
+        width: 100vw;
+        background-color: rgb(236, 236, 236);
+        position:absolute;
+        top:60px;
+
+        opacity: 0;
+
+        transition: all 0.4s ease;
+    }
+    .nav-dropdown-open
+    {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .nav-dropdown-item
+    {
+        height:40px;
+        width:100%;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+
+        text-decoration: none;
+
+        cursor: pointer;
+    }
+    .nav-dropdown-item:hover
+    {
+        background-color: rgb(224, 224, 224);
+    }
+
+    /* Style the dropdown menu only on hamburger interaction */
+    /* .hamburger:active + .nav-dropdown
+    {
+        opacity: 1;
+        transform: translateY(0);
+
+    } */
 }
 
 .nav-item

@@ -1,23 +1,37 @@
 //styling imports
+import { useState } from "react"
 import "./NavigationBar.css"
 
 interface NavigationMenuItem
 {
     title:string;
-    class:string,
     url:string;
 }
 
 const menuItems: Array<NavigationMenuItem> =
 [
-    {title: "Home", class: "nav-item", url: "/"},
-    {title: "About", class: "nav-item", url: "/about"},
-    {title: "Software Projects", class: "nav-item", url: "/software"},
-    {title: "Youtube", class: "nav-item", url: "/youtube"},
+    {title: "Home", url: "/"},
+    {title: "About", url: "/about"},
+    {title: "Software Projects", url: "/software"},
+    {title: "YouTube", url: "/youtube"},
 ]
 
 export default function Navigationbar()
 {
+    const [open, setOpen] = useState(false);
+
+    function getStyle(isOpen:boolean)
+    {
+        let style = "nav-dropdown";
+
+        if(isOpen)
+        {
+            style += " nav-dropdown-open";
+        }
+
+        return style;
+    }
+
     return(
         <div className="nav">
             <div className="nav-left">
@@ -32,14 +46,41 @@ export default function Navigationbar()
                         menuItems.map((item:NavigationMenuItem, index) => 
                         (
                             <li key={index}>
-                                <a className={item.class} href={item.url}>
+                                <a className="nav-item" href={item.url}>
                                     {item.title}
                                 </a>
                             </li>                  
                         ))
                     }
                 </ul>
-            </div>       
+            </div>    
+
+            <div className="hamburger" 
+                 onClick={()=>
+                 {
+                     setOpen(!open);
+                 }}
+            >
+                <div className="line"></div>
+                <div className="line"></div>
+                <div className="line"></div>
+            </div>   
+
+            <div className={getStyle(open)}>
+                {
+                    menuItems.map((item:NavigationMenuItem, index) => 
+                    (
+                        <a className="nav-dropdown-item" href={item.url}>
+                            {item.title}
+                        </a>
+                        // <li key={index}>
+                        //     <a className="nav-dropdown-item" href={item.url}>
+                        //         {item.title}
+                        //     </a>
+                        // </li>                  
+                    ))
+                }        
+            </div>
         </div>    
     )
 }
