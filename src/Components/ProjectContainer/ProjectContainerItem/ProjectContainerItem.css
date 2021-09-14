@@ -1,0 +1,47 @@
+.projectcontainer-item
+{
+    width:80%;
+    height:300px;
+
+    background-color: rgb(230, 230, 230);
+
+    border-radius: 4px;
+
+    /* hide the overlapping children elements for active border radius */
+    overflow: hidden;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.projectcontainer-item-video
+{
+    width: 100%;
+    height: 80%;
+}
+.projectcontainer-item-description
+{
+
+    position: relative;
+
+    width:100%;
+    height:20%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    background-color: rgb(252, 252, 252);
+}
+.projectcontainer-item-logo
+{
+    /* Position is absolute with the first parent as 'relative' being the reference */
+    /* In this case, the item description (direct parent) is the 'relative', so percentages
+    used are all in regards to that parent object */
+    position: absolute;
+
+    height:30px;
+    right:15px;
+    top:50%;
+
+    transform: translateY(-50%);
+}

@@ -72,12 +72,7 @@ export default function Navigationbar()
                     (
                         <a className="nav-dropdown-item" href={item.url}>
                             {item.title}
-                        </a>
-                        // <li key={index}>
-                        //     <a className="nav-dropdown-item" href={item.url}>
-                        //         {item.title}
-                        //     </a>
-                        // </li>                  
+                        </a>                
                     ))
                 }        
             </div>
