@@ -1,11 +1,6 @@
 .cell {
   height: 30px;
   width: 30px;
-
-  margin: 0px;
-  padding: 0px;
-  border-width: 0px;
-  border-style: solid;
 }
 
 @keyframes pop-in {
@@ -66,6 +61,4 @@
 
   animation-name: pop-out;
   animation-duration: 0.3s;
-
-  border-radius: 2px;
 }

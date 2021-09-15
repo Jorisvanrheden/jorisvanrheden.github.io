@@ -145,26 +145,28 @@ export default function NavigationGrid(props:Props) {
             Randomize
         </button>
       </div>
-      <table className="table">      
-        {tiles.map((row: any[], xIndex: number) => (
-          <tr>
-            {row.map((item: any, yIndex: number) => (
-              <td>
-                <GridNode
-                    x={xIndex}
-                    y={yIndex}
+      <div className="table-container">
+        <table className="table">      
+          {tiles.map((row: any[], xIndex: number) => (
+            <tr>
+              {row.map((item: any, yIndex: number) => (
+                <td>
+                  <GridNode
+                      x={xIndex}
+                      y={yIndex}
 
-                    walkable={item.walkable}
-                    status={item.status}
+                      walkable={item.walkable}
+                      status={item.status}
 
-                    processMouseClick={handleMouseDown}
-                    processMouseEnter={handleMouseEnter}
-                ></GridNode>      
-              </td>
-            ))}
-          </tr>
-        ))}
-      </table>
+                      processMouseClick={handleMouseDown}
+                      processMouseEnter={handleMouseEnter}
+                  ></GridNode>      
+                </td>
+              ))}
+            </tr>
+          ))}
+        </table>
+      </div>    
     </div>
   );
 }
