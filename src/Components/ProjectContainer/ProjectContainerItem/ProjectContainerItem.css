@@ -1,36 +1,49 @@
+.projectcontainer-container
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width:100%;
+    height:100%;
+}
 .projectcontainer-item
 {
-    width:80%;
-    height:300px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 45px;
 
-    background-color: rgb(230, 230, 230);
+    grid-template-areas: 
+    "video"
+    "description";
 
-    border-radius: 4px;
+    width:100%;
+    height:100%;
 
-    /* hide the overlapping children elements for active border radius */
     overflow: hidden;
-
-    margin-top: 10px;
-    margin-bottom: 10px;
+    border-radius: 3px;
 }
 .projectcontainer-item-video
 {
-    width: 100%;
-    height: 80%;
+    grid-area: video;
 }
 .projectcontainer-item-description
 {
+    grid-area: description;
 
     position: relative;
-
-    width:100%;
-    height:20%;
 
     display: flex;
     justify-content: center;
     align-items: center;
     
-    background-color: rgb(252, 252, 252);
+    /* background-color: rgb(252, 252, 252); */
+    background-color: rgb(68, 68, 68);
+
+    color: white;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 12px;
 }
 .projectcontainer-item-logo
 {

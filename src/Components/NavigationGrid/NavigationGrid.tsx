@@ -4,8 +4,8 @@ import GridNode from "../GridNode/GridNode";
 import { useState } from "react";
 
 //Logic imports
-import {IPathfindable} from "../../Logic/Pathfinding/Pathfinding";
 import Grid from "../../Logic/Pathfinding/Grid";
+import {IPathfindable} from "../../Logic/Pathfinding/Pathfinding";
 import {IAction, DefaultAction, ToggleAction, StartAction, TargetAction, CalculateAction} from "../../Logic/Pathfinding/Action";
 
 interface Props
@@ -97,8 +97,7 @@ export default function NavigationGrid(props:Props) {
 
   return (
     <div>
-      <h1>Choose from the wonderful selection of pathfinding goodies</h1>
-      <h3>Features:</h3>
+      {/* <h3>Features:</h3>
       <ul>
         <li>multi-pathfinding algorithms</li>
         <li>overlay options</li>
@@ -106,7 +105,7 @@ export default function NavigationGrid(props:Props) {
         <li>animation speed regulations</li>
         <li>direct path calculation</li>
         <li>map editor</li>
-      </ul> 
+      </ul>  */}
 
       <div>
       {

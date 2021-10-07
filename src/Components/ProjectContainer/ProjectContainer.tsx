@@ -1,10 +1,10 @@
 import "./ProjectContainer.css"
 
-import ProjectPage from '../../Components/ProjectPage/ProjectPage'
-import Dropdown from '../../Components/Dropdown/Dropdown'
-import ProjectContainerItem from './ProjectContainerItem/ProjectContainerItem'
+import Dropdown from '../Dropdown/Dropdown'
+import SheetDisplayer from "../SheetDisplayer/SheetDisplayer"
+import ProjectContainerItem from "./ProjectContainerItem/ProjectContainerItem"
 
-import YoutubeProjectData, {YoutubeProjectEntries} from "./../../Logic/ProjectInformation/YoutubeProjects"
+import {YoutubeProjectEntries} from "./../../Logic/ProjectInformation/YoutubeProjects"
 
 import {useState} from 'react'
 
@@ -18,25 +18,18 @@ export default function ProjectContainer()
     }
 
     return(
-        <div>
-            <div className="projectcontainer-body">
-                <div className="projectcontainer-left">
-                    <Dropdown entries={YoutubeProjectEntries}
+        <div className="project-body">
+            <div id="dropdown">
+                <Dropdown entries={YoutubeProjectEntries}
                             activeIndex={index}
-                            setIndex={updateIndex}
-                    />
-                </div>
-                <div className="projectcontainer-right">
-                    <ProjectPage entry={YoutubeProjectEntries[index]}/>
-                </div>
+                            setIndex={updateIndex}/>
             </div>
-            <div className="projectcontainer-scroll">
-                {
-                    YoutubeProjectEntries.map((item:YoutubeProjectData, index) => 
-                    (
-                        <ProjectContainerItem entry={item}/>
-                    ))        
-                }   
+            <div id="video">
+                <ProjectContainerItem entry={YoutubeProjectEntries[index]}/>
+            </div>
+            <div id="sheet">
+                <SheetDisplayer image={YoutubeProjectEntries[index].image}
+                                location={YoutubeProjectEntries[index].location}/>
             </div>
         </div>     
     )

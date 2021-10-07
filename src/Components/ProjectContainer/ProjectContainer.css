@@ -1,40 +1,49 @@
-.projectcontainer-body
+.project-body
 {    
+    display: grid;
+    height:100%;
+    grid-template-columns: 280px 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+
+    grid-template-areas: 
+        "dropdown video sheet"
+        "dropdown empty sheet"
+        "dropdown empty sheet";
+
+    background-color: rgb(102, 102, 102);
+}
+#dropdown
+{
+    grid-area: dropdown;
+}
+#video
+{
+    grid-area: video;
+}
+#sheet
+{
+    grid-area: sheet;
+}
+
+.preview-image
+{
     width:100%;
-    height:calc(100vh - 60px - 1px);
-
-    display: flex;
-}
-
-.projectcontainer-left
-{
     height:100%;
-    width:360px;
-
-    border-color: rgb(39, 39, 39);
-    border-style:solid;
-    border-width: 0px 1px 0px 0px;   
 }
 
-.projectcontainer-right
-{
-    height:100%;
-    width:calc(100vw - 360px);     
-}
-
-.projectcontainer-scroll
+.project-scroll
 {
     display: none;
 }
 
 @media screen and (max-width: 932px) 
 {
-    .projectcontainer-body
+    .project-body
     {    
         display: none;
     }
 
-    .projectcontainer-scroll
+    .project-scroll
     {
         display: flex;
         justify-content: center;

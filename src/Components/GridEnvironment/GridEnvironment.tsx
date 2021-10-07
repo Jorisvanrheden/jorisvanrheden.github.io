@@ -28,11 +28,11 @@ export default function GridEnvironment()
   return(
     <div>
       <NavigationGrid 
-      grid={grid} 
-      pathTypes={pathTypes} 
-      activeType={index}
-      setType={setType}
-      calculate={calculate}/>
+        grid={grid} 
+        pathTypes={pathTypes} 
+        activeType={index}
+        setType={setType}
+        calculate={calculate}/>
     </div>
   )  
 }

@@ -1,6 +1,6 @@
 .dropdown-body
 {        
     background-color: rgb(51, 51, 51);  
-
-    height:calc(100vh - 61px);
+    height:100%;
+    width: 100%;
 }

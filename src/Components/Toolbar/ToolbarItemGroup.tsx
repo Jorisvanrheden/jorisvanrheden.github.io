@@ -1,5 +1,6 @@
-import { useState } from "react";
 import "./Toolbar"
+
+import { useState } from "react";
 import { ToolbarItem } from "./ToolbarItem"
 
 interface Props
@@ -23,8 +24,6 @@ export function ToolbarItemGroup(props:Props)
     {
         setActiveIndex(index);
         props.setIndex(index);
-
-        console.log("CLICKING");
     }
 
     return(

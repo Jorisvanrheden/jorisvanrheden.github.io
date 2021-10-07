@@ -20,20 +20,18 @@ export default function Dropdown(props:Props)
     }
 
     return(
-        <div>
-            <div className="dropdown-body">
-                <DropdownHeader/>
-                {
-                    props.entries.map((item:YoutubeProjectData, index) => 
-                    (
-                        <DropdownItem title={item.description}
-                                      selected={getSelectedStatus(index)}
-                                      index={index}
-                                      setIndex={props.setIndex}
-                        />            
-                    ))
-                } 
-            </div>
-        </div>     
+        <div className="dropdown-body">
+            <DropdownHeader/>
+            {
+                props.entries.map((item:YoutubeProjectData, index) => 
+                (
+                    <DropdownItem title={item.description}
+                                    selected={getSelectedStatus(index)}
+                                    index={index}
+                                    setIndex={props.setIndex}
+                    />            
+                ))
+            } 
+        </div>    
     )
 }

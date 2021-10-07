@@ -1,6 +1,5 @@
 .dropdown-header
 {
-    width: 100%-15px;
     height: 80px;
     
     display: flex;
@@ -20,4 +19,3 @@
 {
     height: 70%;
 }
-

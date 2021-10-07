@@ -3,3 +3,38 @@ body {
   margin: 0px;
   font-family: 'Montserrat', sans-serif;
 }
+
+
+/* Grid layout CSS testing */
+.container
+{
+  display: grid;
+  height:100vh;
+  grid-template-columns: 200px 1fr;
+  grid-template-rows: 60px 1fr 40px;
+
+  grid-template-areas: 
+    "nav nav"
+    "main main"
+    "footer footer";
+}
+#nav
+{
+  background-color: rgb(158, 158, 158);
+  grid-area: nav;
+}
+#main
+{
+  grid-area: main;
+  background-color: rgb(122, 102, 102);
+}
+#sidebar
+{
+  grid-area: sidebar;
+  background-color: rgb(145, 78, 78);
+}
+#footer
+{
+  grid-area: footer;
+  background-color: rgb(201, 69, 69);
+}

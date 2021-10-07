@@ -24,22 +24,25 @@ const menuItems: Array<test> =
 export default function SheetDisplayer(props:Props)
 {
     return(
-        <div className="sheet-body">
-            <ul className="sheet-grid">
-                {/* using curly braces for scripting in a div element */}
-                {
-                    menuItems.map((item:test, index) => 
-                    (
-                        <li>
-                            <img className="sheet-item" src={props.image} alt="ss"></img>
-                        </li>                  
-                    ))                                     
-                }
-            </ul>        
-            <a href={props.location} download>
-                <button>Download</button>
-            </a>
-        </div>    
+        <div className="sheet-container">
+            <div id="preview">
+                <img className="preview-image" src="music.png"></img>
+            </div>
+            <div id="overview">
+                <div className="sheet-body">
+                    <ul className="sheet-grid">
+                        {
+                            menuItems.map((item:test, index) => 
+                            (
+                                <li>
+                                    <img className="sheet-item" src={props.image} alt="ss"></img>
+                                </li>                  
+                            ))                                     
+                        }
+                    </ul> 
+                </div>
+            </div>
+        </div>
     )
 }
 

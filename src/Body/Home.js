@@ -2,11 +2,18 @@ import "./Home.css"
 
 //component imports
 import NavigationBar from '../Components/NavigationBar/NavigationBar'
+import Footer from '../Components/Footer/Footer'
 
 export default function Home() {
   return (
-  <div className="WebsiteMainContainer">
-    <NavigationBar/>
-  </div>
+    <div className="container">
+      <div id="nav">
+        <NavigationBar/>
+      </div>
+      <div id="main">Main</div>
+      <div id="footer">
+        <Footer/>
+      </div>
+    </div>
   );
 }

@@ -6,7 +6,7 @@ export default function Toolbar()
 {
     function setIndex(index:number)
     {
-
+        
     }
 
     return(

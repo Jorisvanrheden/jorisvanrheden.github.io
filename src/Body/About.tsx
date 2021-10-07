@@ -1,21 +1,23 @@
 import "./Home.css"
-import "./About.css"
 
 //component imports
 import NavigationBar from "../Components/NavigationBar/NavigationBar"
-import Toolbar from "../Components/Toolbar/Toolbar"
-import GridEnvironment from "../Components/GridEnvironment/GridEnvironment"
+import Footer from '../Components/Footer/Footer'
+
+import GridProject from "../Components/GridProject/GridProject"
 
 export default function About()
 {  
   return(
-    <div>
-      <NavigationBar/>
-      <div className="grid-project-body">
-        <div className="grid-project-tile">
-          <Toolbar/>
-          <GridEnvironment/>
-        </div>
+    <div className="container">
+      <div id="nav">
+        <NavigationBar/>
+      </div>
+      <div id="main">
+        <GridProject/>      
+      </div>
+      <div id="footer">
+        <Footer/>
       </div>
     </div>
   )  
