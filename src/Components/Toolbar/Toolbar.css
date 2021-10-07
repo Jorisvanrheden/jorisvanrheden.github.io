@@ -1,7 +1,7 @@
 .toolbar-body
 {
     display: flex;
-    justify-content: left;
+    justify-content: center;
     align-items: center;
     text-align: center;    
 
@@ -10,6 +10,28 @@
 
     background-color: rgb(59, 59, 59);
 }
+.toolbar-item-body
+{
+    /* display: grid;
+
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 10px;
+
+    grid-template-areas: 
+        "toolbar-items"
+        "toolbar-description"; */
+}
+#toolbar-items
+{
+    grid-area: toolbar-items;
+}
+#toolbar-description
+{
+    grid-area: toolbar-description;
+
+    color:white;
+}
+
 .toolbar-item-group
 {
     display: flex;
@@ -40,20 +62,23 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    background-color: gray;
     border-radius: 2px;
 
     color: rgb(231, 231, 231);
 
     cursor: pointer;
 
-    transition: all ease 0.4s;
+    transition: all ease 0.2s;
+}
+.toolbar-item-idle
+{
+    background-color: rgb(90, 90, 90);
 }
 .toolbar-item-selected
 {
-    background-color: yellowgreen;
+    background-color: rgb(79, 127, 199);
 }
-.toolbar-item:hover
+.toolbar-item-idle:hover
 {
-    background-color: rgb(167, 167, 167);
+    background-color: rgb(121, 121, 121);
 }

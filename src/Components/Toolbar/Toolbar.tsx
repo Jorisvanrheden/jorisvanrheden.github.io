@@ -2,44 +2,44 @@ import "./Toolbar.css"
 
 import { ToolbarItemGroup } from "./ToolbarItemGroup"
 
-export default function Toolbar()
+export class ToolbarItemInput
 {
-    function setIndex(index:number)
-    {
-        
-    }
+    title:string;
+    entries:string[];
+    defaultIndex:number;
 
+    onIndexChanged:(index:number)=>void;
+
+    constructor(title:string, entries:string[], defaultIndex:number, onIndexChanged:(index:number)=>void)
+    {
+        this.title = title;
+        this.entries = entries;
+        this.defaultIndex = defaultIndex;
+
+        this.onIndexChanged = onIndexChanged;
+    } 
+}
+
+interface Props
+{
+    itemGroups:ToolbarItemInput[];
+}
+
+export default function Toolbar(props:Props)
+{
     return(
         <div className="toolbar-body">
-            <ToolbarItemGroup names={
-                [
-                    "BFS", 
-                    "DFS", 
-                    "AStar(*)", 
-                    "Dijkstra"
-                ]}
-                activeIndex={0}
-                setIndex={setIndex}
-            />
-            <ToolbarItemGroup names={
-                [
-                    "Toggle", 
-                    "Set Start", 
-                    "Set Target"
-                ]}
-                activeIndex={1}
-                setIndex={setIndex}
-            />
-
-            <ToolbarItemGroup names={
-                [
-                    "Clear", 
-                    "Randomize", 
-                    "Calculate"
-                ]}
-                activeIndex={-1}
-                setIndex={setIndex}
-            />
+            {
+                props.itemGroups.map((item:ToolbarItemInput, index) => 
+                (
+                    <ToolbarItemGroup 
+                        title = {item.title}
+                        names={item.entries}
+                        activeIndex={item.defaultIndex}
+                        setIndex={item.onIndexChanged}
+                    />           
+                ))
+            }
         </div>
     )
 }

@@ -18,6 +18,10 @@ export function ToolbarItem(props:Props)
         {
             style += "toolbar-item-selected";
         }
+        else
+        {
+            style += "toolbar-item-idle";
+        }
         
         return style;
     }
