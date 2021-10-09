@@ -6,7 +6,7 @@ import NavigationGrid from "../../Components/NavigationGrid/NavigationGrid"
 //Logic imports
 import Grid from "../../Logic/Pathfinding/Grid";
 
-const grid:Grid = new Grid(15, 15);
+const grid:Grid = new Grid(20, 20);
 
 export default function GridEnvironment()
 {  

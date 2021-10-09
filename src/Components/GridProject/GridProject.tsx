@@ -50,6 +50,12 @@ export default function GridProject()
     function setSingleActionIndex(index:number)
     {
         console.log(index);
+
+        //It should trigger the GridModel functionality now
+        //In this case if it randomizes:
+        //- model performs grid randomize
+        //- model also notifies observers of grid change
+        //- done then right? Should be pretty doable
     }
 
     return(
