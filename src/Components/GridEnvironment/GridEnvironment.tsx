@@ -5,10 +5,14 @@ import NavigationGrid from "../../Components/NavigationGrid/NavigationGrid"
 
 //Logic imports
 import Grid from "../../Logic/Pathfinding/Grid";
+import { GridModel } from '../../Logic/Pathfinding/GridModel';
 
-const grid:Grid = new Grid(20, 20);
+interface Props
+{
+  gridModel:GridModel;
+}
 
-export default function GridEnvironment()
+export default function GridEnvironment(props:Props)
 {  
   const [index, setIndex] = useState(0);
 
@@ -17,17 +21,10 @@ export default function GridEnvironment()
     setIndex(index);
   }
 
-  function calculate(grid:Grid, start:any, target:any)
-  {
-    console.log("Calculate this thing");
-    // return pathTypes[index].calculatePath(grid, start, target);
-  }
-
   return(
     <NavigationGrid 
-      grid={grid} 
+      gridModel={props.gridModel} 
       activeType={index}
-      setType={setType}
-      calculate={calculate}/>
+      setType={setType}/>
   )  
 }

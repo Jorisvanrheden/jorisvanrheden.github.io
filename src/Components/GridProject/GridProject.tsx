@@ -2,6 +2,7 @@ import "./GridProject.css"
 
 import Toolbar from "../../Components/Toolbar/Toolbar"
 import GridEnvironment from "../../Components/GridEnvironment/GridEnvironment"
+import { GridModel } from "../../Logic/Pathfinding/GridModel"
 
 //Logic imports
 import {DFS, BFS, AStar, Dijkstra, IPathfindable} from "../../Logic/Pathfinding/Pathfinding";
@@ -33,6 +34,10 @@ function generateToolbarItemInput_SingleActions(onIndexChanged:(index:number)=>v
 
 export default function GridProject()
 {
+    let gridModel:GridModel = new GridModel();
+
+
+
     let inputItems:ToolbarItemInput[] = [];
 
     inputItems.push(generateToolbarItemInput_Pathfinding(setPathfindIndex));
@@ -41,7 +46,7 @@ export default function GridProject()
 
     function setPathfindIndex(index:number)
     {
-        console.log(index);
+        gridModel.setPathfindingIndex(index);
     }
     function setActionTypeIndex(index:number)
     {
@@ -49,7 +54,18 @@ export default function GridProject()
     }
     function setSingleActionIndex(index:number)
     {
-        console.log(index);
+        switch(index)
+        {
+            case 0:
+                gridModel.clearGrid();
+                break;
+            case 1:
+                gridModel.randomizeGrid();
+                break;
+            case 2:
+                gridModel.calculatePath();
+                break;
+        }
 
         //It should trigger the GridModel functionality now
         //In this case if it randomizes:
@@ -73,7 +89,7 @@ export default function GridProject()
                 <Toolbar itemGroups={inputItems}/>
             </div>
             <div id="display">
-                <GridEnvironment/>
+                <GridEnvironment gridModel={gridModel}/>
             </div>
         </div>
     )

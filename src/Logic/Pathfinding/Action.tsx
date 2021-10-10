@@ -1,4 +1,5 @@
 import Grid from "../Pathfinding/Grid"
+import { GridModel } from "./GridModel";
 
 export abstract class IAction
 {
@@ -13,21 +14,18 @@ export class DefaultAction extends IAction
 
 export class ToggleAction extends IAction
 {
-  grid:Grid;
+  gridModel:GridModel;
   callback:(grid:any) => void;
 
-  constructor(grid:Grid, callback:any)
+  constructor(gridModel:GridModel)
   {
     super();
 
-    this.grid = grid;
-    this.callback = callback;
+    this.gridModel = gridModel;
   }
 
   process(x:number, y:number): void {
-    this.grid.toggleWalkable(x,y);
-
-    this.callback(this.grid.getTiles());
+    this.gridModel.toggleWalkable(x,y);
   }
 }
 

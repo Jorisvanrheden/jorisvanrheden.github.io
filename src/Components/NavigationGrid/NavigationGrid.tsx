@@ -7,15 +7,15 @@ import Grid from "../../Logic/Pathfinding/Grid";
 import GridNode from "../GridNode/GridNode";
 
 import {IAction, DefaultAction, ToggleAction, StartAction, TargetAction, CalculateAction} from "../../Logic/Pathfinding/Action";
+import { GridModel } from "../../Logic/Pathfinding/GridModel";
 
 interface Props
 {
-  grid:Grid;
+  gridModel:GridModel;
 
   activeType:number;
 
   setType:(index:number) => void;
-  calculate:(grid:Grid, start:any, target:any) => any;
 }
 
 let activeAction:IAction = new DefaultAction();
@@ -31,55 +31,44 @@ document.body.onmouseup = function() {
 }
 
 export default function NavigationGrid(props:Props) {
-  const [tiles, setTiles] = useState(props.grid.getTiles());
+  const [tiles, setTiles] = useState(props.gridModel.grid.getTiles());
   const [start, setStart] = useState({x: -1, y: -1});
   const [target, setTarget] = useState({x: -1, y: -1});
+
+  props.gridModel.attachObserver(setTiles);
 
   function drawGrid(grid:any)
   {
     setTiles(grid);
   }
 
-  function clearGrid()
-  {
-    props.grid.clear();
-    setTiles(props.grid.getTiles());
-  }
+  // function calculate()
+  // {
+  //   //Clean the animation statuses in the current grid
+  //   props.grid.resetStatuses();
+  //   setTiles(props.grid.getTiles());                    
 
-  function calculate()
-  {
-    //Clean the animation statuses in the current grid
-    props.grid.resetStatuses();
-    setTiles(props.grid.getTiles());                    
+  //   //Retrieve new data
+  //   const data = props.calculate(props.grid, start, target);
 
-    //Retrieve new data
-    const data = props.calculate(props.grid, start, target);
+  //   //Draw searched paths
+  //   // for(let i=0;i<data.visitedNodes.length;i++)
+  //   // {
+  //   //   setTimeout(() => {
+  //   //     props.grid.setVisited(data.visitedNodes[i].x, data.visitedNodes[i].y);
+  //   //     setTiles(props.grid.getTiles());                    
+  //   //   }, i*50);
+  //   // }
 
-    //Draw searched paths
-    // for(let i=0;i<data.visitedNodes.length;i++)
-    // {
-    //   setTimeout(() => {
-    //     props.grid.setVisited(data.visitedNodes[i].x, data.visitedNodes[i].y);
-    //     setTiles(props.grid.getTiles());                    
-    //   }, i*50);
-    // }
-
-    //Draw determined paths
-    for(let i=0;i<data.path.length;i++)
-    {
-      setTimeout(() => {
-        props.grid.setPath(data.path[i].x, data.path[i].y);
-        setTiles(props.grid.getTiles());                    
-      }, i*50);
-    }
-  }
-
-  function randomize()
-  {
-    props.grid.resetStatuses();
-    props.grid.randomize();
-    setTiles(props.grid.getTiles());
-  }
+  //   //Draw determined paths
+  //   for(let i=0;i<data.path.length;i++)
+  //   {
+  //     setTimeout(() => {
+  //       props.grid.setPath(data.path[i].x, data.path[i].y);
+  //       setTiles(props.grid.getTiles());                    
+  //     }, i*50);
+  //   }
+  // }
 
   function handleMouseDown(x:number, y:number)
   {
@@ -90,7 +79,7 @@ export default function NavigationGrid(props:Props) {
   {
     if(!isMouseDown) return;
 
-    activeAction = new ToggleAction(props.grid, drawGrid)
+    activeAction = new ToggleAction(props.gridModel)
     activeAction.process(x, y);
   }
 
@@ -119,10 +108,7 @@ export default function NavigationGrid(props:Props) {
       </div> 
          
       /* <div>
-        <button onClick={()=>clearGrid()}>
-            Clear grid
-        </button>
-
+      
         <button onClick={()=>activeAction = new ToggleAction(props.grid, drawGrid)}>
             Toggle
         </button>
@@ -133,14 +119,6 @@ export default function NavigationGrid(props:Props) {
 
         <button onClick={()=>activeAction = new TargetAction(props.grid, drawGrid, setTarget)}>
             Set Target
-        </button>
-
-        <button onClick={()=>calculate()}>
-            Calculate!
-        </button>
-
-        <button onClick={()=>randomize()}>
-            Randomize
         </button>
       </div> */
   );
