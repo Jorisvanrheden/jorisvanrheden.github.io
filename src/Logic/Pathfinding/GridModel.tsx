@@ -16,7 +16,7 @@ class Coordinate
 
 export class GridModel
 {
-    grid:Grid = new Grid(20,20);
+    grid:Grid = new Grid(20,30);
 
     pathTypes:IPathfindable[] = [new BFS(), new DFS(), new AStar(), new Dijkstra()];
     activePathIndex:number = 0;
@@ -76,7 +76,6 @@ export class GridModel
 
     randomizeGrid()
     {
-        //this.grid.resetStatuses();
         this.grid.randomize();
 
         this.notifyObservers();
@@ -102,8 +101,9 @@ export class GridModel
     toggleWalkable(x:number, y:number)
     {
         this.grid.toggleWalkable(x,y);
-    
-        this.notifyObservers();
+        this.calculatePath()
+
+        // this.notifyObservers();
     }
 
     setStart(x:number, y:number)
@@ -111,7 +111,7 @@ export class GridModel
         this.start = new Coordinate(x, y);
         this.calculatePath()
 
-        this.notifyObservers();
+        // this.notifyObservers();
     }
 
     setTarget(x:number, y:number)
@@ -119,7 +119,7 @@ export class GridModel
         this.target = new Coordinate(x, y);
         this.calculatePath();
 
-        this.notifyObservers();
+        // this.notifyObservers();
     }
 
     attachObserver(observer:any)
