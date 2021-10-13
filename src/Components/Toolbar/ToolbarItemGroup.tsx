@@ -47,3 +47,26 @@ export function ToolbarItemGroup(props:Props)
         </div>     
     )
 }
+
+export function ToolbarItemButton(props:Props)
+{
+    return(
+        <div className="toolbar-item-body">
+            <div id="toolbar-items">
+                <div className="toolbar-item-group">
+                    {/* using curly braces for scripting in a div element */}
+                    {
+                        props.names.map((name:string, index) => 
+                        (
+                            <ToolbarItem name={name} 
+                                        selected={false} 
+                                        index={index}
+                                        setIndex={props.setIndex}
+                            />              
+                        ))
+                    }
+                </div>
+            </div>
+        </div>     
+    )
+}

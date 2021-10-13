@@ -58,9 +58,7 @@ export class AStar extends IPathfindable
 
             //add neighbors to queue, but only if not processed before
             for(let i=0;i<neighbors.length;i++)
-            {
-                if(grid.getStatus(neighbors[i].x, neighbors[i].y) !== 0) continue;                
-                
+            {                
                 if(!this.collectionContains(visitedNodes, neighbors[i]))
                 {
                     if(neighbors[i].x === target.x &&
@@ -111,8 +109,6 @@ export class DFS extends IPathfindable
                 target.link = activeNode;
                 return true;
             } 
-
-            if(grid.getStatus(neighbors[i].x, neighbors[i].y) !== 0) continue;   
             
             //store the connected node
             neighbors[i].link = activeNode;
@@ -181,9 +177,6 @@ export class BFS extends IPathfindable
                     target.link = activeNode;
                     return visitedNodes;
                 }
-
-                //check if neighbor should be
-                if(grid.getStatus(neighbors[i].x, neighbors[i].y) !== 0) continue;                
 
                 //store the connected node
                 neighbors[i].link = activeNode;

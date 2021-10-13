@@ -1,6 +1,6 @@
 import "./Toolbar.css"
 
-import { ToolbarItemGroup } from "./ToolbarItemGroup"
+import { ToolbarItemButton, ToolbarItemGroup } from "./ToolbarItemGroup"
 
 export class ToolbarItemInput
 {
@@ -23,6 +23,7 @@ export class ToolbarItemInput
 interface Props
 {
     itemGroups:ToolbarItemInput[];
+    itemButtons:ToolbarItemInput[];
 }
 
 export default function Toolbar(props:Props)
@@ -31,13 +32,24 @@ export default function Toolbar(props:Props)
         <div className="toolbar-body">
             {
                 props.itemGroups.map((item:ToolbarItemInput, index) => 
-                (
+                (                    
                     <ToolbarItemGroup 
                         title = {item.title}
                         names={item.entries}
                         activeIndex={item.defaultIndex}
                         setIndex={item.onIndexChanged}
-                    />           
+                    /> 
+                ))
+            }
+            {
+                props.itemButtons.map((item:ToolbarItemInput, index) => 
+                (                    
+                    <ToolbarItemButton 
+                        title = {item.title}
+                        names={item.entries}
+                        activeIndex={item.defaultIndex}
+                        setIndex={item.onIndexChanged}
+                    /> 
                 ))
             }
         </div>

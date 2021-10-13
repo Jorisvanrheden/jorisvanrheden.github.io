@@ -29,21 +29,23 @@ function generateToolbarItemInput_ActionTypes(defaultIndex:number, onIndexChange
 function generateToolbarItemInput_SingleActions(onIndexChanged:(index:number)=>void):ToolbarItemInput
 {
     let names:string[] = ["Clear", "Randomize", "Calculate"];
-    return new ToolbarItemInput("Single actions", names, 0, onIndexChanged);
+    return new ToolbarItemInput("Single actions", names, -1, onIndexChanged);
 }
 
 export default function GridProject()
 {
     let gridModel:GridModel = new GridModel();
 
-    let inputItems:ToolbarItemInput[] = [];
+    let inputToggleItems:ToolbarItemInput[] = [];
+    let inputButtonItems:ToolbarItemInput[] = [];
 
     let defaultPathfindTypeIndex:number = 0;
     let defaultActionTypeIndex:number = 0;
 
-    inputItems.push(generateToolbarItemInput_Pathfinding(defaultPathfindTypeIndex, setPathfindIndex));
-    inputItems.push(generateToolbarItemInput_ActionTypes(defaultActionTypeIndex, setActionTypeIndex));
-    inputItems.push(generateToolbarItemInput_SingleActions(setSingleActionIndex));
+    inputToggleItems.push(generateToolbarItemInput_Pathfinding(defaultPathfindTypeIndex, setPathfindIndex));
+    inputToggleItems.push(generateToolbarItemInput_ActionTypes(defaultActionTypeIndex, setActionTypeIndex));
+    
+    inputButtonItems.push(generateToolbarItemInput_SingleActions(setSingleActionIndex));
 
     gridModel.setPathfindingIndex(defaultPathfindTypeIndex);
     gridModel.setActionIndex(defaultActionTypeIndex);
@@ -70,27 +72,15 @@ export default function GridProject()
                 gridModel.calculatePath();
                 break;
         }
-
-        //It should trigger the GridModel functionality now
-        //In this case if it randomizes:
-        //- model performs grid randomize
-        //- model also notifies observers of grid change
-        //- done then right? Should be pretty doable
     }
 
     return(
         <div className="grid-container">
-
-            {/* Things we need:
-            - callback functions:
-                - pathfind type setting
-                - active action
-                - one click events */}
-
-
-
             <div id="control-panel">
-                <Toolbar itemGroups={inputItems}/>
+                <Toolbar 
+                    itemGroups={inputToggleItems}
+                    itemButtons={inputButtonItems}
+                />
             </div>
             <div id="display">
                 <NavigationGrid gridModel={gridModel}/>

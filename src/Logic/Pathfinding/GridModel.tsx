@@ -2,13 +2,6 @@ import Grid from "./Grid"
 import {DFS, BFS, AStar, Dijkstra, IPathfindable} from "../../Logic/Pathfinding/Pathfinding";
 import {IAction, DefaultAction, ToggleAction, StartAction, TargetAction} from "../../Logic/Pathfinding/Action";
 
-enum ActionType
-{
-    TOGGLE,
-    SET_START,
-    SET_TARGET
-}
-
 class Coordinate
 {
     x:number;
@@ -32,6 +25,8 @@ export class GridModel
 
     start:Coordinate = new Coordinate(-1, -1);
     target:Coordinate = new Coordinate(-1, -1);
+
+    path:Coordinate[] = [];
 
     observers:any[] = [];
 
@@ -81,7 +76,7 @@ export class GridModel
 
     randomizeGrid()
     {
-        this.grid.resetStatuses();
+        //this.grid.resetStatuses();
         this.grid.randomize();
 
         this.notifyObservers();
@@ -89,7 +84,19 @@ export class GridModel
 
     calculatePath()
     {
-        let path = this.pathTypes[this.activePathIndex].calculatePath(this.grid, this.start, this.target);
+        let data = this.pathTypes[this.activePathIndex].calculatePath(this.grid, this.start, this.target);   
+        
+        this.path = [];
+        this.path = data.path;
+        this.notifyObservers();
+        // for(let i=0;i<data.path.length;i++)
+        // {
+        //     setTimeout(() => 
+        //     {
+        //         this.path.push(data.path[i]);
+        //         this.notifyObservers();                
+        //     }, i*50);
+        // }
     }
 
     toggleWalkable(x:number, y:number)
@@ -101,21 +108,26 @@ export class GridModel
 
     setStart(x:number, y:number)
     {
-        this.grid.setStart(x, y);
-        
+        this.start = new Coordinate(x, y);
+        this.calculatePath()
+
         this.notifyObservers();
     }
 
     setTarget(x:number, y:number)
     {
-        this.grid.setTarget(x, y);
-        
+        this.target = new Coordinate(x, y);
+        this.calculatePath();
+
         this.notifyObservers();
     }
 
     attachObserver(observer:any)
     {
-        this.observers.push(observer);
+        if(!this.observers.includes(observer))
+        {
+            this.observers.push(observer);
+        }
     }
 
     notifyObservers()
