@@ -1,5 +1,6 @@
 import Grid from "./Grid"
 import {DFS, BFS, AStar, Dijkstra, IPathfindable} from "../../Logic/Pathfinding/Pathfinding";
+import {IAction, DefaultAction, ToggleAction, StartAction, TargetAction} from "../../Logic/Pathfinding/Action";
 
 enum ActionType
 {
@@ -27,7 +28,7 @@ export class GridModel
     pathTypes:IPathfindable[] = [new BFS(), new DFS(), new AStar(), new Dijkstra()];
     activePathIndex:number = 0;
 
-    activeActionType:ActionType = ActionType.TOGGLE;
+    activeAction:IAction = new DefaultAction();
 
     start:Coordinate = new Coordinate(-1, -1);
     target:Coordinate = new Coordinate(-1, -1);
@@ -44,6 +45,31 @@ export class GridModel
         if(index < 0 || index >= this.pathTypes.length) return;
 
         this.activePathIndex = index;
+    }
+
+    setActionIndex(index:number)
+    {
+        switch(index)
+        {
+            case 0:
+                this.activeAction = new ToggleAction(this);
+                break;
+            case 1:
+                this.activeAction = new StartAction(this);
+                break;
+            case 2:
+                this.activeAction = new TargetAction(this);
+        }
+    }
+
+    processAction(x:number, y:number)
+    {
+        this.activeAction.process(x, y);
+    }
+
+    setAction(action:IAction)
+    {
+        this.activeAction = action;
     }
 
     clearGrid()
@@ -70,6 +96,20 @@ export class GridModel
     {
         this.grid.toggleWalkable(x,y);
     
+        this.notifyObservers();
+    }
+
+    setStart(x:number, y:number)
+    {
+        this.grid.setStart(x, y);
+        
+        this.notifyObservers();
+    }
+
+    setTarget(x:number, y:number)
+    {
+        this.grid.setTarget(x, y);
+        
         this.notifyObservers();
     }
 

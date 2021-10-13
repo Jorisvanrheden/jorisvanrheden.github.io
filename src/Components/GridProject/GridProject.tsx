@@ -1,7 +1,7 @@
 import "./GridProject.css"
 
 import Toolbar from "../../Components/Toolbar/Toolbar"
-import GridEnvironment from "../../Components/GridEnvironment/GridEnvironment"
+import NavigationGrid from "../../Components/NavigationGrid/NavigationGrid"
 import { GridModel } from "../../Logic/Pathfinding/GridModel"
 
 //Logic imports
@@ -10,20 +10,20 @@ import { ToolbarItemInput } from "../../Components/Toolbar/Toolbar";
 
 const pathTypes:IPathfindable[] = [new BFS(), new DFS(), new AStar(), new Dijkstra()];
 
-function generateToolbarItemInput_Pathfinding(onIndexChanged:(index:number)=>void):ToolbarItemInput
+function generateToolbarItemInput_Pathfinding(defaultIndex:number, onIndexChanged:(index:number)=>void):ToolbarItemInput
 {
     let names:string[] = [];
     for(let i = 0; i< pathTypes.length;i++)
     {
         names.push(pathTypes[i].getName());
     }   
-    return new ToolbarItemInput("Pathfinding", names, 0, onIndexChanged);
+    return new ToolbarItemInput("Pathfinding", names, defaultIndex, onIndexChanged);
 }
 
-function generateToolbarItemInput_ActionTypes(onIndexChanged:(index:number)=>void):ToolbarItemInput
+function generateToolbarItemInput_ActionTypes(defaultIndex:number, onIndexChanged:(index:number)=>void):ToolbarItemInput
 {
     let names:string[] = ["Toggle", "Set Start", "Set Target"];
-    return new ToolbarItemInput("Action", names, 0, onIndexChanged);
+    return new ToolbarItemInput("Action", names, defaultIndex, onIndexChanged);
 }
 
 function generateToolbarItemInput_SingleActions(onIndexChanged:(index:number)=>void):ToolbarItemInput
@@ -36,13 +36,17 @@ export default function GridProject()
 {
     let gridModel:GridModel = new GridModel();
 
-
-
     let inputItems:ToolbarItemInput[] = [];
 
-    inputItems.push(generateToolbarItemInput_Pathfinding(setPathfindIndex));
-    inputItems.push(generateToolbarItemInput_ActionTypes(setActionTypeIndex));
+    let defaultPathfindTypeIndex:number = 0;
+    let defaultActionTypeIndex:number = 0;
+
+    inputItems.push(generateToolbarItemInput_Pathfinding(defaultPathfindTypeIndex, setPathfindIndex));
+    inputItems.push(generateToolbarItemInput_ActionTypes(defaultActionTypeIndex, setActionTypeIndex));
     inputItems.push(generateToolbarItemInput_SingleActions(setSingleActionIndex));
+
+    gridModel.setPathfindingIndex(defaultPathfindTypeIndex);
+    gridModel.setActionIndex(defaultActionTypeIndex);
 
     function setPathfindIndex(index:number)
     {
@@ -50,7 +54,7 @@ export default function GridProject()
     }
     function setActionTypeIndex(index:number)
     {
-        console.log(index);
+        gridModel.setActionIndex(index);
     }
     function setSingleActionIndex(index:number)
     {
@@ -89,7 +93,7 @@ export default function GridProject()
                 <Toolbar itemGroups={inputItems}/>
             </div>
             <div id="display">
-                <GridEnvironment gridModel={gridModel}/>
+                <NavigationGrid gridModel={gridModel}/>
             </div>
         </div>
     )

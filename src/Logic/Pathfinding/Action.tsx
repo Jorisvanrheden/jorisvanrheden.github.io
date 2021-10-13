@@ -31,64 +31,33 @@ export class ToggleAction extends IAction
 
 export class StartAction extends IAction
 {
-  grid:Grid;
-  callback:(grid:any) => void;
+  gridModel:GridModel;
   set:(value:any) => void;
 
-  constructor(grid:Grid, callback:any, set:any)
+  constructor(gridModel:GridModel)
   {
     super();
 
-    this.grid = grid;
-    this.callback = callback;
-    this.set = set;
+    this.gridModel = gridModel;
   }
 
   process(x:number, y:number): void {
-    this.grid.setStart(x,y);
-    this.set({x, y});
-    this.callback(this.grid.getTiles());
+    this.gridModel.setStart(x,y);
   }
 }
 
 export class TargetAction extends IAction
 {
-  grid:Grid;
-  callback:(grid:any) => void;
-  set:(value:any) => void;
+  gridModel:GridModel;
 
-  constructor(grid:Grid, callback:any, set:any)
+  constructor(gridModel:GridModel)
   {
     super();
 
-    this.grid = grid;
-    this.callback = callback;
-    this.set = set;
+    this.gridModel = gridModel;
   }
 
   process(x:number, y:number): void {
-    this.grid.setTarget(x,y);
-    this.set({x, y});
-    this.callback(this.grid.getTiles());
-  }
-}
-
-export class CalculateAction extends IAction
-{
-  grid:Grid;
-  callback:(grid:any) => void;
-
-  constructor(grid:Grid, callback:any)
-  {
-    super();
-
-    this.grid = grid;
-    this.callback = callback;
-  }
-
-  process(x:number, y:number): void {
-    this.grid.setTarget(x,y);
-
-    this.callback(this.grid.getTiles());
+    this.gridModel.setTarget(x,y);
   }
 }

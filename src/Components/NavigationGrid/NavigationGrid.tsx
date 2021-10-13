@@ -3,23 +3,14 @@ import "../NavigationGrid/NavigationGrid.css";
 import { useState } from "react";
 
 //Logic imports
-import Grid from "../../Logic/Pathfinding/Grid";
 import GridNode from "../GridNode/GridNode";
 
-import {IAction, DefaultAction, ToggleAction, StartAction, TargetAction, CalculateAction} from "../../Logic/Pathfinding/Action";
 import { GridModel } from "../../Logic/Pathfinding/GridModel";
 
 interface Props
 {
   gridModel:GridModel;
-
-  activeType:number;
-
-  setType:(index:number) => void;
 }
-
-let activeAction:IAction = new DefaultAction();
-
 
 let isMouseDown = false;
 
@@ -32,15 +23,8 @@ document.body.onmouseup = function() {
 
 export default function NavigationGrid(props:Props) {
   const [tiles, setTiles] = useState(props.gridModel.grid.getTiles());
-  const [start, setStart] = useState({x: -1, y: -1});
-  const [target, setTarget] = useState({x: -1, y: -1});
 
   props.gridModel.attachObserver(setTiles);
-
-  function drawGrid(grid:any)
-  {
-    setTiles(grid);
-  }
 
   // function calculate()
   // {
@@ -72,15 +56,14 @@ export default function NavigationGrid(props:Props) {
 
   function handleMouseDown(x:number, y:number)
   {
-    activeAction.process(x, y);
+    props.gridModel.processAction(x, y);
   }
 
   function handleMouseEnter(x:number, y:number)
   {
     if(!isMouseDown) return;
 
-    activeAction = new ToggleAction(props.gridModel)
-    activeAction.process(x, y);
+    props.gridModel.processAction(x, y);
   }
 
   return (
@@ -106,20 +89,5 @@ export default function NavigationGrid(props:Props) {
           ))}
         </table>
       </div> 
-         
-      /* <div>
-      
-        <button onClick={()=>activeAction = new ToggleAction(props.grid, drawGrid)}>
-            Toggle
-        </button>
-
-        <button onClick={()=>activeAction = new StartAction(props.grid, drawGrid, setStart)}>
-            Set Start
-        </button>
-
-        <button onClick={()=>activeAction = new TargetAction(props.grid, drawGrid, setTarget)}>
-            Set Target
-        </button>
-      </div> */
   );
 }
