@@ -1,3 +1,4 @@
+import { Checkbox } from "@material-ui/core";
 import "./Toolbar.css"
 
 import { ToolbarItemButton, ToolbarItemGroup } from "./ToolbarItemGroup"
@@ -24,10 +25,17 @@ interface Props
 {
     itemGroups:ToolbarItemInput[];
     itemButtons:ToolbarItemInput[];
+
+    onCheckedChanged(checked:boolean):void;
 }
 
 export default function Toolbar(props:Props)
 {
+    function onChecked(event: React.ChangeEvent<HTMLInputElement>, checked: boolean):void
+    {
+        props.onCheckedChanged(checked);
+    }
+
     return(
         <div className="toolbar-body">
             {
@@ -40,7 +48,7 @@ export default function Toolbar(props:Props)
                         setIndex={item.onIndexChanged}
                     /> 
                 ))
-            }
+            }         
             {
                 props.itemButtons.map((item:ToolbarItemInput, index) => 
                 (                    
@@ -52,6 +60,14 @@ export default function Toolbar(props:Props)
                     /> 
                 ))
             }
+
+            <div className="checkbox-body">
+                <Checkbox
+                    onChange={onChecked}
+                    color="primary"/
+                >
+                <div className="checkbox-text">Animate</div>
+            </div>
         </div>
     )
 }

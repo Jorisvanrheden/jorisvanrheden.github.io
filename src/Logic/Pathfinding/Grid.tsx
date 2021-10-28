@@ -48,6 +48,11 @@ export default class Grid
     this.tiles[x][y].walkable = !this.tiles[x][y].walkable;
   }
 
+  setWalkable(x:number, y:number, walkable:boolean)
+  {
+    this.tiles[x][y].walkable = walkable;
+  }
+
   randomize()
   {
     for(let i=0;i<this.xSize;i++)

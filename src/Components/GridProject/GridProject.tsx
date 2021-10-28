@@ -5,31 +5,25 @@ import NavigationGrid from "../../Components/NavigationGrid/NavigationGrid"
 import { GridModel } from "../../Logic/Pathfinding/GridModel"
 
 //Logic imports
-import {DFS, BFS, AStar, Dijkstra, IPathfindable} from "../../Logic/Pathfinding/Pathfinding";
 import { ToolbarItemInput } from "../../Components/Toolbar/Toolbar";
-
-const pathTypes:IPathfindable[] = [new BFS(), new DFS(), new AStar(), new Dijkstra()];
 
 function generateToolbarItemInput_Pathfinding(defaultIndex:number, onIndexChanged:(index:number)=>void):ToolbarItemInput
 {
-    let names:string[] = [];
-    for(let i = 0; i< pathTypes.length;i++)
-    {
-        names.push(pathTypes[i].getName());
-    }   
+    let names:string[] = ["BFS", "A-star(*)"];
+ 
     return new ToolbarItemInput("Pathfinding", names, defaultIndex, onIndexChanged);
 }
 
 function generateToolbarItemInput_ActionTypes(defaultIndex:number, onIndexChanged:(index:number)=>void):ToolbarItemInput
 {
-    let names:string[] = ["Toggle", "Set Start", "Set Target"];
-    return new ToolbarItemInput("Action", names, defaultIndex, onIndexChanged);
+    let names:string[] = ["Walkable", "Non-walkable", "Toggle", "Set Start", "Set Target"];
+    return new ToolbarItemInput("Tile actions", names, defaultIndex, onIndexChanged);
 }
 
 function generateToolbarItemInput_SingleActions(onIndexChanged:(index:number)=>void):ToolbarItemInput
 {
     let names:string[] = ["Clear", "Randomize", "Calculate"];
-    return new ToolbarItemInput("Single actions", names, -1, onIndexChanged);
+    return new ToolbarItemInput("Grid actions", names, -1, onIndexChanged);
 }
 
 export default function GridProject()
@@ -74,12 +68,18 @@ export default function GridProject()
         }
     }
 
+    function setAnimationEnabled(enabled:boolean)
+    {
+        gridModel.setEnableAnimation(enabled);
+    }
+
     return(
         <div className="grid-container">
             <div id="control-panel">
                 <Toolbar 
                     itemGroups={inputToggleItems}
                     itemButtons={inputButtonItems}
+                    onCheckedChanged = {setAnimationEnabled}
                 />
             </div>
             <div id="display">

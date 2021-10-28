@@ -1,6 +1,7 @@
 import Grid from "./Grid"
-import {DFS, BFS, AStar, Dijkstra, IPathfindable} from "../../Logic/Pathfinding/Pathfinding";
-import {IAction, DefaultAction, ToggleAction, StartAction, TargetAction} from "../../Logic/Pathfinding/Action";
+import {BFS, AStar, IPathfindable} from "../../Logic/Pathfinding/Pathfinding";
+import {IAction, WalkableAction, DefaultAction, ToggleAction, StartAction, TargetAction} from "../../Logic/Pathfinding/Action";
+import {IAnimator, InstantAnimator, StepByStepAnimator} from "../../Logic/Pathfinding/Animation"
 
 class Coordinate
 {
@@ -18,10 +19,11 @@ export class GridModel
 {
     grid:Grid = new Grid(20,30);
 
-    pathTypes:IPathfindable[] = [new BFS(), new DFS(), new AStar(), new Dijkstra()];
+    pathTypes:IPathfindable[] = [new BFS(), new AStar()];
     activePathIndex:number = 0;
 
     activeAction:IAction = new DefaultAction();
+    activeAnimation:IAnimator = new InstantAnimator();
 
     start:Coordinate = new Coordinate(-1, -1);
     target:Coordinate = new Coordinate(-1, -1);
@@ -29,6 +31,8 @@ export class GridModel
     path:Coordinate[] = [];
 
     observers:any[] = [];
+
+    calculateOnChange:boolean = true;
 
     constructor()
     {
@@ -47,13 +51,31 @@ export class GridModel
         switch(index)
         {
             case 0:
-                this.activeAction = new ToggleAction(this);
+                this.activeAction = new WalkableAction(this, true);
                 break;
             case 1:
-                this.activeAction = new StartAction(this);
+                this.activeAction = new WalkableAction(this, false);
                 break;
             case 2:
+                this.activeAction = new ToggleAction(this);
+                break;
+            case 3:
+                this.activeAction = new StartAction(this);
+                break;
+            case 4:
                 this.activeAction = new TargetAction(this);
+        }
+    }
+
+    setEnableAnimation(enableAnimation:boolean)
+    {
+        if(enableAnimation)
+        {
+            this.activeAnimation = new StepByStepAnimator();
+        }
+        else
+        {
+            this.activeAnimation = new InstantAnimator();
         }
     }
 
@@ -71,55 +93,80 @@ export class GridModel
     {
         this.grid.clear();
 
-        this.notifyObservers();
+        this.processChange();
     }
 
     randomizeGrid()
     {
         this.grid.randomize();
 
-        this.notifyObservers();
+        this.processChange();
     }
 
     calculatePath()
     {
         let data = this.pathTypes[this.activePathIndex].calculatePath(this.grid, this.start, this.target);   
         
-        this.path = [];
-        this.path = data.path;
+        //Cancel the previous animation if one was being executed
+        this.activeAnimation.stop();
+        
+        //Trigger the new animation 
+        this.activeAnimation.animate(data.path, this);
+
         this.notifyObservers();
-        // for(let i=0;i<data.path.length;i++)
-        // {
-        //     setTimeout(() => 
-        //     {
-        //         this.path.push(data.path[i]);
-        //         this.notifyObservers();                
-        //     }, i*50);
-        // }
+    }
+
+    displayPath(path:any)
+    {
+        this.path = path;
+
+        this.notifyObservers();
     }
 
     toggleWalkable(x:number, y:number)
     {
         this.grid.toggleWalkable(x,y);
-        this.calculatePath()
 
-        // this.notifyObservers();
+        this.processChange();
+    }
+    
+    setWalkable(x:number, y:number, walkable:boolean)
+    {
+        this.grid.setWalkable(x, y, walkable);
+
+        this.processChange();
     }
 
     setStart(x:number, y:number)
     {
         this.start = new Coordinate(x, y);
-        this.calculatePath()
 
-        // this.notifyObservers();
+        this.processChange();
     }
 
     setTarget(x:number, y:number)
     {
         this.target = new Coordinate(x, y);
-        this.calculatePath();
 
-        // this.notifyObservers();
+        this.processChange();
+    }
+
+    processChange()
+    {
+        //Only recalculate the path if the setting explicity mentions it
+        if(this.calculateOnChange)  
+        {
+            this.calculatePath();
+        }
+        else
+        {
+            //clean the path
+            this.path = [];
+
+            this.activeAnimation.stop();
+
+            this.notifyObservers();
+        }
     }
 
     attachObserver(observer:any)

@@ -1,4 +1,3 @@
-import Grid from "../Pathfinding/Grid"
 import { GridModel } from "./GridModel";
 
 export abstract class IAction
@@ -26,6 +25,25 @@ export class ToggleAction extends IAction
 
   process(x:number, y:number): void {
     this.gridModel.toggleWalkable(x,y);
+  }
+}
+
+export class WalkableAction extends IAction
+{
+  gridModel:GridModel;
+  walkable:boolean;
+  callback:(grid:any) => void;
+
+  constructor(gridModel:GridModel, walkable:boolean)
+  {
+    super();
+
+    this.gridModel = gridModel;
+    this.walkable = walkable;
+  }
+
+  process(x:number, y:number): void {
+    this.gridModel.setWalkable(x,y, this.walkable);
   }
 }
 
