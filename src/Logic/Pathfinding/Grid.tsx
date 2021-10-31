@@ -1,15 +1,11 @@
+import { Coordinate } from "./GridModel";
+
 export default class Grid
 {
-  xSize:number = 0;
-  ySize:number = 0;
+  private xSize:number = 0;
+  private ySize:number = 0;
 
   private tiles:any = [];
-
-  // private DEFAULT:number = 0;
-  // private START:number = 1;
-  // private TARGET:number = 2;
-  // private VISITED:number = 3;
-  // private PATH:number = 4;
 
   constructor(xSize:number, ySize:number)
   {
@@ -68,10 +64,10 @@ export default class Grid
   {
     let neighbors:any = [];
 
-    if(this.isValidTileCoordinate(coordinate.x-1, coordinate.y)) neighbors.push({x: coordinate.x-1, y:coordinate.y});
-    if(this.isValidTileCoordinate(coordinate.x, coordinate.y-1)) neighbors.push({x: coordinate.x, y:coordinate.y-1});
-    if(this.isValidTileCoordinate(coordinate.x+1, coordinate.y)) neighbors.push({x: coordinate.x+1, y:coordinate.y});
-    if(this.isValidTileCoordinate(coordinate.x, coordinate.y+1)) neighbors.push({x:coordinate. x, y:coordinate.y+1});
+    if(this.isValidAndWalkable(coordinate.x-1, coordinate.y)) neighbors.push({x: coordinate.x-1, y:coordinate.y});
+    if(this.isValidAndWalkable(coordinate.x, coordinate.y-1)) neighbors.push({x: coordinate.x, y:coordinate.y-1});
+    if(this.isValidAndWalkable(coordinate.x+1, coordinate.y)) neighbors.push({x: coordinate.x+1, y:coordinate.y});
+    if(this.isValidAndWalkable(coordinate.x, coordinate.y+1)) neighbors.push({x:coordinate. x, y:coordinate.y+1});
 
     return neighbors;
   }
@@ -81,14 +77,23 @@ export default class Grid
     return this.tiles.slice();
   }
 
-  /***Helper functions***/
+  getTile(x:number, y:number)
+  {
+    return this.tiles[x][y];
+  }
+
   isValidTileCoordinate(x:number, y:number)
   {
     if(x < 0 || x >= this.tiles.length) return false;
     if(y < 0 || y >= this.tiles[0].length) return false;
 
+    return true;
+  }
+
+  isValidAndWalkable(x:number, y:number)
+  {
+    if(!this.isValidTileCoordinate(x, y)) return false;
+
     return this.tiles[x][y].walkable;
   }
-  /***Helper functions***/
-  
 }

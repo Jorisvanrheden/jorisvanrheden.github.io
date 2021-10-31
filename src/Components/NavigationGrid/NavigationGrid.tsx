@@ -3,8 +3,7 @@ import "../NavigationGrid/NavigationGrid.css";
 import { useState } from "react";
 
 //Logic imports
-import GridNode from "../GridNode/GridNode";
-
+import GridNode, {GRID_STATUS} from "../GridNode/GridNode";
 import { GridModel } from "../../Logic/Pathfinding/GridModel";
 
 interface Props
@@ -25,32 +24,6 @@ export default function NavigationGrid(props:Props) {
   const [tiles, setTiles] = useState(props.gridModel.grid.getTiles());
   
   props.gridModel.attachObserver(setTiles);
-  // props.gridModel.attachPathObserver(display);
-
-  function display(data:any)
-  {
-    //Clean the animation statuses in the current grid
-    // props.grid.resetStatuses();
-    // setTiles(props.grid.getTiles());                    
-
-    //Draw searched paths
-    // for(let i=0;i<data.visitedNodes.length;i++)
-    // {
-    //   setTimeout(() => {
-    //     props.grid.setVisited(data.visitedNodes[i].x, data.visitedNodes[i].y);
-    //     setTiles(props.grid.getTiles());                    
-    //   }, i*50);
-    // }
-
-    //Draw determined paths
-    // for(let i=0;i<data.path.length;i++)
-    // {
-    //   setTimeout(() => {
-    //     props.gridModel.grid.setPath(data.path[i].x, data.path[i].y);
-    //     setTiles(props.gridModel.grid.getTiles());                    
-    //   }, i*50);
-    // }
-  }
 
   function handleMouseDown(x:number, y:number)
   {
@@ -66,15 +39,20 @@ export default function NavigationGrid(props:Props) {
 
   function getStatus(x:number, y:number)
   {
-    if(props.gridModel.start.x === x && props.gridModel.start.y === y) return 1;
-    if(props.gridModel.target.x === x && props.gridModel.target.y === y) return 2;
+    if(props.gridModel.start.x === x && props.gridModel.start.y === y) return GRID_STATUS.START;
+    if(props.gridModel.target.x === x && props.gridModel.target.y === y) return GRID_STATUS.TARGET;
     
     for(let i=0; i<props.gridModel.path.length;i++)
     {
-      if(props.gridModel.path[i].x == x && props.gridModel.path[i].y == y) return 4;
+      if(props.gridModel.path[i].x === x && props.gridModel.path[i].y === y) return GRID_STATUS.PATH;
+    }
+
+    for(let i=0; i<props.gridModel.visitedNodes.length;i++)
+    {
+      if(props.gridModel.visitedNodes[i].x === x && props.gridModel.visitedNodes[i].y === y) return GRID_STATUS.VISITED;
     }
     
-    return 0;
+    return GRID_STATUS.DEFAULT;
   }
 
   return (

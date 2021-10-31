@@ -12,6 +12,15 @@ interface Props
     processMouseEnter:(x:number, y:number) => void;
 }
 
+export enum GRID_STATUS
+{
+    DEFAULT = 0,
+    START = 1,
+    TARGET = 2, 
+    VISITED = 3, 
+    PATH = 4
+}
+
 export default function GridNode(props:Props)
 {   
     function getCellStyle() {
@@ -25,19 +34,19 @@ export default function GridNode(props:Props)
         {
             switch(props.status)
             {
-                case 0:
+                case GRID_STATUS.DEFAULT:
                     style+="light ";
                     break;
-                case 1:
+                case GRID_STATUS.START:
                     style+="start ";
                     break;
-                case 2:
+                case GRID_STATUS.TARGET:
                     style+="target ";
                     break;
-                case 3:
+                case GRID_STATUS.VISITED:
                     style+="visited ";
                     break;
-                case 4:
+                case GRID_STATUS.PATH:
                     style+="path ";
                     break;
                 default:

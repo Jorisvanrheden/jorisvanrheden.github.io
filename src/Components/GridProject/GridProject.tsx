@@ -33,8 +33,8 @@ export default function GridProject()
     let inputToggleItems:ToolbarItemInput[] = [];
     let inputButtonItems:ToolbarItemInput[] = [];
 
-    let defaultPathfindTypeIndex:number = 0;
-    let defaultActionTypeIndex:number = 0;
+    let defaultPathfindTypeIndex:number = 1;
+    let defaultActionTypeIndex:number = 3;
 
     inputToggleItems.push(generateToolbarItemInput_Pathfinding(defaultPathfindTypeIndex, setPathfindIndex));
     inputToggleItems.push(generateToolbarItemInput_ActionTypes(defaultActionTypeIndex, setActionTypeIndex));
