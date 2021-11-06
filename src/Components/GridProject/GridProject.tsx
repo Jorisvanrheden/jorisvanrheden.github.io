@@ -16,7 +16,7 @@ function generateToolbarItemInput_Pathfinding(defaultIndex:number, onIndexChange
 
 function generateToolbarItemInput_ActionTypes(defaultIndex:number, onIndexChanged:(index:number)=>void):ToolbarItemInput
 {
-    let names:string[] = ["Walkable", "Non-walkable", "Toggle", "Set Start", "Set Target"];
+    let names:string[] = ["Walkable", "Non-walkable", "Set Start", "Set Target"];
     return new ToolbarItemInput("Tile actions", names, defaultIndex, onIndexChanged);
 }
 

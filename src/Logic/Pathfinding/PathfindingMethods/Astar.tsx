@@ -62,8 +62,6 @@ export class AStar extends IPathfindable
         fScores.set(tiles[start.x][start.y], this.calculateHeuristic(start, target));
         gScores.set(tiles[start.x][start.y], 0);
 
-        let dev_index = 0;
-
         while(openSet.length > 0)
         {
             //Select a new active node, which is the node with the lowest fScore
@@ -78,10 +76,10 @@ export class AStar extends IPathfindable
 
             if(activeNode.x === target.x && activeNode.y === target.y)
             {
-                //set the link
-                target.link = activeNode;
-
-                break;
+                //stop searching
+                let path = this.constructPath(activeNode);
+                
+                return {path:path, visitedNodes:closedSet};
             }
 
             //Go through all neighbors of the active node
@@ -115,18 +113,19 @@ export class AStar extends IPathfindable
                     fScores.set(neighbor, neighborFScore);
 
                     openSet.push(neighbor);
-                }
 
-                //neighbor.link = activeNode;   
+                    //Update the link
+                    neighbor.link = activeNode;
+                }
             }
         }
-        return closedSet;
+        return {path:[], visitedNodes:[]};
     } 
 
     calculatePath(grid:Grid, start:any, target:any): PathfindingResult {
-        const visitedNodes:any[] = this.process(grid, start, target);
-        const path:any[] = [];//this.constructPath(target);
+        
+        const data:any = this.process(grid, start, target);
 
-        return {path: path, visitedNodes: visitedNodes};
+        return {path: data.path, visitedNodes: data.visitedNodes};
     }
 }

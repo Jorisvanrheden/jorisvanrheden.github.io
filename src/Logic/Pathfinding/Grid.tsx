@@ -49,13 +49,19 @@ export default class Grid
     this.tiles[x][y].walkable = walkable;
   }
 
-  randomize()
+  randomize(exceptionCoordinates:Coordinate[])
   {
     for(let i=0;i<this.xSize;i++)
     {     
       for(let j=0;j<this.ySize;j++)
       {
-        this.tiles[i][j].walkable = Math.random() > 0.3;
+        let walkable:boolean = true;
+
+        //only process the tile if it's not in the list of exceptions
+        if(!this.containsCoordinate(exceptionCoordinates, i, j))
+        {
+          this.tiles[i][j].walkable = Math.random() > 0.3;
+        }
       }
     }
   }
@@ -64,10 +70,17 @@ export default class Grid
   {
     let neighbors:any = [];
 
+    //horizontal + vertical
     if(this.isValidAndWalkable(coordinate.x-1, coordinate.y)) neighbors.push({x: coordinate.x-1, y:coordinate.y});
     if(this.isValidAndWalkable(coordinate.x, coordinate.y-1)) neighbors.push({x: coordinate.x, y:coordinate.y-1});
     if(this.isValidAndWalkable(coordinate.x+1, coordinate.y)) neighbors.push({x: coordinate.x+1, y:coordinate.y});
     if(this.isValidAndWalkable(coordinate.x, coordinate.y+1)) neighbors.push({x:coordinate. x, y:coordinate.y+1});
+
+    //diagonals
+    // if(this.isValidAndWalkable(coordinate.x-1, coordinate.y-1)) neighbors.push({x: coordinate.x-1, y:coordinate.y-1});
+    // if(this.isValidAndWalkable(coordinate.x-1, coordinate.y+1)) neighbors.push({x: coordinate.x-1, y:coordinate.y+1});
+    // if(this.isValidAndWalkable(coordinate.x+1, coordinate.y-1)) neighbors.push({x: coordinate.x+1, y:coordinate.y-1});
+    // if(this.isValidAndWalkable(coordinate.x+1, coordinate.y+1)) neighbors.push({x:coordinate. x+1, y:coordinate.y+1});
 
     return neighbors;
   }
@@ -80,6 +93,16 @@ export default class Grid
   getTile(x:number, y:number)
   {
     return this.tiles[x][y];
+  }
+
+  containsCoordinate(coordinates:Coordinate[], x:number, y:number)
+  {
+    for(let i=0;i<coordinates.length;i++)
+    {
+      if(coordinates[i].x === x && coordinates[i].y === y) return true;
+    }
+
+    return false;
   }
 
   isValidTileCoordinate(x:number, y:number)

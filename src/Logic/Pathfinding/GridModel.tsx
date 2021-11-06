@@ -20,7 +20,7 @@ export class Coordinate
 
 export class GridModel
 {
-    grid:Grid = new Grid(20,30);
+    grid:Grid = new Grid(30, 30);
 
     pathTypes:IPathfindable[] = [new BFS(), new AStar()];
     activePathIndex:number = 0;
@@ -63,18 +63,20 @@ export class GridModel
                 this.activeAction = new WalkableAction(this, false);
                 break;
             case 2:
-                this.activeAction = new ToggleAction(this);
-                break;
-            case 3:
                 this.activeAction = new StartAction(this);
                 break;
-            case 4:
+            case 3:
                 this.activeAction = new TargetAction(this);
+                break;
+            default:
+                break;
         }
     }
 
     setEnableAnimation(enableAnimation:boolean)
     {
+        this.activeAnimation.stop();
+
         if(enableAnimation)
         {
             this.activeAnimation = new PathAndVisitedNodesAnimator();
@@ -99,14 +101,27 @@ export class GridModel
 
     clearGrid()
     {
+        //clear the grid
         this.grid.clear();
+
+        //clear start and end positions
+        this.start = new Coordinate(-1, -1);
+        this.target = new Coordinate(-1, -1);
+
+        //clear paths
+        this.path = [];
+        this.visitedNodes = [];
 
         this.processChange();
     }
 
     randomizeGrid()
     {
-        this.grid.randomize();
+        let exceptions:Coordinate[] = [];
+        exceptions.push(new Coordinate(this.start.x, this.start.y));
+        exceptions.push(new Coordinate(this.target.x, this.target.y));
+
+        this.grid.randomize(exceptions);
 
         this.processChange();
     }
@@ -119,8 +134,8 @@ export class GridModel
         let start = this.grid.getTile(this.start.x, this.start.y);
         let target = this.grid.getTile(this.target.x, this.target.y);
 
-        let data:PathfindingResult = this.pathTypes[this.activePathIndex].calculatePath(this.grid, start, target);   
-        
+        let data:PathfindingResult = this.pathTypes[this.activePathIndex].calculatePath(this.grid, start, target);  
+                
         //Cancel the previous animation if one was being executed
         this.activeAnimation.stop();
         
@@ -152,6 +167,8 @@ export class GridModel
 
     setStart(x:number, y:number)
     {
+        if(!this.grid.isValidAndWalkable(x, y)) return;
+
         this.start = new Coordinate(x, y);
 
         this.processChange();
@@ -159,6 +176,8 @@ export class GridModel
 
     setTarget(x:number, y:number)
     {
+        if(!this.grid.isValidAndWalkable(x, y)) return;
+
         this.target = new Coordinate(x, y);
 
         this.processChange();
