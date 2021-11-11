@@ -6,6 +6,24 @@ export interface PathfindingResult
     visitedNodes:any[];
 }
 
+export class PathfindingTile
+{
+    //store the link to backtrack
+    //this is more efficient than keeping track of another data structure   
+    link:PathfindingTile;
+ 
+    x:number;
+    y:number;
+
+    visited:boolean = false;
+
+    constructor(x:number, y:number)
+    {
+        this.x = x;
+        this.y = y;
+    }
+}
+
 export abstract class IPathfindable
 {
     abstract getName():string;
@@ -21,21 +39,18 @@ export abstract class IPathfindable
         return false;
     }
 
-    constructPath(target:any)
+    constructPath(target:PathfindingTile)
     {
-        let path:any[] = [];
+        let path:PathfindingTile[] = [];
         
         let activeNode = target;
 
-        while(activeNode.link != null)
+        while(activeNode !== undefined)
         {
             path.push(activeNode);
 
             activeNode = activeNode.link;
         }
-
-        //remove target from list
-        if(path.length>0)path.splice(0,1);
 
         return path.reverse();
     }

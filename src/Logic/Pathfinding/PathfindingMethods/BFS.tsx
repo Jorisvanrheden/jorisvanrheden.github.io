@@ -1,4 +1,4 @@
-import {IPathfindable, PathfindingResult} from "../Pathfinding"
+import {IPathfindable, PathfindingResult, PathfindingTile} from "../Pathfinding"
 import Grid from "../../Pathfinding/Grid"
 
 export class BFS extends IPathfindable
@@ -12,7 +12,27 @@ export class BFS extends IPathfindable
         let queue:any[] = [];
         let visitedNodes:any[] = [];
 
-        queue.push(start);
+        let referenceTiles:any[][] = grid.getTiles();
+
+        //Initialize a customized 'copy' of the original tiles, to store specific data 
+        //which is used to efficiently process the pathfinding algorithm
+        let tiles:PathfindingTile[][] = new Array(referenceTiles.length);
+
+        for(let i=0;i<referenceTiles.length;i++)
+        {
+            let row:PathfindingTile[] = new Array(referenceTiles[i].length);
+            for(let j=0;j<referenceTiles[i].length;j++)
+            {
+                row[j] = new PathfindingTile(i, j);
+            }
+            tiles[i] = row;
+        }
+
+        queue.push(tiles[start.x][start.y]);
+
+        //Add the start node to visited, because no link should be set to that node
+        visitedNodes.push(tiles[start.x][start.y]);
+        tiles[start.x][start.y].visited = true;
 
         while(queue.length>0)
         {
@@ -25,33 +45,36 @@ export class BFS extends IPathfindable
             //add neighbors to queue, but only if not processed before
             for(let i=0;i<neighbors.length;i++)
             {
-                if(neighbors[i].x === target.x &&
-                   neighbors[i].y === target.y) 
-                {
-                    target.link = activeNode;
-                    return visitedNodes;
-                }
+                let neighbor = tiles[neighbors[i].x][neighbors[i].y];
 
-                //store the connected node
-                neighbors[i].link = activeNode;
-
-                if(!this.collectionContains(visitedNodes, neighbors[i]))
+                if(neighbor.x === target.x && neighbor.y === target.y) 
                 {
-                    visitedNodes.push(neighbors[i]);
+                    //stop searching
+                    let path = this.constructPath(activeNode);
+                    
+                    return {path:path, visitedNodes:visitedNodes};
+                }                
+
+                if(!neighbor.visited)
+                {
+                    visitedNodes.push(neighbor);
+                    neighbor.visited = true;
 
                     //add to queue
-                    queue.push(neighbors[i]);
+                    queue.push(neighbor);
+
+                    //store the connected node
+                    neighbor.link = activeNode;
                 }        
             }
         }
 
-        return visitedNodes;
+        return {path:[], visitedNodes:[]};
     }
 
     calculatePath(grid:Grid, start:any, target:any): PathfindingResult {
-        const visitedNodes:any[] = this.process(grid, start, target);
-        const path:any[] = this.constructPath(target);
-
-        return {path: path, visitedNodes: visitedNodes};
+        const data:any = this.process(grid, start, target);
+        
+        return {path: data.path, visitedNodes: data.visitedNodes};
     }    
 }

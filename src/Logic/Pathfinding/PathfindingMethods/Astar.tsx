@@ -1,6 +1,19 @@
-import {IPathfindable, PathfindingResult} from "../Pathfinding"
+import {IPathfindable, PathfindingResult, PathfindingTile} from "../Pathfinding"
 import Grid from "../../Pathfinding/Grid"
-import Coordinate from "../Grid"
+
+class PathfindingAStartTile extends PathfindingTile
+{
+    fScore:number = Infinity;
+    gScore:number = Infinity;
+
+    isInOpen:boolean = false;
+    isInClosed:boolean = false;
+
+    constructor(x:number, y:number)
+    {
+        super(x, y);
+    }
+}
 
 export class AStar extends IPathfindable
 {
@@ -13,7 +26,7 @@ export class AStar extends IPathfindable
         return Math.abs(target.y - start.y) + Math.abs(target.x - start.x);
     }
 
-    getLowestFScoreIndex(openSet:any[], fScores:Map<any, number>, tiles:any[])
+    getLowestFScoreIndex(openSet:PathfindingAStartTile[])
     {
         let lowestIndex:number = 0;
         let lowestFScore:number = Infinity;
@@ -21,7 +34,7 @@ export class AStar extends IPathfindable
         for(let i=0;i<openSet.length;i++)
         {
             let node = openSet[i];
-            let fScore:any = fScores.get(tiles[node.x][node.y]);
+            let fScore:any = node.fScore;
 
             if(fScore < lowestFScore)
             {
@@ -36,36 +49,37 @@ export class AStar extends IPathfindable
     process(grid:Grid, start:any, target:any)
     {
         //Initialize the open and closed sets
-        let openSet:any[] = [];
-        let closedSet:any[] = [];
+        let openSet:PathfindingAStartTile[] = [];
+        let closedSet:PathfindingAStartTile[] = [];
 
-        //Dictionaries to keep track of the g/f-scores
-        let fScores = new Map<any, number>();
-        let gScores = new Map<any, number>();
+        let referenceTiles:any[][] = grid.getTiles();
 
-        let tiles:any[][] = grid.getTiles();
+        //Initialize a customized 'copy' of the original tiles, to store specific data 
+        //which is used to efficiently process the pathfinding algorithm
+        let tiles:PathfindingAStartTile[][] = new Array(referenceTiles.length);
 
-        //Initialize all f/g-scores to infinity
-        for(let i=0;i<tiles.length;i++)
+        for(let i=0;i<referenceTiles.length;i++)
         {
-            for(let j=0;j<tiles[i].length;j++)
+            let row:PathfindingAStartTile[] = new Array(referenceTiles[i].length);
+            for(let j=0;j<referenceTiles[i].length;j++)
             {
-                fScores.set(tiles[i][j], Infinity);
-                gScores.set(tiles[i][j], Infinity);
+                row[j] = new PathfindingAStartTile(i, j);
             }
+            tiles[i] = row;
         }
 
         //Add the start node to the open set
         openSet.push(tiles[start.x][start.y]);
-
+        tiles[start.x][start.y].isInOpen = true;
+        
         //Set the initial start heurisitc
-        fScores.set(tiles[start.x][start.y], this.calculateHeuristic(start, target));
-        gScores.set(tiles[start.x][start.y], 0);
+        tiles[start.x][start.y].fScore = this.calculateHeuristic(start, target);
+        tiles[start.x][start.y].gScore = 0;
 
         while(openSet.length > 0)
         {
             //Select a new active node, which is the node with the lowest fScore
-            let activeNodeIndex = this.getLowestFScoreIndex(openSet, fScores, tiles);
+            let activeNodeIndex = this.getLowestFScoreIndex(openSet);
             let activeNode = openSet[activeNodeIndex];
 
             //Remove the activenode from the open set
@@ -73,6 +87,7 @@ export class AStar extends IPathfindable
 
             //Add the activenode to the closed set
             closedSet.push(activeNode);
+            activeNode.isInClosed = true;
 
             if(activeNode.x === target.x && activeNode.y === target.y)
             {
@@ -86,7 +101,7 @@ export class AStar extends IPathfindable
             const neighbors:any[] = grid.getNeighboringTiles(activeNode);
 
             //Cache the active nodes GScore
-            let activeGScore:any = gScores.get(activeNode);
+            let activeGScore:any = activeNode.gScore;
 
             //add neighbors to queue, but only if not processed before
             for(let i=0;i<neighbors.length;i++)
@@ -94,14 +109,17 @@ export class AStar extends IPathfindable
                 let neighbor = tiles[neighbors[i].x][neighbors[i].y]
 
                 //Don't process neighbors that are in the closed list
-                if(this.collectionContains(closedSet, neighbor)) continue;
+                if(neighbor.isInClosed) continue;
 
                 let neighborGScore:number = activeGScore + this.calculateHeuristic(activeNode, neighbor);
                 let neighborFScore:number = neighborGScore + this.calculateHeuristic(neighbor, target);
 
-                if(this.collectionContains(openSet, neighbor))
+                //Update the link
+                neighbor.link = activeNode;
+
+                if(neighbor.isInOpen)
                 {
-                    let neighborOldGScore:any = gScores.get(neighbor);
+                    let neighborOldGScore:any = neighbor.gScore;
                     if(neighborGScore > neighborOldGScore)
                     {
                         continue;
@@ -109,13 +127,11 @@ export class AStar extends IPathfindable
                 }
                 else
                 {
-                    gScores.set(neighbor, neighborGScore);
-                    fScores.set(neighbor, neighborFScore);
+                    neighbor.gScore = neighborGScore;
+                    neighbor.fScore = neighborFScore;
 
-                    openSet.push(neighbor);
-
-                    //Update the link
-                    neighbor.link = activeNode;
+                    openSet.push(neighbor);     
+                    neighbor.isInOpen = true;
                 }
             }
         }

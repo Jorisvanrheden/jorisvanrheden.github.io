@@ -135,7 +135,7 @@ export class GridModel
         let target = this.grid.getTile(this.target.x, this.target.y);
 
         let data:PathfindingResult = this.pathTypes[this.activePathIndex].calculatePath(this.grid, start, target);  
-                
+         
         //Cancel the previous animation if one was being executed
         this.activeAnimation.stop();
         
