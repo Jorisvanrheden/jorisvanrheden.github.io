@@ -1,0 +1,47 @@
+.project-container
+{
+    display: flex;
+
+    flex-direction: column;
+    
+    width:100%;
+    height:100%;
+
+    background-color: rgb(138, 138, 141);
+}
+
+.project-entry
+{
+    display:flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: auto;
+    height: 300px;
+    margin: 5px;
+    border-radius: 2px;
+
+    cursor: pointer;
+    text-decoration:none;
+    background-color: rgb(243, 243, 243);
+
+    transition: all ease 0.2s;
+}
+
+.project-entry:hover
+{
+    background-color: rgb(230, 230, 230);
+}
+
+.project-entry-image
+{
+    width:auto;
+    height:65%;
+}
+
+.project-entry-description
+{
+    width:300px;
+    margin-right: 100px;
+}

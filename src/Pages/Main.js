@@ -5,15 +5,24 @@ import Home from '../Body/Home';
 import About from '../Body/About'
 import SoftwareProjects from '../Body/SoftwareProjects';
 import Youtube from '../Body/Youtube'
+import Project_Pathfinding from '../Body/Project_Pathfinding'
+import Project_Chess from '../Body/Project_Chess'
 
 const Main = () => {
   return (
     <BrowserRouter>
       <Switch> {/* The Switch decides which component to show based on the current URL.*/}
+
+        {/* Tab pages */}
         <Route exact path='/' component={Home}></Route>
         <Route exact path='/about' component={About}></Route>
         <Route exact path='/software' component={SoftwareProjects}></Route>
         <Route exact path='/youtube' component={Youtube}></Route>
+
+        {/* Projects  */}
+        <Route exact path='/projects/pathfinding' component={Project_Pathfinding}></Route>
+        <Route exact path='/projects/chess' component={Project_Chess}></Route>
+
       </Switch>
     </BrowserRouter> 
   );
