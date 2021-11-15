@@ -14,7 +14,9 @@ const Main = () => {
       <Switch> {/* The Switch decides which component to show based on the current URL.*/}
 
         {/* Tab pages */}
-        <Route exact path='/' component={Home}></Route>
+        <Route exact path='/' component={Project_Chess}></Route>
+        {/* <Route exact path='/' component={Home}></Route> */}
+
         <Route exact path='/about' component={About}></Route>
         <Route exact path='/software' component={SoftwareProjects}></Route>
         <Route exact path='/youtube' component={Youtube}></Route>

@@ -4,7 +4,7 @@ import "./Home.css"
 import NavigationBar from "../Components/NavigationBar/NavigationBar"
 import Footer from '../Components/Footer/Footer'
 
-import GridProject from "../Components/GridProject/GridProject"
+import ChessProject from "../Components/ChessProject/ChessProject"
 
 export default function About()
 {  
@@ -14,7 +14,7 @@ export default function About()
         <NavigationBar/>
       </div>
       <div id="main">
-        <GridProject/>      
+        stuff for about  
       </div>
       <div id="footer">
         <Footer/>

@@ -3,6 +3,7 @@ import "./Home.css"
 //component imports
 import NavigationBar from "../Components/NavigationBar/NavigationBar"
 import Footer from '../Components/Footer/Footer'
+import ChessProject from "../Components/ChessProject/ChessProject"
 
 export default function Project_Chess()
 {  
@@ -12,7 +13,7 @@ export default function Project_Chess()
         <NavigationBar/>
       </div>
       <div id="main">
-        This is where the CHESS stuff should come   
+        <ChessProject/>
       </div>
       <div id="footer">
         <Footer/>
