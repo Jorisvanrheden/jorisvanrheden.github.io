@@ -12,7 +12,7 @@ const menuItems: Array<NavigationMenuItem> =
 [
     {title: "Home", url: "/"},
     {title: "About", url: "/about"},
-    {title: "Software Projects", url: "/software"},
+    {title: "Software Projects", url: "/projects"},
     {title: "YouTube", url: "/youtube"},
 ]
 

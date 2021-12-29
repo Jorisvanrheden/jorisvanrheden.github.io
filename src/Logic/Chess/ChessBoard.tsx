@@ -22,7 +22,7 @@ export default class ChessBoard
         const row:any = [];
         for(let j=0;j<this.ySize;j++)
         {
-            const gridNode:any = {x:i, y:j};
+            const gridNode:any = {x:i, y:j, ID:0};
             row.push(gridNode);
         }
 
@@ -30,6 +30,21 @@ export default class ChessBoard
     }
 
     return tiles;
+  }
+
+  setTiles(map:any[])
+  {
+    this.tiles = [];
+    for(let i=0;i<map[0].length;i++)
+    {
+      const row:any = [];
+      for(let j=0;j<map.length;j++)
+      {
+          const gridNode:any = {x:i, y:j,ID:map[j][i]};
+          row.push(gridNode);
+      }
+      this.tiles.push(row);
+    }
   }
 
   getTiles()
@@ -40,6 +55,11 @@ export default class ChessBoard
   getTile(x:number, y:number)
   {
     return this.tiles[x][y];
+  }
+
+  getPieceAt(x:number, y:number)
+  {
+    return this.tiles[x][y].ID;
   }
 
   isValidTileCoordinate(x:number, y:number)
