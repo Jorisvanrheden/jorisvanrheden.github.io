@@ -10,6 +10,9 @@ export default function ChessProject()
     //now its just purely for testing
     let board:ChessBoard = new ChessBoard(8, 8);
 
+    let start = {x:0, y:0};
+    let target = {x:0, y:0};
+
     const tiles = [
       [11,10,9,8,7,9,10, 11],
       [12,12,12,12,12,12,12,12],
@@ -24,19 +27,24 @@ export default function ChessProject()
 
     let squares = board.getTiles();
 
-    function dragStart()
+    function setStart(x:number, y:number)
     {
-        console.log("start");
+        start.x = x;
+        start.y = y;
     }
 
-    function dragStop()
+    function setTarget(x:number, y:number)
     {
-        console.log("stop");
+        target.x = x;
+        target.y = y;
     }
 
-    function dragMove(event:any)
+    function processMove()
     {
-        console.log(event.clientX + ", " + event.clientY);
+        console.log("Move from: ");
+        console.log(start);
+        console.log("to: ");
+        console.log(target);
     }
 
     return(
@@ -50,7 +58,13 @@ export default function ChessProject()
                         {
                         values.map((value:any, yIndex:number) => 
                         (
-                            <ChessTile x={xIndex} y={yIndex} pieceID={board.getPieceAt(xIndex, yIndex)}/>                           
+                            <ChessTile  x={xIndex} 
+                                        y={yIndex} 
+                                        pieceID={board.getPieceAt(xIndex, yIndex)}
+                                        setStart={setStart}
+                                        setTarget={setTarget}
+                                        processMove={processMove}
+                            />                           
                         ))
                         }
                     </div> 

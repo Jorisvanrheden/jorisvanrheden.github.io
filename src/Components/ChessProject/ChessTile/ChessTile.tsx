@@ -6,11 +6,16 @@ interface Props
     x:number;
     y:number;
     pieceID:number;
+
+    setStart:(x:number, y:number) => void;
+    setTarget:(x:number, y:number) => void;
+    processMove:() => void;
 }
 
 export default function ChessTile(props:Props)
 {    
     const [dragging, setDragging] = useState(false);
+    const [hoveredOver, setHoveredOver] = useState(false);
 
     function getStyle(x:number, y:number)
     {
@@ -20,13 +25,14 @@ export default function ChessTile(props:Props)
 
         if(isEven)
         {
-            style += "chess-board-square-light";
+            style += "chess-board-square-dark"
         }
         else
         {
-            style += "chess-board-square-dark"
+            style += "chess-board-square-light";
         }
 
+        if(hoveredOver) style += " hovering"
 
         return style;
     }
@@ -36,7 +42,7 @@ export default function ChessTile(props:Props)
         let style = "draggable ";
 
         if(dragging) style += " dragging"
-        
+
         return style;
     }
 
@@ -45,30 +51,54 @@ export default function ChessTile(props:Props)
         return "../chess_pieces/" + props.pieceID.toString() + ".png";
     }
 
-    function onDragStart()
+    function onDragStart(event:any)
     {
+        props.setStart(props.x, props.y);
+
         setDragging(true);
     }
-    function onDragEnd()
+    function onDragEnd(event:any)
     {
+        props.processMove();
+
         setDragging(false);
+    }
+    function onDragEnter(event:any)
+    {
+        props.setTarget(props.x, props.y);
+
+        setHoveredOver(true);
+    }
+    function onDragLeave(event:any)
+    {
+        setHoveredOver(false);
+    }
+
+    function onDrag(e:any)
+    {
+
     }
 
     return(
         <div className={getStyle(props.x, props.y)}>
             {
-                props.pieceID > 0 &&
                 <div className={getPieceStyle()}
                  draggable="true"
-                 onDragStart={()=>{onDragStart()}}
-                 onDragEnd={()=>{onDragEnd()}}
+                 onDragStart={(event)=>{onDragStart(event)}}
+                 onDragEnd={(event)=>{onDragEnd(event)}}
+                 onDragEnter={(event)=>{onDragEnter(event)}}
+                 onDragLeave={(event)=>{onDragLeave(event)}}               
+                 onDrag={(event)=>{onDrag(event)}}        
                 >
-                    <img
-                        className="chess-board-square-image" 
-                        src={getPieceImage()}>
-                    </img>
+                    {
+                        props.pieceID > 0 &&
+                        <img
+                            className="chess-board-square-image" 
+                            src={getPieceImage()}>
+                        </img>
+                    }                
                 </div>
             }
-    </div>
+        </div>
     )
 }

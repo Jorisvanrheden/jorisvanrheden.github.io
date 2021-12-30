@@ -17,7 +17,7 @@ export default class DataBaseOnline
         this.callback = callback;
 
         let userDateInput = database.ref();
-        userDateInput.on('value', (snapshot) => {
+        userDateInput.on('value', (snapshot:any) => {
             this.triggerValueUpdate(snapshot, callback);
         });
     }
@@ -46,7 +46,7 @@ export default class DataBaseOnline
         //- Other
         let userDateInput = database.ref("users/" + name + "/" + "dates/" + date);
  
-        userDateInput.get().then(function(snapshot) {
+        userDateInput.get().then(function(snapshot:any) {
             if (!snapshot.exists()) {
               //Only add an entry if it doesn't exist yet
               let data =     
@@ -60,7 +60,7 @@ export default class DataBaseOnline
               userDateInput.set(data);
             }         
             
-          }).catch(function(error) {
+          }).catch(function(error:any) {
             console.error(error);
           });
     }
@@ -69,11 +69,11 @@ export default class DataBaseOnline
     {
         let userDateInput = database.ref();
 
-        userDateInput.get().then(function(snapshot) {
+        userDateInput.get().then(function(snapshot:any) {
             if (snapshot.exists()) {
               userDateInput.child("users/" + name + "/dates/" + date).remove();
             }
-          }).catch(function(error) {
+          }).catch(function(error:any) {
             console.error(error);
           });
     }
@@ -82,13 +82,13 @@ export default class DataBaseOnline
     {
         let userDateInput = database.ref("users/" + name + "/dates/" + date + "/" + type);
 
-        userDateInput.get().then(function(snapshot) {
+        userDateInput.get().then(function(snapshot:any) {
             if (snapshot.exists()) {
               
               //Set the value
               userDateInput.set(value);
             }
-          }).catch(function(error) {
+          }).catch(function(error:any) {
             console.error(error);
           });
     }

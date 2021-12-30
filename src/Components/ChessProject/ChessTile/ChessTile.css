@@ -1,31 +1,3 @@
-.chess-container
-{
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    flex-direction: row;
-
-    width:100%;
-    height:100%;
-}
-
-.chess-board
-{
-    display:flex;
-    
-    align-items: center;
-    justify-content: center;
-
-    width:600px;
-    height:600px;
-
-    background-color: rgb(226, 226, 226);
-    border-width: 2px;
-    border-style: solid;
-}
-
 .chess-board-square
 {
     display:flex;
@@ -33,8 +5,8 @@
     align-items: center;
     justify-content: center;
 
-    width:70px;
-    height:70px;
+    width:90px;
+    height:90px;
 }
 .chess-board-square-dark
 {
@@ -63,7 +35,13 @@
 
     cursor:grab;
 }
-.draggable.dragging
+
+/* Specific interaction statuses of the tile */
+.dragging
 {
     opacity: 0.5;
+}
+.hovering
+{
+    background-color: rgb(128, 187, 226);
 }
