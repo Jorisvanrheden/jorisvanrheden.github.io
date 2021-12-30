@@ -1,4 +1,4 @@
-.chess-board-square
+.square
 {
     display:flex;
 
@@ -8,24 +8,18 @@
     width:90px;
     height:90px;
 }
-.chess-board-square-dark
+.square-dark
 {
     background-color: wheat
 }
-.chess-board-square-light
+.square-light
 {
     background-color: rgb(105, 82, 39);
 }
 
-.chess-board-square-image
+.square-container
 {
-    height:95%;
-
-    pointer-events: none;
-}
-
-.draggable
-{
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -36,12 +30,61 @@
     cursor:grab;
 }
 
+.square-move
+{
+    position:absolute;
+
+    width:30%;
+    height:30%;
+
+    border-radius: 50%;
+
+    opacity: 0.7;
+
+    background-color: rgb(92, 131, 156);
+
+    pointer-events: none;
+}
+
+.square-hit
+{
+    position:absolute;
+
+    width:100%;
+    height:100%;
+
+    top:0;
+    left:0;
+
+    box-sizing: border-box;
+    border-width: 5px;
+    border-color: rgb(189, 80, 80);
+    border-style: solid; 
+
+    opacity: 0.7;
+
+    pointer-events: none;
+}
+
 /* Specific interaction statuses of the tile */
-.dragging
+.status-dragging
 {
     opacity: 0.5;
 }
-.hovering
+.status-hovering-empty
 {
     background-color: rgb(128, 187, 226);
+}
+.status-hovering-target
+{
+    /* keep it empty for now, no color change required */
+    background-color: rgb(189, 80, 80);
+
+    opacity: 0.7;
+}
+.square-image
+{
+    height:95%;
+
+    pointer-events: none;
 }

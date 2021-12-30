@@ -7,6 +7,8 @@ interface Props
     y:number;
     pieceID:number;
 
+    highlighted:boolean;
+
     setStart:(x:number, y:number) => void;
     setTarget:(x:number, y:number) => void;
     processMove:() => void;
@@ -21,27 +23,55 @@ export default function ChessTile(props:Props)
     {
         let isEven = (((x + y) % 2) === 0);
 
-        let style = "chess-board-square ";
+        let style = "square ";
 
         if(isEven)
         {
-            style += "chess-board-square-dark"
+            style += "square-dark"
         }
         else
         {
-            style += "chess-board-square-light";
+            style += "square-light";
         }
-
-        if(hoveredOver) style += " hovering"
 
         return style;
     }
 
-    function getPieceStyle()
+    function getSquareStyle()
     {
-        let style = "draggable ";
+        let style = "square-container ";
 
-        if(dragging) style += " dragging"
+        if(dragging) style += " status-dragging";
+        if(hoveredOver && props.highlighted)
+        {
+            if(props.pieceID === 0)
+            {
+                style += " status-hovering-empty";
+            }
+            else
+            {
+                style += " status-hovering-target";
+            }
+        }
+
+        return style;
+    }
+
+    function getSquareStatusStyle()
+    {
+        let style = "";
+        
+        if(props.highlighted)
+        {
+            if(props.pieceID > 0)
+            {
+                style += " square-hit";
+            }
+            else
+            {
+                style += " square-move";
+            }
+        }
 
         return style;
     }
@@ -82,7 +112,7 @@ export default function ChessTile(props:Props)
     return(
         <div className={getStyle(props.x, props.y)}>
             {
-                <div className={getPieceStyle()}
+                <div className={getSquareStyle()}
                  draggable="true"
                  onDragStart={(event)=>{onDragStart(event)}}
                  onDragEnd={(event)=>{onDragEnd(event)}}
@@ -93,10 +123,13 @@ export default function ChessTile(props:Props)
                     {
                         props.pieceID > 0 &&
                         <img
-                            className="chess-board-square-image" 
+                            className="square-image" 
                             src={getPieceImage()}>
                         </img>
-                    }                
+                    }  
+                    {                      
+                        <div className={getSquareStatusStyle()}/>
+                    }             
                 </div>
             }
         </div>
