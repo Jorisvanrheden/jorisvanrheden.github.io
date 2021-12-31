@@ -1,68 +1,75 @@
 import "./ChessProject.css"
 
-import ChessBoard from "../../Logic/Chess/ChessBoard"
+import ChessModel from "../../Logic/Chess/ChessModel"
 import ChessTile from "../ChessProject/ChessTile/ChessTile"
 //Logic imports
 
 import { useState } from "react";
 
-export default function ChessProject()
+interface Props
 {
-    const [start, setStart] = useState({x:0, y:0});
-    const [target, setTarget] = useState({x:0, y:0});
+    model:ChessModel;
+}
+
+export default function ChessProject(props:Props)
+{
+    const [start, setStart] = useState({x:-1, y:-1});
+    const [target, setTarget] = useState({x:-1, y:-1});
     const [possibleTiles, setPossibleTiles]:any = useState([]);
+    const [tiles, setTiles] = useState(props.model.getTiles());
 
-    //this stuff should definitely be in a MODEL (chess_model)
-    //now its just purely for testing
-    let board:ChessBoard = new ChessBoard(8, 8);
-
-    const tiles = [
-      [11,10,9,8,7,9,10, 11],
-      [12,12,12,12,12,12,12,12],
-      [0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0],
-      [8,8,8,0,12,0,0,0],
-      [0,0,0,0,0,0,0,0],
-      [6,6,6,6,6,6,6,6],
-      [5,4,3,2,1,3,4,5]
-    ];
-    board.setTiles(tiles)
-
-    let squares = board.getTiles();
-
-    function processSetStart(x:number, y:number)
+    function reset()
     {
-        let moves:any = [];
-        
-        //get the potential tiles from the chess model
-        //this is a mock implementation?
-        moves.push({xValue: x, yValue: y - 1});
-        moves.push({xValue: x, yValue: y - 2});
+        setStart({x:-1, y:-1});
+        setTarget({x:-1, y:-1});
+        setPossibleTiles([]);
+    }
 
+    function processSelectPiece(x:number, y:number)
+    {
+        //validate that the start position has a piece on it
+        //TODO validations like these should obviously go somewhere else
+        //they are already in the API
+        if(props.model.getTile(x, y).ID === 0) 
+        {
+            //empty the move list and reset some general settings
+            processDeselect();
+            return;
+        }
+
+        let moves:any = props.model.getMoves(x, y);
+        
         setPossibleTiles(moves);
 
         setStart({x:x, y:y});
     }
 
-    function processSetTarget(x:number, y:number)
+    function processSelectTarget(x:number, y:number)
     {
         setTarget({x:x, y:y});
     }
 
-    function processMove()
+    function processDeselect()
     {
-        // console.log("Move from: ");
-        // console.log(start);
-        // console.log("to: ");
-        // console.log(target);
-
-        //reset start and end?
-        setStart({x:0, y:0});
-        setTarget({x:0, y:0});
-        setPossibleTiles([]);
+        reset();
     }
 
-    function getStatus(x:number, y:number, startNode:any)
+    function processMove()
+    {
+        props.model.processMove(start, target);
+        
+        reset();
+
+        //TODO: updating tiles should be done through a callback
+        setTiles(props.model.getTiles());
+    }
+
+    function getIsSelected(x:number, y:number, startNode:any)
+    {        
+        return (start.x === x && start.y === y);
+    }
+
+    function getIsPossibleMove(x:number, y:number, startNode:any)
     {        
         //if moves contain {x, y} return true
         for(let i= 0;i<possibleTiles.length;i++)
@@ -80,7 +87,7 @@ export default function ChessProject()
         <div className="chess-container">
             <div className="chess-board">
             {
-                squares.map((values:any[], xIndex:number) => 
+                tiles.map((values:any[], xIndex:number) => 
                 (
                     <div>
                         {
@@ -88,10 +95,12 @@ export default function ChessProject()
                         (
                             <ChessTile  x={xIndex} 
                                         y={yIndex} 
-                                        pieceID={board.getPieceAt(xIndex, yIndex)}
-                                        highlighted={getStatus(xIndex, yIndex, start)}
-                                        setStart={processSetStart}
-                                        setTarget={processSetTarget}
+                                        pieceID={props.model.getTile(xIndex, yIndex).ID}
+                                        isSelected={getIsSelected(xIndex, yIndex, start)}
+                                        isPossibleMove={getIsPossibleMove(xIndex, yIndex, start)}
+                                        selectPiece={processSelectPiece}
+                                        selectTarget={processSelectTarget}
+                                        deselectPiece={processDeselect}
                                         processMove={processMove}
                             />                           
                         ))

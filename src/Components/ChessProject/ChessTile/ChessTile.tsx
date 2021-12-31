@@ -7,16 +7,21 @@ interface Props
     y:number;
     pieceID:number;
 
-    highlighted:boolean;
+    //property for indicating that the tile has been selected
+    //selected tiles are visualized in two ways
+    //- selected tile is highlighted
+    //- possible moves are highlighted
+    isSelected:boolean;
+    isPossibleMove:boolean;
 
-    setStart:(x:number, y:number) => void;
-    setTarget:(x:number, y:number) => void;
+    selectPiece:(x:number, y:number) => void;
+    selectTarget:(x:number, y:number) => void;
+    deselectPiece:() => void;
     processMove:() => void;
 }
 
 export default function ChessTile(props:Props)
 {    
-    const [dragging, setDragging] = useState(false);
     const [hoveredOver, setHoveredOver] = useState(false);
 
     function getStyle(x:number, y:number)
@@ -41,8 +46,8 @@ export default function ChessTile(props:Props)
     {
         let style = "square-container ";
 
-        if(dragging) style += " status-dragging";
-        if(hoveredOver && props.highlighted)
+        if(props.isSelected) style += " status-selected";
+        if(hoveredOver && props.isPossibleMove)
         {
             if(props.pieceID === 0)
             {
@@ -61,7 +66,7 @@ export default function ChessTile(props:Props)
     {
         let style = "";
         
-        if(props.highlighted)
+        if(props.isPossibleMove)
         {
             if(props.pieceID > 0)
             {
@@ -81,21 +86,18 @@ export default function ChessTile(props:Props)
         return "../chess_pieces/" + props.pieceID.toString() + ".png";
     }
 
+    //Dragging functionality
     function onDragStart(event:any)
-    {
-        props.setStart(props.x, props.y);
-
-        setDragging(true);
+    {        
+        props.selectPiece(props.x, props.y);
     }
     function onDragEnd(event:any)
     {
         props.processMove();
-
-        setDragging(false);
     }
     function onDragEnter(event:any)
     {
-        props.setTarget(props.x, props.y);
+        props.selectTarget(props.x, props.y);
 
         setHoveredOver(true);
     }
@@ -104,21 +106,60 @@ export default function ChessTile(props:Props)
         setHoveredOver(false);
     }
 
-    function onDrag(e:any)
+    //Clicking functionality
+    function onClick()
     {
+        //check if the selected tile was a potential move
+        if(props.isPossibleMove)
+        {
+            props.selectTarget(props.x, props.y);
+            props.processMove();
+        }
+        else
+        {
+            //if the piece was already selected, deselect it 
+            if(props.isSelected)
+            {
+                props.deselectPiece();
+            }
+            else
+            {
+                props.selectPiece(props.x, props.y);
+            }
+        }
+    }
 
+    function onMouseEnter()
+    {
+        props.selectTarget(props.x, props.y);
+
+        setHoveredOver(true);
+    }
+
+    function onMouseLeave()
+    {
+        setHoveredOver(false);
+    }
+
+    function getDraggable()
+    {
+        return props.pieceID > 0;
     }
 
     return(
         <div className={getStyle(props.x, props.y)}>
             {
+                //we place two types of divs, depending on the 
                 <div className={getSquareStyle()}
-                 draggable="true"
+                 draggable={getDraggable()}
                  onDragStart={(event)=>{onDragStart(event)}}
                  onDragEnd={(event)=>{onDragEnd(event)}}
                  onDragEnter={(event)=>{onDragEnter(event)}}
-                 onDragLeave={(event)=>{onDragLeave(event)}}               
-                 onDrag={(event)=>{onDrag(event)}}        
+                 onDragLeave={(event)=>{onDragLeave(event)}}  
+                                 
+                 onClick={()=>{onClick()}}
+                 onMouseEnter={()=>{onMouseEnter()}}
+                 onMouseLeave={()=>{onMouseLeave()}}
                 >
                     {
                         props.pieceID > 0 &&

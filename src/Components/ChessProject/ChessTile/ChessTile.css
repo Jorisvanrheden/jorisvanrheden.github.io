@@ -34,8 +34,8 @@
 {
     position:absolute;
 
-    width:30%;
-    height:30%;
+    width:25%;
+    height:25%;
 
     border-radius: 50%;
 
@@ -67,7 +67,7 @@
 }
 
 /* Specific interaction statuses of the tile */
-.status-dragging
+.status-selected
 {
     opacity: 0.5;
 }
