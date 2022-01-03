@@ -1557,7 +1557,7 @@ function createExportWrapper(name, fixedasm) {
 }
 
 var wasmBinaryFile;
-  wasmBinaryFile = 'example.wasm';
+  wasmBinaryFile = 'main.wasm';
   if (!isDataURI(wasmBinaryFile)) {
     wasmBinaryFile = locateFile(wasmBinaryFile);
   }
@@ -2716,6 +2716,10 @@ var ASM_CONSTS = {
       });
     }
 
+  function _abort() {
+      abort('native code called abort()');
+    }
+
   function _emscripten_memcpy_big(dest, src, num) {
       HEAPU8.copyWithin(dest, src, src + num);
     }
@@ -2727,6 +2731,65 @@ var ASM_CONSTS = {
       var oldSize = HEAPU8.length;
       requestedSize = requestedSize >>> 0;
       abortOnCannotGrowMemory(requestedSize);
+    }
+
+  var SYSCALLS = {mappings:{},buffers:[null,[],[]],printChar:function(stream, curr) {
+        var buffer = SYSCALLS.buffers[stream];
+        assert(buffer);
+        if (curr === 0 || curr === 10) {
+          (stream === 1 ? out : err)(UTF8ArrayToString(buffer, 0));
+          buffer.length = 0;
+        } else {
+          buffer.push(curr);
+        }
+      },varargs:undefined,get:function() {
+        assert(SYSCALLS.varargs != undefined);
+        SYSCALLS.varargs += 4;
+        var ret = HEAP32[(((SYSCALLS.varargs)-(4))>>2)];
+        return ret;
+      },getStr:function(ptr) {
+        var ret = UTF8ToString(ptr);
+        return ret;
+      },get64:function(low, high) {
+        if (low >= 0) assert(high === 0);
+        else assert(high === -1);
+        return low;
+      }};
+  function _fd_close(fd) {
+      abort('it should not be possible to operate on streams when !SYSCALLS_REQUIRE_FILESYSTEM');
+      return 0;
+    }
+
+  function _fd_seek(fd, offset_low, offset_high, whence, newOffset) {
+  abort('it should not be possible to operate on streams when !SYSCALLS_REQUIRE_FILESYSTEM');
+  }
+
+  function flush_NO_FILESYSTEM() {
+      // flush anything remaining in the buffers during shutdown
+      if (typeof _fflush !== 'undefined') _fflush(0);
+      var buffers = SYSCALLS.buffers;
+      if (buffers[1].length) SYSCALLS.printChar(1, 10);
+      if (buffers[2].length) SYSCALLS.printChar(2, 10);
+    }
+  function _fd_write(fd, iov, iovcnt, pnum) {
+      ;
+      // hack to support printf in SYSCALLS_REQUIRE_FILESYSTEM=0
+      var num = 0;
+      for (var i = 0; i < iovcnt; i++) {
+        var ptr = HEAP32[((iov)>>2)];
+        var len = HEAP32[(((iov)+(4))>>2)];
+        iov += 8;
+        for (var j = 0; j < len; j++) {
+          SYSCALLS.printChar(fd, HEAPU8[ptr+j]);
+        }
+        num += len;
+      }
+      HEAP32[((pnum)>>2)] = num;
+      return 0;
+    }
+
+  function _setTempRet0(val) {
+      setTempRet0(val);
     }
 embind_init_charCodes();
 BindingError = Module['BindingError'] = extendError(Error, 'BindingError');;
@@ -2773,12 +2836,20 @@ var asmLibraryArg = {
   "_embind_register_std_string": __embind_register_std_string,
   "_embind_register_std_wstring": __embind_register_std_wstring,
   "_embind_register_void": __embind_register_void,
+  "abort": _abort,
   "emscripten_memcpy_big": _emscripten_memcpy_big,
-  "emscripten_resize_heap": _emscripten_resize_heap
+  "emscripten_resize_heap": _emscripten_resize_heap,
+  "fd_close": _fd_close,
+  "fd_seek": _fd_seek,
+  "fd_write": _fd_write,
+  "setTempRet0": _setTempRet0
 };
 var asm = createWasm();
 /** @type {function(...*):?} */
 var ___wasm_call_ctors = Module["___wasm_call_ctors"] = createExportWrapper("__wasm_call_ctors");
+
+/** @type {function(...*):?} */
+var _malloc = Module["_malloc"] = createExportWrapper("malloc");
 
 /** @type {function(...*):?} */
 var ___getTypeName = Module["___getTypeName"] = createExportWrapper("__getTypeName");
@@ -2791,9 +2862,6 @@ var ___errno_location = Module["___errno_location"] = createExportWrapper("__err
 
 /** @type {function(...*):?} */
 var _fflush = Module["_fflush"] = createExportWrapper("fflush");
-
-/** @type {function(...*):?} */
-var _malloc = Module["_malloc"] = createExportWrapper("malloc");
 
 /** @type {function(...*):?} */
 var _emscripten_stack_init = Module["_emscripten_stack_init"] = function() {
@@ -2821,6 +2889,9 @@ var stackAlloc = Module["stackAlloc"] = createExportWrapper("stackAlloc");
 
 /** @type {function(...*):?} */
 var _free = Module["_free"] = createExportWrapper("free");
+
+/** @type {function(...*):?} */
+var dynCall_jiji = Module["dynCall_jiji"] = createExportWrapper("dynCall_jiji");
 
 
 
@@ -3257,7 +3328,7 @@ function checkUnflushedContent() {
     has = true;
   }
   try { // it doesn't matter if it fails
-    var flush = null;
+    var flush = flush_NO_FILESYSTEM;
     if (flush) flush();
   } catch(e) {}
   out = oldOut;
