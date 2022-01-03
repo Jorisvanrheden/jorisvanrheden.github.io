@@ -21,12 +21,12 @@ export default class ChessModel
   setTiles(map:any[])
   {
     this.tiles = [];
-    for(let i=0;i<map[0].length;i++)
+    for(let i=0;i<map.length;i++)
     {
       const row:any = [];
-      for(let j=0;j<map.length;j++)
+      for(let j=0;j<map[i].length;j++)
       {
-          const gridNode:any = {x:i, y:j,ID:map[j][i]};
+          const gridNode:any = {x:i, y:j,ID:map[i][j]};
           row.push(gridNode);
       }
       this.tiles.push(row);
@@ -49,8 +49,9 @@ export default class ChessModel
 
     //get the potential tiles from the chess model
     //this is a mock implementation until the API is linked
-    moves.push({xValue: x, yValue: y - 1});
-    moves.push({xValue: x, yValue: y - 2});
+    moves.push({xValue: x - 1, yValue: y});
+    moves.push({xValue: x - 2, yValue: y});
+    moves.push({xValue: x - 3, yValue: y});
 
     return moves;
   }

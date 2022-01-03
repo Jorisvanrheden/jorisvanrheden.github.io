@@ -86,28 +86,30 @@ export default function ChessProject(props:Props)
     return(
         <div className="chess-container">
             <div className="chess-board">
-            {
-                tiles.map((values:any[], xIndex:number) => 
-                (
-                    <div>
-                        {
-                        values.map((value:any, yIndex:number) => 
-                        (
-                            <ChessTile  x={xIndex} 
-                                        y={yIndex} 
-                                        pieceID={props.model.getTile(xIndex, yIndex).ID}
-                                        isSelected={getIsSelected(xIndex, yIndex, start)}
-                                        isPossibleMove={getIsPossibleMove(xIndex, yIndex, start)}
-                                        selectPiece={processSelectPiece}
-                                        selectTarget={processSelectTarget}
-                                        deselectPiece={processDeselect}
-                                        processMove={processMove}
-                            />                           
-                        ))
-                        }
-                    </div> 
-                ))
-            }  
+                <div className="chess-grid">
+                {
+                    tiles.map((values:any[]) => 
+                    (
+                        <div className="chess-row">
+                            {
+                                values.map((value:any) => 
+                                (
+                                    <ChessTile  x={value.x} 
+                                                y={value.y} 
+                                                pieceID={props.model.getTile(value.x, value.y).ID}
+                                                isSelected={getIsSelected(value.x, value.y, start)}
+                                                isPossibleMove={getIsPossibleMove(value.x, value.y, start)}
+                                                selectPiece={processSelectPiece}
+                                                selectTarget={processSelectTarget}
+                                                deselectPiece={processDeselect}
+                                                processMove={processMove}
+                                    />                           
+                                ))
+                            }
+                        </div> 
+                    ))
+                }  
+                </div>
             </div>
         </div>
     )
