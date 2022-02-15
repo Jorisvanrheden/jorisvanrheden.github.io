@@ -10,9 +10,14 @@ interface NavigationMenuItem
 
 const menuItems: Array<NavigationMenuItem> =
 [
+    // {title: "Home", url: "/"},
+    // {title: "About", url: "/about"},
+    // {title: "Software Projects", url: "/projects"},
+    // {title: "YouTube", url: "/youtube"},
+
     {title: "Home", url: "/"},
-    {title: "About", url: "/about"},
-    {title: "Software Projects", url: "/projects"},
+    {title: "Pathfinding", url: "/pathfinding"},
+    {title: "Chess", url: "/chess"},
     {title: "YouTube", url: "/youtube"},
 ]
 

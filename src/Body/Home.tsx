@@ -11,8 +11,6 @@ export default function Home() {
         <NavigationBar/>
       </div>
       <div id="main">
-        Main
-        <img src="../chess_pieces/1.png"></img>
       </div>
       <div id="footer">
         <Footer/>

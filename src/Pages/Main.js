@@ -17,6 +17,10 @@ const Main = () => {
         {/* <Route exact path='/' component={Project_Chess}></Route> */}
         <Route exact path='/' component={Home}></Route>
 
+        {/* TODO: remove these links, as they should be part of the projects/ subfolder */}
+        <Route exact path='/pathfinding' component={Project_Pathfinding}></Route>
+        <Route exact path='/chess' component={Project_Chess}></Route>
+
         <Route exact path='/about' component={About}></Route>
         <Route exact path='/projects' component={SoftwareProjects}></Route>
         <Route exact path='/youtube' component={Youtube}></Route>
