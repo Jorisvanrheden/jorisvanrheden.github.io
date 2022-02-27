@@ -12,7 +12,7 @@ export default class DataBaseCache
 
     getUserNames()
     {
-        let names = [];
+        let names : any[] = [];
 
         if(this.database)
         {
@@ -31,7 +31,7 @@ export default class DataBaseCache
 
     getEntries(name:string, date:string)
     {
-        let entries = [];
+        let entries :any[] = [];
 
         if(this.isValidEntry(name, date))
         {
@@ -52,7 +52,7 @@ export default class DataBaseCache
 
     getAllValues()
     {
-        let values = [];
+        let values :any[] = [];
 
         let usersObject = Object.keys(this.database[this.DB_USERS]);
         let userCount = usersObject.length;

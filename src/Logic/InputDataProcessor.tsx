@@ -51,7 +51,7 @@ export default class InputDataProcessor
 
     getDates()
     {
-        let arr = [];
+        let arr :any[] = [];
 
         let earliestDate = this.getEarliestDate();
         let latestDate = this.getLatestDate();

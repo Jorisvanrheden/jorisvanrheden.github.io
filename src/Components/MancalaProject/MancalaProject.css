@@ -1,0 +1,83 @@
+.mancala-container
+{
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width:100%;
+    height:100%;
+}
+
+.mancala-board
+{
+    display:flex;
+    
+    align-items: center;
+    justify-content: center;
+
+    width: min(85vw, 85vh);
+    height: min(50vw, 50vh);
+
+    background-color: rgb(189, 147, 100);
+    border-width: 2px;
+    border-style: solid;
+}
+
+.mancala-player-areas
+{
+    display: grid;
+    height:100%;
+    width:100%;
+    grid-template-columns: 0.3fr 1fr 0.3fr;
+    grid-template-rows: 1fr 1fr;
+
+    grid-template-areas: 
+        "mancala-area-left mancala-area-top mancala-area-right"
+        "mancala-area-left mancala-area-bottom mancala-area-right";
+
+    background-color: rgb(102, 102, 102);
+}
+
+#mancala-area-left
+{
+    grid-area: mancala-area-left;
+    background-color: blue;
+}
+#mancala-area-top
+{
+    grid-area: mancala-area-top;
+    background-color: rgb(53, 53, 92);
+}
+#mancala-area-right
+{
+    grid-area: mancala-area-right;
+    background-color: rgb(64, 110, 75);
+}
+#mancala-area-bottom
+{
+    grid-area: mancala-area-bottom;
+    background-color: rgb(129, 63, 83);
+}
+
+.mancala-player-area
+{
+    display:flex;
+    height: 100%;
+    width:100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.mancala-player-pit
+{
+    display:flex;
+    height: 70%;
+    width:12%;
+    align-items: center;
+    justify-content: center;
+
+    margin: 10px;
+
+    background-color: rgb(66, 53, 182);
+}
