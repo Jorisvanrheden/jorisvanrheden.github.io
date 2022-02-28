@@ -36,28 +36,24 @@
         "mancala-area-left mancala-area-top mancala-area-right"
         "mancala-area-left mancala-area-bottom mancala-area-right";
 
-    background-color: rgb(102, 102, 102);
+    background-color: rgb(122, 89, 28);
 }
 
 #mancala-area-left
 {
     grid-area: mancala-area-left;
-    background-color: blue;
 }
 #mancala-area-top
 {
     grid-area: mancala-area-top;
-    background-color: rgb(53, 53, 92);
 }
 #mancala-area-right
 {
     grid-area: mancala-area-right;
-    background-color: rgb(64, 110, 75);
 }
 #mancala-area-bottom
 {
     grid-area: mancala-area-bottom;
-    background-color: rgb(129, 63, 83);
 }
 
 .mancala-player-area
@@ -71,13 +67,38 @@
 
 .mancala-player-pit
 {
+    border-radius: 10px;
+
+    cursor:grab;
+
     display:flex;
     height: 70%;
-    width:12%;
+    width:80px;
     align-items: center;
     justify-content: center;
 
     margin: 10px;
 
-    background-color: rgb(66, 53, 182);
+    background-color: rgb(224, 163, 94);
+}
+
+.mancala-player-pit-content
+{
+    font-size: 30px;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+}
+
+.selectable
+{
+    background-color: rgb(148, 214, 121);
+}
+.selectable:hover
+{
+    background-color: rgb(179, 224, 168);
+}
+.not-selectable
+{
+    background-color: rgb(190, 109, 61);
 }

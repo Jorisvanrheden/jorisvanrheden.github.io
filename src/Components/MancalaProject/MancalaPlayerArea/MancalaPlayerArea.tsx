@@ -6,21 +6,37 @@ import { useState } from "react";
 
 interface Props
 {
-    fields:Number[];
-    
+    fieldsIndices:number[];
+    fields:number[];
+    moves:number[];
+    isActivePlayer:boolean;
+
+    selectPit:(pitId:number) => void;
 }
 
 export default function MancalaPlayerArea(props:Props)
 {
     //declare useState variables here for the game logic
 
+    function canBeSelected(pitId:number)
+    {
+        for(let i=0;i<props.moves.length;i++)
+        {
+            if(pitId === props.moves[i]) return true;
+        }
+        return false;
+    }
+
     return(
         <div className="mancala-player-area">
             {
-                props.fields.map((values:Number) => 
+                props.fieldsIndices.map((pitId:number) => 
                 (
-                    <MancalaPlayerPit tokenCount={3}
-                                      pitID={2}/>
+                    <MancalaPlayerPit tokenCount={props.fields[pitId]}
+                                      pitID={pitId}
+                                      isActivePlayer={props.isActivePlayer}
+                                      canBeSelected={canBeSelected(pitId)}
+                                      selectPit={props.selectPit}/>
                 ))
             }  
         </div>
