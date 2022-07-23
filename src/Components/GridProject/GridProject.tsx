@@ -22,7 +22,7 @@ function generateToolbarItemInput_ActionTypes(defaultIndex:number, onIndexChange
 
 function generateToolbarItemInput_SingleActions(onIndexChanged:(index:number)=>void):ToolbarItemInput
 {
-    let names:string[] = ["Clear", "Randomize", "Calculate"];
+    let names:string[] = ["Clear", "Randomize"];
     return new ToolbarItemInput("Grid actions", names, -1, onIndexChanged);
 }
 
@@ -61,9 +61,6 @@ export default function GridProject()
                 break;
             case 1:
                 gridModel.randomizeGrid();
-                break;
-            case 2:
-                gridModel.calculatePath();
                 break;
         }
     }
