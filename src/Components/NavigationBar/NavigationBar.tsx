@@ -17,8 +17,7 @@ const menuItems: Array<NavigationMenuItem> =
 
     {title: "Home", url: "/"},
     {title: "Pathfinding", url: "/pathfinding"},
-    {title: "Mancala", url: "/mancala"},
-    {title: "Chess", url: "/chess"},
+    // {title: "Chess", url: "/chess"},
     {title: "YouTube", url: "/youtube"},
 ]
 

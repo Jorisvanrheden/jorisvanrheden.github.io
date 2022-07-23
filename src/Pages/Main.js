@@ -7,7 +7,6 @@ import SoftwareProjects from '../Body/SoftwareProjects';
 import Youtube from '../Body/Youtube'
 import Project_Pathfinding from '../Body/Project_Pathfinding'
 import Project_Chess from '../Body/Project_Chess'
-import Project_Mancala from '../Body/Project_Mancala'
 
 const Main = () => {
   return (
@@ -15,13 +14,11 @@ const Main = () => {
       <Switch> {/* The Switch decides which component to show based on the current URL.*/}
 
         {/* Tab pages */}
-        {/* <Route exact path='/' component={Project_Chess}></Route> */}
-        <Route exact path='/' component={Project_Mancala}></Route>
+        <Route exact path='/' component={Project_Chess}></Route>
 
         {/* TODO: remove these links, as they should be part of the projects/ subfolder */}
         <Route exact path='/pathfinding' component={Project_Pathfinding}></Route>
         <Route exact path='/chess' component={Project_Chess}></Route>
-        <Route exact path='/mancala' component={Project_Mancala}></Route>
 
         <Route exact path='/about' component={About}></Route>
         <Route exact path='/projects' component={SoftwareProjects}></Route>
