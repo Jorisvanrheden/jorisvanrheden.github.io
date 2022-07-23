@@ -27,10 +27,10 @@ export default function ProjectContainer()
             <div id="video">
                 <ProjectContainerItem entry={YoutubeProjectEntries[index]}/>
             </div>
-            <div id="sheet">
+            {/* <div id="sheet">
                 <SheetDisplayer image={YoutubeProjectEntries[index].image}
                                 location={YoutubeProjectEntries[index].location}/>
-            </div>
+            </div> */}
         </div>     
     )
 }

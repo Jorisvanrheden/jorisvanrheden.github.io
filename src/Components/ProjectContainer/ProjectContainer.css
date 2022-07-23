@@ -6,9 +6,9 @@
     grid-template-rows: 1fr 1fr 1fr;
 
     grid-template-areas: 
-        "dropdown video sheet"
-        "dropdown empty sheet"
-        "dropdown empty sheet";
+        "dropdown video video"
+        "dropdown video video"
+        "dropdown empty empty";
 
     background-color: rgb(102, 102, 102);
 }
@@ -38,10 +38,10 @@
 
 @media screen and (max-width: 932px) 
 {
-    .project-body
+    /* .project-body
     {    
         display: none;
-    }
+    } */
 
     .project-scroll
     {
