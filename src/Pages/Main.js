@@ -14,7 +14,7 @@ const Main = () => {
       <Switch> {/* The Switch decides which component to show based on the current URL.*/}
 
         {/* Tab pages */}
-        <Route exact path='/' component={Project_Chess}></Route>
+        <Route exact path='/' component={Project_Pathfinding}></Route>
 
         {/* TODO: remove these links, as they should be part of the projects/ subfolder */}
         <Route exact path='/pathfinding' component={Project_Pathfinding}></Route>
