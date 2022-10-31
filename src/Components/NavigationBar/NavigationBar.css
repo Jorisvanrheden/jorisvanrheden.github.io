@@ -116,14 +116,6 @@
     {
         background-color: rgb(224, 224, 224);
     }
-
-    /* Style the dropdown menu only on hamburger interaction */
-    /* .hamburger:active + .nav-dropdown
-    {
-        opacity: 1;
-        transform: translateY(0);
-
-    } */
 }
 
 .nav-item
@@ -135,9 +127,5 @@
 }
 .nav-item:hover
 {
-    background-color: #f1fbff;
-    
-    border-color: rgb(110, 176, 230);
-    border-style:solid;
-    border-width: 0px 0px 3px 0px;   
+    font-weight: bold;
 }

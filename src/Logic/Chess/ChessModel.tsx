@@ -1,21 +1,17 @@
+import browser_application from '../../external/browser_application';
+var kotlin_wrapper = browser_application.my.qualified.packagename;
+
 export default class ChessModel
 {
   private tiles:any = [];
 
+  private kotlinBoard = new kotlin_wrapper.Wrapper(8, 8);
+
   constructor()
   {
-    const board = [
-      [11,10,9,8,7,9,10, 11],
-      [12,12,12,12,12,12,12,12],
-      [0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0],
-      [6,6,6,6,6,6,6,6],
-      [5,4,3,2,1,3,4,5]
-    ];
+    const board = this.kotlinBoard.getBoardRepresentation()
   
-    this.setTiles(board)
+    this.setTiles(board);
   }
 
   setTiles(map:any[])
@@ -47,25 +43,33 @@ export default class ChessModel
   {
     let moves:any[] = [];
 
-    //get the potential tiles from the chess model
-    //this is a mock implementation until the API is linked
-    moves.push({xValue: x - 1, yValue: y});
-    moves.push({xValue: x - 2, yValue: y});
-    moves.push({xValue: x - 3, yValue: y});
+    const pieceMoves = this.kotlinBoard.getMoves(x,y)
+    for(let i=0;i<pieceMoves.length;i++)
+    {
+      moves.push({xValue: pieceMoves[i].x, yValue: pieceMoves[i].y});
+    }
 
     return moves;
   }
 
   processMove(start:any, target:any)
   {
+      console.log(start)
+      console.log(target)
+
       if(start.x === target.x && start.y === target.y) return;
 
-      let originalID = this.getTile(start.x, start.y).ID;
-        
-      //set original ID at new place
-      this.getTile(target.x, target.y).ID = originalID;
+      this.kotlinBoard.processMove(start.x, start.y, target.x, target.y)
+      const board = this.kotlinBoard.getBoardRepresentation()
+  
+    this.setTiles(board);
 
-      //set the original tile to 0
-      this.getTile(start.x, start.y).ID = 0;
+      // let originalID = this.getTile(start.x, start.y).ID;
+        
+      // //set original ID at new place
+      // this.getTile(target.x, target.y).ID = originalID;
+
+      // //set the original tile to 0
+      // this.getTile(start.x, start.y).ID = 0;
   }
 }
