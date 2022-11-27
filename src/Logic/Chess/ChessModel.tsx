@@ -9,9 +9,7 @@ export default class ChessModel
 
   constructor()
   {
-    const board = this.kotlinBoard.getBoardRepresentation()
-  
-    this.setTiles(board);
+    this.updateTiles();
   }
 
   setTiles(map:any[])
@@ -22,7 +20,7 @@ export default class ChessModel
       const row:any = [];
       for(let j=0;j<map[i].length;j++)
       {
-          const gridNode:any = {x:i, y:j,ID:map[i][j]};
+          const gridNode:any = {x:j, y:i,ID:map[i][j]};
           row.push(gridNode);
       }
       this.tiles.push(row);
@@ -54,22 +52,21 @@ export default class ChessModel
 
   processMove(start:any, target:any)
   {
-      console.log(start)
-      console.log(target)
-
-      if(start.x === target.x && start.y === target.y) return;
-
       this.kotlinBoard.processMove(start.x, start.y, target.x, target.y)
-      const board = this.kotlinBoard.getBoardRepresentation()
-  
+
+      this.updateTiles();
+  }
+
+  undoMove()
+  {
+      this.kotlinBoard.undoMove();
+
+      this.updateTiles();
+  }
+
+  updateTiles()
+  {
+    const board = this.kotlinBoard.getBoardRepresentation()
     this.setTiles(board);
-
-      // let originalID = this.getTile(start.x, start.y).ID;
-        
-      // //set original ID at new place
-      // this.getTile(target.x, target.y).ID = originalID;
-
-      // //set the original tile to 0
-      // this.getTile(start.x, start.y).ID = 0;
   }
 }

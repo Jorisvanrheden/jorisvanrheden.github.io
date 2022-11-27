@@ -18,7 +18,7 @@ export default function ChessProject(props:Props)
     const [possibleTiles, setPossibleTiles]:any = useState([]);
     const [tiles, setTiles] = useState(props.model.getTiles());
 
-    function reset()
+    function resetSelectedInput()
     {
         setStart({x:-1, y:-1});
         setTarget({x:-1, y:-1});
@@ -51,16 +51,22 @@ export default function ChessProject(props:Props)
 
     function processDeselect()
     {
-        reset();
+        resetSelectedInput();
     }
 
     function processMove()
     {
         props.model.processMove(start, target);
         
-        reset();
+        resetSelectedInput();
 
-        //TODO: updating tiles should be done through a callback
+        setTiles(props.model.getTiles());
+    }
+
+    function undoLatestMove()
+    {
+        props.model.undoMove();
+
         setTiles(props.model.getTiles());
     }
 
@@ -85,32 +91,45 @@ export default function ChessProject(props:Props)
 
     return(
         <div className="chess-container">
-            <div className="chess-board">
-                <div className="chess-grid">
-                {
-                    tiles.map((values:any[]) => 
-                    (
-                        <div className="chess-row">
-                            {
-                                values.map((value:any) => 
-                                (
-                                    <ChessTile  x={value.x} 
-                                                y={value.y} 
-                                                pieceID={props.model.getTile(value.x, value.y).ID}
-                                                isSelected={getIsSelected(value.x, value.y, start)}
-                                                isPossibleMove={getIsPossibleMove(value.x, value.y, start)}
-                                                selectPiece={processSelectPiece}
-                                                selectTarget={processSelectTarget}
-                                                deselectPiece={processDeselect}
-                                                processMove={processMove}
-                                    />                           
-                                ))
-                            }
-                        </div> 
-                    ))
-                }  
+            <div id="empty">
+                
+            </div>
+            <div id="board">
+                <div className="chess-board">
+                    <div className="chess-board-inside">
+                        <div className="chess-grid">
+                        {
+                            tiles.map((values:any[]) => 
+                            (
+                                <div className="chess-row">
+                                    {
+                                        values.map((value:any) => 
+                                        (
+                                            <ChessTile  x={value.x} 
+                                                        y={value.y} 
+                                                        pieceID={props.model.getTile(value.x, value.y).ID}
+                                                        isSelected={getIsSelected(value.x, value.y, start)}
+                                                        isPossibleMove={getIsPossibleMove(value.x, value.y, start)}
+                                                        selectPiece={processSelectPiece}
+                                                        selectTarget={processSelectTarget}
+                                                        deselectPiece={processDeselect}
+                                                        processMove={processMove}
+                                            />                           
+                                        ))
+                                    }
+                                </div> 
+                            ))
+                        }  
+                        </div>
+                    </div>    
                 </div>
             </div>
+            <div id="moves">
+                <div className="moves-overview">
+                    <button onClick={() => undoLatestMove() }>Undo latest move</button>
+                </div>
+            </div>
+            
         </div>
     )
 }
