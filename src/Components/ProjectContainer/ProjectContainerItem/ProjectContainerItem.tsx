@@ -24,10 +24,12 @@ export default function ProjectContainerItem(props:Props)
                 <div className="projectcontainer-item-description">
                     {props.entry.description}
 
-                    <a href={props.entry.location} download>
-                        <img className="projectcontainer-item-logo" src="pdf.png" ></img>  
-                    </a>           
-                </div>       
+                    {props.entry.location &&
+                        <a href={props.entry.location} download>
+                            <img className="projectcontainer-item-logo" src="pdf.png" ></img>
+                        </a>
+                    }
+                </div>
             </div>
         </div>         
     )

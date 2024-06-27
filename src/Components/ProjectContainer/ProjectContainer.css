@@ -3,12 +3,11 @@
     display: grid;
     height:100%;
     grid-template-columns: 280px 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
 
-    grid-template-areas: 
+    grid-template-areas:
         "dropdown video video"
-        "dropdown video video"
-        "dropdown empty empty";
+        "dropdown video video";
 
     background-color: rgb(102, 102, 102);
 }
