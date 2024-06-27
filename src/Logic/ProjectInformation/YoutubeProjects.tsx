@@ -2,11 +2,16 @@ export default interface YoutubeProjectData {
     url: string;
     description: string,
     image: string;
-    location: string;
+    location?: string;
 }
 
 export const YoutubeProjectEntries: Array<YoutubeProjectData> =
     [
+        {
+            url: "https://www.youtube.com/embed/W3djFG2K6p4?si=nAdiolEORIR4xteZ",
+            description: "Rachmaninoff Etude Tableaux Op. 33 No. 4",
+            image: "music.png",
+        },
         {
             url: "https://www.youtube.com/embed/iP2eX2G15_8",
             description: "Interstellar - Main Theme",
