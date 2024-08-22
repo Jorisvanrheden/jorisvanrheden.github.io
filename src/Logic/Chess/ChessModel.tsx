@@ -1,11 +1,8 @@
-import browser_application from '../../external/browser_application';
-var kotlin_wrapper = browser_application.my.qualified.packagename;
-
 export default class ChessModel
 {
   private tiles:any = [];
 
-  private kotlinBoard = new kotlin_wrapper.Wrapper(8, 8);
+  // private kotlinBoard = new kotlin_wrapper.Wrapper(8, 8);
 
   constructor()
   {
@@ -41,32 +38,32 @@ export default class ChessModel
   {
     let moves:any[] = [];
 
-    const pieceMoves = this.kotlinBoard.getMoves(x,y)
-    for(let i=0;i<pieceMoves.length;i++)
-    {
-      moves.push({xValue: pieceMoves[i].x, yValue: pieceMoves[i].y});
-    }
+    // const pieceMoves = this.kotlinBoard.getMoves(x,y)
+    // for(let i=0;i<pieceMoves.length;i++)
+    // {
+    //   moves.push({xValue: pieceMoves[i].x, yValue: pieceMoves[i].y});
+    // }
 
     return moves;
   }
 
   processMove(start:any, target:any)
   {
-      this.kotlinBoard.processMove(start.x, start.y, target.x, target.y)
+      // this.kotlinBoard.processMove(start.x, start.y, target.x, target.y)
 
       this.updateTiles();
   }
 
   undoMove()
   {
-      this.kotlinBoard.undoMove();
+      // this.kotlinBoard.undoMove();
 
       this.updateTiles();
   }
 
   updateTiles()
   {
-    const board = this.kotlinBoard.getBoardRepresentation()
-    this.setTiles(board);
+    // const board = this.kotlinBoard.getBoardRepresentation()
+    // this.setTiles(board);
   }
 }

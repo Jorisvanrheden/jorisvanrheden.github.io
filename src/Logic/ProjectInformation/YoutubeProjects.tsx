@@ -8,6 +8,12 @@ export default interface YoutubeProjectData {
 export const YoutubeProjectEntries: Array<YoutubeProjectData> =
     [
         {
+            url: "https://www.youtube.com/embed/AcWgeic2oVc?si=ALXng_pfKbUemOmO",
+            description: "Composition no. 1",
+            image: "music.png",
+            location: "sheet_music/Composition - No. 1 (e major).pdf"
+        },
+        {
             url: "https://www.youtube.com/embed/W3djFG2K6p4?si=nAdiolEORIR4xteZ",
             description: "Rachmaninoff Etude Tableaux Op. 33 No. 4",
             image: "music.png",
