@@ -10,20 +10,16 @@ const Main = () => {
   return (
     <BrowserRouter>
       <Switch> {/* The Switch decides which component to show based on the current URL.*/}
-
-        {/* Tab pages */}
+        {/* Home */}
         <Route exact path='/' component={Youtube}></Route>
 
-        {/* TODO: remove these links, as they should be part of the projects/ subfolder */}
-        <Route exact path='/pathfinding' component={Project_Pathfinding}></Route>
-
+        {/* Pages  */}
         <Route exact path='/projects' component={SoftwareProjects}></Route>
         <Route exact path='/youtube' component={Youtube}></Route>
 
         {/* Projects  */}
-        <Route exact path='/projects/pathfinding' component={Project_Pathfinding}></Route>
-        <Route exact path='/projects/chess' component={Project_Chess}></Route>
-
+        <Route exact path='/pathfinding' component={Project_Pathfinding}></Route>
+        <Route exact path='/chess' component={Project_Chess}></Route>
       </Switch>
     </BrowserRouter> 
   );

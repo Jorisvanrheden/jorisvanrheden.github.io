@@ -8,7 +8,7 @@ export default interface ProjectData
 export const ProjectDataEntries: Array<ProjectData> =
 [
     {
-        url: "/projects/pathfinding",
+        url: "/pathfinding",
         description: 
             "Pathfinding Visualization - A simple tool to visualize different pathfinding strategies. \
             Visualize the steps taken by the algorithm to get to the resulting path."
@@ -16,7 +16,7 @@ export const ProjectDataEntries: Array<ProjectData> =
         image: "pathfinding.png",
     },
     {
-        url: "projects/chess",
+        url: "/chess",
         description: "Chess Engine",
         image: "chess.png",
     },
