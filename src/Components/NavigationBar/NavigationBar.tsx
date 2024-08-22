@@ -10,9 +10,8 @@ interface NavigationMenuItem
 
 const menuItems: Array<NavigationMenuItem> =
 [
-    {title: "Home", url: "/"},
-    {title: "Software Projects", url: "/projects"},
     {title: "YouTube", url: "/youtube"},
+    {title: "Software Projects", url: "/projects"},
 ]
 
 export default function Navigationbar()
