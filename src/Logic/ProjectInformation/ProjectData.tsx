@@ -21,5 +21,3 @@ export const ProjectDataEntries: Array<ProjectData> =
         image: "chess.png",
     },
 ]
-
-export const TestingValue: number = 2;
