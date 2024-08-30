@@ -2,6 +2,9 @@ import YoutubeProjectData from "../../../Logic/ProjectInformation/YoutubeProject
 import YoutubeEmbed from "../../YoutubeEmbed/YoutubeEmbed"
 import "./ProjectContainerItem.css"
 
+import { logEvent } from "firebase/analytics";
+import { analytics } from "./../../../firebase"; // Adjust the path to where you export 'analytics'
+
 interface Props
 {
   entry:YoutubeProjectData
@@ -9,6 +12,11 @@ interface Props
 
 export default function ProjectContainerItem(props:Props)
 {
+    const handleDownloadClick = () => {
+        console.log("logging download event");
+        logEvent(analytics, 'notification_received');
+    };
+
     return(
         <div className="projectcontainer-container">
             <div className="projectcontainer-item">
@@ -25,7 +33,10 @@ export default function ProjectContainerItem(props:Props)
                     {props.entry.description}
 
                     {props.entry.location &&
-                        <a href={props.entry.location} download>
+                        <a 
+                        href={props.entry.location} 
+                        download                            
+                        onClick={handleDownloadClick}>
                             <img className="projectcontainer-item-logo" src="pdf.png" ></img>
                         </a>
                     }
