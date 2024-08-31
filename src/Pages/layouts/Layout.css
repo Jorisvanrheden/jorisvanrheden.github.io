@@ -1,39 +1,38 @@
 body {
-  background-color: rgb(226, 226, 226);
-  margin: 0px;
-  font-family: 'Montserrat', sans-serif;
+	background-color: rgb(226, 226, 226);
+	margin: 0px;
+	font-family: "Montserrat", sans-serif;
 }
-
 
 /* Grid layout CSS testing */
 .container {
-  display: grid;
-  height: 100vh;
-  grid-template-columns: 1fr;
-  grid-template-rows: 60px 1fr 40px;
+	display: grid;
+	height: 100vh;
+	grid-template-columns: 1fr;
+	grid-template-rows: 60px 1fr 40px;
 
-  grid-template-areas:
-    "nav"
-    "main"
-    "footer";
+	grid-template-areas:
+		"nav"
+		"main"
+		"footer";
 }
 
 #nav {
-  background-color: rgb(158, 158, 158);
-  grid-area: nav;
+	background-color: rgb(158, 158, 158);
+	grid-area: nav;
 }
 
 #main {
-  grid-area: main;
-  background-color: rgb(65, 48, 48);
+	grid-area: main;
+	background-color: rgb(65, 48, 48);
 }
 
 #sidebar {
-  grid-area: sidebar;
-  background-color: rgb(145, 78, 78);
+	grid-area: sidebar;
+	background-color: rgb(145, 78, 78);
 }
 
 #footer {
-  grid-area: footer;
-  background-color: rgb(201, 69, 69);
+	grid-area: footer;
+	background-color: rgb(201, 69, 69);
 }
