@@ -2,6 +2,7 @@ import { GridManager } from "../../backend/pathfinding/grid/GridManager";
 import Grid from "./Grid";
 import Toolbar, { ToolbarItemInput } from "../toolbar/Toolbar";
 import "./GridContainer.css"
+import ResponsiveRectangle from "../components/ResponsiveRectangle";
 
 function generateToolbarItemInput_Pathfinding(
 	defaultIndex: number,
@@ -89,16 +90,18 @@ export default function GridContainer() {
 
 	return (
 		<div className="grid-container">
-			<div id="control-panel">
+			<div className="grid-control-panel">
 				<Toolbar
 					itemGroups={inputToggleItems}
 					itemButtons={inputButtonItems}
 					onCheckedChanged={setAnimationEnabled}
 				/>
 			</div>
-			<div id="display">
-				<Grid gridManager={gridManager} />
-			</div>
+				<div className="grid-display">
+					<ResponsiveRectangle>
+						<Grid gridManager={gridManager} />
+					</ResponsiveRectangle>		
+				</div>
 		</div>
 	);
 }

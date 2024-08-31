@@ -13,12 +13,14 @@
         "display";
 }
 
-#control-panel
+.grid-control-panel
 {
     grid-area: control-panel;
 }
 
-#display
+.grid-display
 {
+    width: 100%;
+    height: 100%;
     grid-area: display;
 }

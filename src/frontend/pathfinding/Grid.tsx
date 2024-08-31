@@ -52,23 +52,22 @@ export default function Grid({gridManager}: Props) {
 
 	return (
 		<div className="grid">
-			<table className="grid-table">
-				{tiles.map((row: any[], xIndex: number) => (
-					<tr>
-						{row.map((item: any, yIndex: number) => (
-							<td>
-								<GridCell
-									x={xIndex}
-									y={yIndex}
-									walkable={item.walkable}
-									status={getStatus(xIndex, yIndex)}
-									processMouseClick={handleMouseDown}
-									processMouseEnter={handleMouseEnter}></GridCell>
-							</td>
-						))}
-					</tr>
-				))}
-			</table>
+			{tiles.map((row: any[]) => (
+				<div className="grid-row">
+					{row.map((item: any) => (
+						<div className="grid-cell">
+							<GridCell
+								x={item.x}
+								y={item.y}
+								walkable={item.walkable}
+								status={getStatus(item.x, item.y)}
+								processMouseClick={handleMouseDown}
+								processMouseEnter={handleMouseEnter}
+							/>
+						</div>
+					))}
+				</div>
+			))}
 		</div>
 	);
 }

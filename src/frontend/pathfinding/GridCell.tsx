@@ -1,4 +1,5 @@
 import "./GridCell.css"
+import "./Grid.css"
 
 type Props = {
     x: number;
