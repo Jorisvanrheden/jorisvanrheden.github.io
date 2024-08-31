@@ -15,7 +15,7 @@ import { TargetAction } from "../actions/TargetAction";
 import { PathAnimator } from "../animation/PathAnimator";
 
 export class GridManager {
-	grid: GridModel = new GridModel(30, 30);
+	grid: GridModel = new GridModel(30,30);
 
 	pathTypes: PathfindingStrategy[] = [new BFS(), new AStar()];
 	activePathIndex: number = 0;
