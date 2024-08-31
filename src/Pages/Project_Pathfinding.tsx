@@ -1,4 +1,4 @@
-import GridProject from "../Components/GridProject/GridProject";
+import GridProject from "../frontend/pathfinding/GridProject";
 import Layout from "./layouts/Layout";
 
 export default function Project_Pathfinding() {

@@ -1,10 +1,8 @@
-import "../NavigationGrid/NavigationGrid.css";
+import { GridModel } from "../../backend/pathfinding/grid/GridModel";
+import GridNode, { GRID_STATUS } from "./GridNode";
+import "./NavigationGrid.css";
 
 import { useState } from "react";
-
-//Logic imports
-import GridNode, { GRID_STATUS } from "../GridNode/GridNode";
-import { GridModel } from "../../Logic/Pathfinding/grid/GridModel";
 
 interface Props {
 	gridModel: GridModel;

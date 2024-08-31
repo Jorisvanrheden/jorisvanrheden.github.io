@@ -1,5 +1,5 @@
-import NavigationBar from "../../Components/NavigationBar/NavigationBar";
-import Footer from "../../Components/Footer/Footer";
+import Footer from "./Footer";
+import NavigationBar from "./Ribbon";
 import "./Layout.css"; // Import layout-specific styles
 
 const Layout = ({ children }) => {

@@ -1,5 +1,5 @@
-import ChessProject from "../Components/ChessProject/ChessProject";
-import ChessModel from "../Logic/chess/ChessModel";
+import ChessModel from "../backend/chess/ChessModel";
+import ChessProject from "../frontend/chess/ChessProject";
 import Layout from "./layouts/Layout";
 
 export default function Project_Chess() {

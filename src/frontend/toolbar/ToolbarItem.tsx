@@ -1,5 +1,3 @@
-import "../../Components/Toolbar/Toolbar"
-
 interface Props
 {
     name:string;

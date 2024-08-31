@@ -1,11 +1,7 @@
+import { GridModel } from "../../backend/pathfinding/grid/GridModel";
+import NavigationGrid from "./NavigationGrid";
+import Toolbar, { ToolbarItemInput } from "../toolbar/Toolbar";
 import "./GridProject.css";
-
-import Toolbar from "../../Components/Toolbar/Toolbar";
-import NavigationGrid from "../../Components/NavigationGrid/NavigationGrid";
-import { GridModel } from "../../Logic/Pathfinding/grid/GridModel";
-
-//Logic imports
-import { ToolbarItemInput } from "../../Components/Toolbar/Toolbar";
 
 function generateToolbarItemInput_Pathfinding(
 	defaultIndex: number,

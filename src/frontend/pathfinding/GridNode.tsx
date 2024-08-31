@@ -1,4 +1,4 @@
-import "../GridNode/GridNode.css"
+import "./GridNode.css"
 
 interface Props
 {

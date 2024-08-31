@@ -1,20 +1,20 @@
 //styling imports
 import { useState } from "react"
-import "./NavigationBar.css"
+import "./Ribbon.css"
 
-interface NavigationMenuItem
+interface RibbonItem
 {
     title:string;
     url:string;
 }
 
-const menuItems: Array<NavigationMenuItem> =
+const menuItems: Array<RibbonItem> =
 [
     {title: "YouTube", url: "/youtube"},
     {title: "Software Projects", url: "/projects"},
 ]
 
-export default function Navigationbar()
+export default function Ribbon()
 {
     const [open, setOpen] = useState(false);
 
@@ -41,7 +41,7 @@ export default function Navigationbar()
                 <ul className="nav-menu">
                     {/* using curly braces for scripting in a div element */}
                     {
-                        menuItems.map((item:NavigationMenuItem, index) => 
+                        menuItems.map((item:RibbonItem, index) => 
                         (
                             <li key={index}>
                                 <a className="nav-item" href={item.url}>
@@ -66,7 +66,7 @@ export default function Navigationbar()
 
             <div className={getStyle(open)}>
                 {
-                    menuItems.map((item:NavigationMenuItem, index) => 
+                    menuItems.map((item:RibbonItem, index) => 
                     (
                         <a className="nav-dropdown-item" href={item.url}>
                             {item.title}

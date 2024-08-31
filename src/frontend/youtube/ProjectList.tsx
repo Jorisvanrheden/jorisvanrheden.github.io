@@ -1,6 +1,5 @@
+import ProjectData from "../../resources/ProjectData";
 import "./ProjectList.css"
-
-import ProjectData from '../../Logic/ProjectInformation/ProjectData'
 
 interface Props
 {

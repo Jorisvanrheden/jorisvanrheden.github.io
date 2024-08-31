@@ -1,10 +1,8 @@
 import "./ChessProject.css"
 
-import ChessModel from "../../Logic/chess/ChessModel"
-import ChessTile from "../ChessProject/ChessTile/ChessTile"
-//Logic imports
-
+import ChessModel from "../../backend/chess/ChessModel"
 import { useState } from "react";
+import ChessTile from "./ChessTile";
 
 interface Props
 {
