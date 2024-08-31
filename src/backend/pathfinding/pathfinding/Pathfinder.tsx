@@ -1,4 +1,4 @@
-import Grid from "../grid/Grid";
+import GridModel from "../grid/GridModel";
 import { Node } from "./Node";
 
 export interface PathfindingResult {
@@ -7,7 +7,7 @@ export interface PathfindingResult {
 }
 
 export abstract class PathfindingStrategy {
-	abstract calculatePath(grid: Grid, start: any, target: any): any;
+	abstract calculatePath(grid: GridModel, start: any, target: any): any;
 
 	collectionContains(collection: any[], item: any) {
 		for (let i = 0; i < collection.length; i++) {

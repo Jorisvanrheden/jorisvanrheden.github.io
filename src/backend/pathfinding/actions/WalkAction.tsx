@@ -1,12 +1,12 @@
-import { GridModel } from "../grid/GridModel";
+import { GridManager } from "../grid/GridManager";
 import { IAction } from "./Action";
 
 export class WalkableAction extends IAction {
-	gridModel: GridModel;
+	gridModel: GridManager;
 	walkable: boolean;
 	callback: (grid: any) => void;
 
-	constructor(gridModel: GridModel, walkable: boolean) {
+	constructor(gridModel: GridManager, walkable: boolean) {
 		super();
 
 		this.gridModel = gridModel;

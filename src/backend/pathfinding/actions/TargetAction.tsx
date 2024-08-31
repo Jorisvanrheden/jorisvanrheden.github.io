@@ -1,10 +1,10 @@
-import { GridModel } from "../grid/GridModel";
+import { GridManager } from "../grid/GridManager";
 import { IAction } from "./Action";
 
 export class TargetAction extends IAction {
-	gridModel: GridModel;
+	gridModel: GridManager;
 
-	constructor(gridModel: GridModel) {
+	constructor(gridModel: GridManager) {
 		super();
 
 		this.gridModel = gridModel;

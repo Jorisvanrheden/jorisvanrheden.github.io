@@ -1,9 +1,9 @@
 import { PathfindingStrategy, PathfindingResult } from "./Pathfinder";
-import Grid from "../grid/Grid";
+import GridModel from "../grid/GridModel";
 import { Node } from "./Node";
 
 export class BFS extends PathfindingStrategy {
-	process(grid: Grid, start: any, target: any) {
+	process(grid: GridModel, start: any, target: any) {
 		let queue: any[] = [];
 		let visitedNodes: any[] = [];
 
@@ -61,7 +61,7 @@ export class BFS extends PathfindingStrategy {
 		return { path: [], visitedNodes: [] };
 	}
 
-	calculatePath(grid: Grid, start: any, target: any): PathfindingResult {
+	calculatePath(grid: GridModel, start: any, target: any): PathfindingResult {
 		const data: any = this.process(grid, start, target);
 
 		return { path: data.path, visitedNodes: data.visitedNodes };

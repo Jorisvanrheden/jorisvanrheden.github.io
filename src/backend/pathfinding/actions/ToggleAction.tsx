@@ -1,11 +1,11 @@
-import { GridModel } from "../grid/GridModel";
+import { GridManager } from "../grid/GridManager";
 import { IAction } from "./Action";
 
 export class ToggleAction extends IAction {
-	gridModel: GridModel;
+	gridModel: GridManager;
 	callback: (grid: any) => void;
 
-	constructor(gridModel: GridModel) {
+	constructor(gridModel: GridManager) {
 		super();
 
 		this.gridModel = gridModel;

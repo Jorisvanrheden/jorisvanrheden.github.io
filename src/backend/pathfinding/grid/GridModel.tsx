@@ -1,192 +1,107 @@
-import Grid from "./Grid";
-import {
-	PathfindingStrategy,
-	PathfindingResult,
-} from "../pathfinding/Pathfinder";
-import { AStar } from "../pathfinding/Astar";
-import { BFS } from "../pathfinding/BFS";
-
-import { IAction, DefaultAction } from "../actions/Action";
-import { Animator, InstantAnimator } from "../animation/Animator";
 import { Coordinate } from "../pathfinding/Coordinate";
-import { WalkableAction } from "../actions/WalkAction";
-import { StartAction } from "../actions/StartAction";
-import { TargetAction } from "../actions/TargetAction";
-import { PathAnimator } from "../animation/PathAnimator";
 
-export class GridModel {
-	grid: Grid = new Grid(30, 30);
+export default class GridModel {
+	private xSize: number = 0;
+	private ySize: number = 0;
 
-	pathTypes: PathfindingStrategy[] = [new BFS(), new AStar()];
-	activePathIndex: number = 0;
+	private tiles: any = [];
 
-	activeAction: IAction = new DefaultAction();
-	activeAnimation: Animator = new InstantAnimator();
+	constructor(xSize: number, ySize: number) {
+		this.xSize = xSize;
+		this.ySize = ySize;
 
-	start: Coordinate = new Coordinate(-1, -1);
-	target: Coordinate = new Coordinate(-1, -1);
-
-	path: Coordinate[] = [];
-	visitedNodes: Coordinate[] = [];
-
-	observers: any[] = [];
-
-	calculateOnChange: boolean = true;
-
-	constructor() {}
-
-	setPathfindingIndex(index: number) {
-		if (index < 0 || index >= this.pathTypes.length) return;
-
-		this.activePathIndex = index;
-
-		this.processChange();
+		this.tiles = this.initializeTiles();
 	}
 
-	setActionIndex(index: number) {
-		switch (index) {
-			case 0:
-				this.activeAction = new WalkableAction(this, true);
-				break;
-			case 1:
-				this.activeAction = new WalkableAction(this, false);
-				break;
-			case 2:
-				this.activeAction = new StartAction(this);
-				break;
-			case 3:
-				this.activeAction = new TargetAction(this);
-				break;
-			default:
-				break;
-		}
-	}
+	initializeTiles() {
+		const tiles: any = [];
 
-	setEnableAnimation(enableAnimation: boolean) {
-		this.activeAnimation.stop();
+		for (let i = 0; i < this.xSize; i++) {
+			const row: any = [];
+			for (let j = 0; j < this.ySize; j++) {
+				const gridNode: any = { x: i, y: j, walkable: true };
+				row.push(gridNode);
+			}
 
-		if (enableAnimation) {
-			this.activeAnimation = new PathAnimator();
-		} else {
-			this.activeAnimation = new InstantAnimator();
+			tiles.push(row);
 		}
 
-		this.processChange();
+		return tiles;
 	}
 
-	processAction(x: number, y: number) {
-		this.activeAction.process(x, y);
-	}
-
-	setAction(action: IAction) {
-		this.activeAction = action;
-	}
-
-	clearGrid() {
-		//clear the grid
-		this.grid.clear();
-
-		//clear start and end positions
-		this.start = new Coordinate(-1, -1);
-		this.target = new Coordinate(-1, -1);
-
-		//clear paths
-		this.path = [];
-		this.visitedNodes = [];
-
-		this.processChange();
-	}
-
-	randomizeGrid() {
-		let exceptions: Coordinate[] = [];
-		exceptions.push(new Coordinate(this.start.x, this.start.y));
-		exceptions.push(new Coordinate(this.target.x, this.target.y));
-
-		this.grid.randomize(exceptions);
-
-		this.processChange();
-	}
-
-	calculatePath() {
-		if (!this.grid.isValidTileCoordinate(this.start.x, this.start.y)) return;
-		if (!this.grid.isValidTileCoordinate(this.target.x, this.target.y)) return;
-
-		let start = this.grid.getTile(this.start.x, this.start.y);
-		let target = this.grid.getTile(this.target.x, this.target.y);
-
-		let data: PathfindingResult = this.pathTypes[
-			this.activePathIndex
-		].calculatePath(this.grid, start, target);
-
-		//Cancel the previous animation if one was being executed
-		this.activeAnimation.stop();
-
-		//Trigger the new animation
-		this.activeAnimation.animate(data.path, data.visitedNodes, this);
-	}
-
-	displayPath(path: any[], visitedNodes: any[]) {
-		this.path = path;
-		this.visitedNodes = visitedNodes;
-
-		this.notifyObservers();
+	clear() {
+		this.tiles = this.initializeTiles();
 	}
 
 	toggleWalkable(x: number, y: number) {
-		this.grid.toggleWalkable(x, y);
-
-		this.processChange();
+		this.tiles[x][y].walkable = !this.tiles[x][y].walkable;
 	}
 
 	setWalkable(x: number, y: number, walkable: boolean) {
-		this.grid.setWalkable(x, y, walkable);
-
-		this.processChange();
+		this.tiles[x][y].walkable = walkable;
 	}
 
-	setStart(x: number, y: number) {
-		if (!this.grid.isValidAndWalkable(x, y)) return;
+	randomize(exceptionCoordinates: Coordinate[]) {
+		for (let i = 0; i < this.xSize; i++) {
+			for (let j = 0; j < this.ySize; j++) {
+				let walkable: boolean = true;
 
-		this.start = new Coordinate(x, y);
-
-		this.processChange();
-	}
-
-	setTarget(x: number, y: number) {
-		if (!this.grid.isValidAndWalkable(x, y)) return;
-
-		this.target = new Coordinate(x, y);
-
-		this.processChange();
-	}
-
-	processChange() {
-		//Only recalculate the path if the setting explicity mentions it
-		if (this.calculateOnChange) {
-			this.calculatePath();
-		} else {
-			//clean the path + visitedNodes
-			this.path = [];
-			this.visitedNodes = [];
-
-			this.activeAnimation.stop();
-		}
-
-		this.notifyObservers();
-	}
-
-	attachObserver(observer: any) {
-		if (!this.observers.includes(observer)) {
-			this.observers.push(observer);
+				//only process the tile if it's not in the list of exceptions
+				if (!this.containsCoordinate(exceptionCoordinates, i, j)) {
+					this.tiles[i][j].walkable = Math.random() > 0.3;
+				}
+			}
 		}
 	}
 
-	notifyObservers() {
-		let tiles = this.grid.getTiles();
+	getNeighboringTiles(coordinate: any) {
+		let neighbors: any = [];
 
-		this.observers.forEach((callback) => {
-			callback(tiles);
-		});
+		//horizontal + vertical
+		if (this.isValidAndWalkable(coordinate.x - 1, coordinate.y))
+			neighbors.push({ x: coordinate.x - 1, y: coordinate.y });
+		if (this.isValidAndWalkable(coordinate.x, coordinate.y - 1))
+			neighbors.push({ x: coordinate.x, y: coordinate.y - 1 });
+		if (this.isValidAndWalkable(coordinate.x + 1, coordinate.y))
+			neighbors.push({ x: coordinate.x + 1, y: coordinate.y });
+		if (this.isValidAndWalkable(coordinate.x, coordinate.y + 1))
+			neighbors.push({ x: coordinate.x, y: coordinate.y + 1 });
+
+		//diagonals
+		// if(this.isValidAndWalkable(coordinate.x-1, coordinate.y-1)) neighbors.push({x: coordinate.x-1, y:coordinate.y-1});
+		// if(this.isValidAndWalkable(coordinate.x-1, coordinate.y+1)) neighbors.push({x: coordinate.x-1, y:coordinate.y+1});
+		// if(this.isValidAndWalkable(coordinate.x+1, coordinate.y-1)) neighbors.push({x: coordinate.x+1, y:coordinate.y-1});
+		// if(this.isValidAndWalkable(coordinate.x+1, coordinate.y+1)) neighbors.push({x:coordinate. x+1, y:coordinate.y+1});
+
+		return neighbors;
+	}
+
+	getTiles() {
+		return this.tiles.slice();
+	}
+
+	getTile(x: number, y: number) {
+		return this.tiles[x][y];
+	}
+
+	containsCoordinate(coordinates: Coordinate[], x: number, y: number) {
+		for (let i = 0; i < coordinates.length; i++) {
+			if (coordinates[i].x === x && coordinates[i].y === y) return true;
+		}
+
+		return false;
+	}
+
+	isValidTileCoordinate(x: number, y: number) {
+		if (x < 0 || x >= this.tiles.length) return false;
+		if (y < 0 || y >= this.tiles[0].length) return false;
+
+		return true;
+	}
+
+	isValidAndWalkable(x: number, y: number) {
+		if (!this.isValidTileCoordinate(x, y)) return false;
+
+		return this.tiles[x][y].walkable;
 	}
 }
-export { Coordinate };

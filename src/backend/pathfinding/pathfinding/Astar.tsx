@@ -1,5 +1,5 @@
 import { PathfindingStrategy, PathfindingResult } from "./Pathfinder";
-import Grid from "../grid/Grid";
+import GridModel from "../grid/GridModel";
 import { Node } from "./Node";
 
 class PathfindingAStartTile extends Node {
@@ -36,7 +36,7 @@ export class AStar extends PathfindingStrategy {
 		return lowestIndex;
 	}
 
-	process(grid: Grid, start: any, target: any) {
+	process(grid: GridModel, start: any, target: any) {
 		//Initialize the open and closed sets
 		let openSet: PathfindingAStartTile[] = [];
 		let closedSet: PathfindingAStartTile[] = [];
@@ -120,7 +120,7 @@ export class AStar extends PathfindingStrategy {
 		return { path: [], visitedNodes: [] };
 	}
 
-	calculatePath(grid: Grid, start: any, target: any): PathfindingResult {
+	calculatePath(grid: GridModel, start: any, target: any): PathfindingResult {
 		const data: any = this.process(grid, start, target);
 
 		return { path: data.path, visitedNodes: data.visitedNodes };

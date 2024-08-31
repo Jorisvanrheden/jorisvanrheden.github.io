@@ -1,4 +1,4 @@
-import { GridModel } from "../grid/GridModel";
+import { GridManager } from "../grid/GridManager";
 import { Animator } from "./Animator";
 
 export class PathAnimator extends Animator {
@@ -6,7 +6,7 @@ export class PathAnimator extends Animator {
 
 	private timers: any = [];
 
-	animate(path: any[], visitedNodes: any[], gridModel: GridModel) {
+	animate(path: any[], visitedNodes: any[], gridModel: GridManager) {
 		let pathCopy: any = [];
 		let visitedNodesCopy: any = [];
 

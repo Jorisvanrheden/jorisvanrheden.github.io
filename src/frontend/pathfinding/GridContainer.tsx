@@ -1,7 +1,7 @@
-import { GridModel } from "../../backend/pathfinding/grid/GridModel";
-import NavigationGrid from "./NavigationGrid";
+import { GridManager } from "../../backend/pathfinding/grid/GridManager";
+import Grid from "./Grid";
 import Toolbar, { ToolbarItemInput } from "../toolbar/Toolbar";
-import "./GridProject.css";
+import "./GridContainer.css"
 
 function generateToolbarItemInput_Pathfinding(
 	defaultIndex: number,
@@ -37,8 +37,8 @@ function generateToolbarItemInput_SingleActions(
 	return new ToolbarItemInput("Grid actions", names, -1, onIndexChanged);
 }
 
-export default function GridProject() {
-	let gridModel: GridModel = new GridModel();
+export default function GridContainer() {
+	let gridManager: GridManager = new GridManager();
 
 	let inputToggleItems: ToolbarItemInput[] = [];
 	let inputButtonItems: ToolbarItemInput[] = [];
@@ -63,28 +63,28 @@ export default function GridProject() {
 		generateToolbarItemInput_SingleActions(setSingleActionIndex)
 	);
 
-	gridModel.setPathfindingIndex(defaultPathfindTypeIndex);
-	gridModel.setActionIndex(defaultActionTypeIndex);
+	gridManager.setPathfindingIndex(defaultPathfindTypeIndex);
+	gridManager.setActionIndex(defaultActionTypeIndex);
 
 	function setPathfindIndex(index: number) {
-		gridModel.setPathfindingIndex(index);
+		gridManager.setPathfindingIndex(index);
 	}
 	function setActionTypeIndex(index: number) {
-		gridModel.setActionIndex(index);
+		gridManager.setActionIndex(index);
 	}
 	function setSingleActionIndex(index: number) {
 		switch (index) {
 			case 0:
-				gridModel.clearGrid();
+				gridManager.clearGrid();
 				break;
 			case 1:
-				gridModel.randomizeGrid();
+				gridManager.randomizeGrid();
 				break;
 		}
 	}
 
 	function setAnimationEnabled(enabled: boolean) {
-		gridModel.setEnableAnimation(enabled);
+		gridManager.setEnableAnimation(enabled);
 	}
 
 	return (
@@ -97,7 +97,7 @@ export default function GridProject() {
 				/>
 			</div>
 			<div id="display">
-				<NavigationGrid gridModel={gridModel} />
+				<Grid gridManager={gridManager} />
 			</div>
 		</div>
 	);
