@@ -4,15 +4,15 @@ export default class ChessModel {
 	// private kotlinBoard = new kotlin_wrapper.Wrapper(8, 8);
 
 	constructor() {
-		this.updateTiles();
+		this.setTiles();
 	}
 
-	setTiles(map: any[]) {
+	setTiles() {
 		this.tiles = [];
-		for (let i = 0; i < map.length; i++) {
+		for (let i = 0; i < 8; i++) {
 			const row: any = [];
-			for (let j = 0; j < map[i].length; j++) {
-				const gridNode: any = { x: j, y: i, ID: map[i][j] };
+			for (let j = 0; j < 8; j++) {
+				const gridNode: any = { x: j, y: i, ID: 0 };
 				row.push(gridNode);
 			}
 			this.tiles.push(row);
