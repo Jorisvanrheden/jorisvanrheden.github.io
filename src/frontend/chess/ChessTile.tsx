@@ -109,6 +109,8 @@ export default function ChessTile(props:Props)
     //Clicking functionality
     function onClick()
     {
+        props.selectPiece(props.x, props.y);
+
         //check if the selected tile was a potential move
         if(props.isPossibleMove)
         {
@@ -158,6 +160,7 @@ export default function ChessTile(props:Props)
                  onDragLeave={(event)=>{onDragLeave(event)}}  
                                  
                  onClick={()=>{onClick()}}
+                 onMouseDown={(event)=>{onDragStart(event)}}
                  onMouseEnter={()=>{onMouseEnter()}}
                  onMouseLeave={()=>{onMouseLeave()}}
                 >

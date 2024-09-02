@@ -1,18 +1,27 @@
 import ChessModel from "../../backend/chess/ChessModel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ChessTile from "./ChessTile";
 import ResponsiveRectangle from "../components/ResponsiveRectangle";
 import "./ChessBoard.css";
 
-interface Props {
+type Props = {
 	model: ChessModel;
 }
 
-export default function ChessProject(props: Props) {
+export default function ChessProject({model}: Props) {
 	const [start, setStart] = useState({ x: -1, y: -1 });
 	const [target, setTarget] = useState({ x: -1, y: -1 });
 	const [possibleTiles, setPossibleTiles]: any = useState([]);
-	const [tiles, setTiles] = useState(props.model.getTiles());
+	const [tiles, setTiles] = useState(model.getTiles());
+
+	// Set the callback when the component mounts
+	useEffect(() => {
+		model.setUpdateMoveCallback(onMoveUpdate);
+	}, [model]);
+
+	function onMoveUpdate(data: any[]) {
+		setTiles(data);
+	}
 
 	function resetSelectedInput() {
 		setStart({ x: -1, y: -1 });
@@ -21,17 +30,8 @@ export default function ChessProject(props: Props) {
 	}
 
 	function processSelectPiece(x: number, y: number) {
-		//validate that the start position has a piece on it
-		//TODO validations like these should obviously go somewhere else
-		//they are already in the API
-		if (props.model.getTile(x, y).ID === 0) {
-			//empty the move list and reset some general settings
-			processDeselect();
-			return;
-		}
-
-		let moves: any = props.model.getMoves(x, y);
-
+		const moves = model.getMoves(x, y);
+		console.log(moves);
 		setPossibleTiles(moves);
 
 		setStart({ x: x, y: y });
@@ -46,32 +46,17 @@ export default function ChessProject(props: Props) {
 	}
 
 	function processMove() {
-		props.model.processMove(start, target);
+		model.processMove(start, target);
 
 		resetSelectedInput();
-
-		setTiles(props.model.getTiles());
-	}
-
-	function undoLatestMove() {
-		props.model.undoMove();
-
-		setTiles(props.model.getTiles());
 	}
 
 	function getIsSelected(x: number, y: number, startNode: any) {
 		return start.x === x && start.y === y;
 	}
 
-	function getIsPossibleMove(x: number, y: number, startNode: any) {
-		//if moves contain {x, y} return true
-		for (let i = 0; i < possibleTiles.length; i++) {
-			if (possibleTiles[i].xValue === x && possibleTiles[i].yValue === y) {
-				return true;
-			}
-		}
-
-		return false;
+	function getIsPossibleMove(x: number, y: number): boolean {
+		return possibleTiles.some(tile => tile.x === x && tile.y === y);
 	}
 
 	return (
@@ -85,9 +70,9 @@ export default function ChessProject(props: Props) {
 									<ChessTile
 										x={value.x}
 										y={value.y}
-										pieceID={props.model.getTile(value.x, value.y).ID}
+										pieceID={model.getTile(value.x, value.y).ID}
 										isSelected={getIsSelected(value.x, value.y, start)}
-										isPossibleMove={getIsPossibleMove(value.x, value.y, start)}
+										isPossibleMove={getIsPossibleMove(value.x, value.y)}
 										selectPiece={processSelectPiece}
 										selectTarget={processSelectTarget}
 										deselectPiece={processDeselect}
