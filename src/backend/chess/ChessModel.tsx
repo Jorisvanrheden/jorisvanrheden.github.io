@@ -70,8 +70,6 @@ export default class ChessModel {
 
 	private handleStockfishMessage(event: MessageEvent) {
 		const message = event.data;
-
-		console.log(message);
 	
 		if (typeof message === 'string') {
 			if (message.startsWith('bestmove')) {

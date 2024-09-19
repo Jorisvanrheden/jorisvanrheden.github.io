@@ -18,7 +18,7 @@
     "http-proxy-middleware": "^3.0.1",
     "node": "^17.3.0",
     "react": "^17.0.2",
-    "react-chartjs-2": "^2.11.1",
+    "react-chartjs-2": "^2.11.2",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^5.0.0",
@@ -60,5 +60,6 @@
     "fs": false,
     "path": false,
     "os": false
-  }
+  },
+  "proxy": "https://api.alternative.me"
 }
