@@ -2,20 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import DataClient from "../../backend/crypto/DataClient";
 
-export default function Graph() {
-  const [chartData, setChartData] = useState({
-    labels: [],
-    datasets: [
-      {
-        label: "BTC price points",
-        data: [], // Same data as the line
-        pointBackgroundColor: "rgba(100, 100, 100)",  
-        pointBorderColor: "rgba(100, 100, 100)",  // Border color for points
-        pointRadius: 5,  // Visible points
-        showLine: false,  // No connecting line, just points
-      },
-    ],
-  });
+type Props = {
+	highlightedRange: Range;
+}
+
+interface Range {
+    min: Number,
+    max: Number,
+}
+
+export default function Graph({highlightedRange}: Props) {
+  const [chartData, setChartData] = useState({})
 
   useEffect(() => {
     const parser = new DataClient((data) => {
@@ -24,7 +21,7 @@ export default function Graph() {
 
       // Generate point colors based on value
       const pointColors = data.map((item) => {
-        return getColor(item.alphaSquaredRisk, 0, 1)
+        return getColor(item.alphaSquaredRisk, 0, 1, highlightedRange)
       });
 
       setChartData({
@@ -41,7 +38,7 @@ export default function Graph() {
         ],
       });
     });
-  }, []); // Empty dependency array means this runs once on component mount
+  }, [highlightedRange]); // Empty dependency array means this runs once on component mount
 
   const chartOptions = {
     responsive: true,
@@ -53,12 +50,16 @@ export default function Graph() {
     },
     scales: {
         y: {
-          type: 'logaritmhic',
+          type: 'logarithmic',
         },
       },
   };
 
-  function getColor(x, min, max) {
+  function getColor(x, min, max, highlightedRange) {
+    if (x < highlightedRange.min || x > highlightedRange.max) {
+        // Return the color as an RGB string
+        return `rgb(100, 100, 100)`;
+    }
     // Ensure x is between min and max
     x = Math.max(min, Math.min(x, max));
     
