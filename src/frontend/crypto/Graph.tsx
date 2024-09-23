@@ -21,7 +21,7 @@ export default function Graph({highlightedRange}: Props) {
 
       // Generate point colors based on value
       const pointColors = data.map((item) => {
-        return getColor(item.alphaSquaredRisk, 0, 1, highlightedRange)
+        return getColor(item.btcRisk, 0, 1, highlightedRange)
       });
 
       setChartData({
@@ -43,16 +43,11 @@ export default function Graph({highlightedRange}: Props) {
   const chartOptions = {
     responsive: true,
     animation: false,
-    plugins: {
-      legend: {
-        display: true,
+    scales: {
+      y: {
+        type: 'logarithmic',
       },
     },
-    scales: {
-        y: {
-          type: 'logarithmic',
-        },
-      },
   };
 
   function getColor(x, min, max, highlightedRange) {
@@ -88,6 +83,6 @@ export default function Graph({highlightedRange}: Props) {
   
 
   return (
-    <Line data={chartData} options={chartOptions} />
+    <Line data={chartData} options={chartOptions}/>
   );
 }

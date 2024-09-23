@@ -7,11 +7,16 @@ export default function Project_Crypto() {
 
   // Predefined ranges
   const ranges = [
-    { min: 0, max: 0.2 },
-    { min: 0.2, max: 0.4 },
-    { min: 0.4, max: 0.6 },
-    { min: 0.6, max: 0.8 },
-    { min: 0.8, max: 1.0 },
+	{ min: 0, max: 0.1 },
+	{ min: 0.1, max: 0.2 },
+	{ min: 0.2, max: 0.3 },
+	{ min: 0.3, max: 0.4 },
+	{ min: 0.4, max: 0.5 },
+	{ min: 0.5, max: 0.6 },
+	{ min: 0.6, max: 0.7 },
+	{ min: 0.7, max: 0.8 },
+	{ min: 0.8, max: 0.9 },
+	{ min: 0.9, max: 1.0 }	  
   ];
 
   // Handle range button click
